@@ -12,7 +12,7 @@ namespace Simulation
     {
         double processValue = 0;
         double controlValue;
-        double Ts = 0.01;
+        double Ts = 0.1;
         double Kp = 0.8;
         double Ti = 20;
         double r = 25;
@@ -36,6 +36,7 @@ namespace Simulation
 
         // TODO:
         // Add daq in a class
+        // Add scaling class? With scaling functions. 
 
 
         public Form1()
@@ -57,7 +58,7 @@ namespace Simulation
 
             initializeChart();
 
-            timer1.Interval = 100;
+            timer1.Interval = Convert.ToInt32(Ts * 1000);
             timer1.Start();
 
 
@@ -124,5 +125,6 @@ namespace Simulation
         {
             client.Disconnect();
         }
+
     }
 }
