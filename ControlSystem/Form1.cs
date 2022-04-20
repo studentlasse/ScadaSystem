@@ -36,6 +36,7 @@ namespace Simulation
 
         // TODO:
         // Add daq in a class
+        // Add scaling class? With scaling functions. 
 
 
         public Form1()
@@ -124,5 +125,6 @@ namespace Simulation
         {
             client.Disconnect();
         }
+
     }
 }
