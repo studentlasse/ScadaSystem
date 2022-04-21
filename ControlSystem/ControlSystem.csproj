@@ -141,6 +141,7 @@
     <Compile Include="Models\Daq.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\PidController.cs" />
+    <Compile Include="Models\Scaling.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

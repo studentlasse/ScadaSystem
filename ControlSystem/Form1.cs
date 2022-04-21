@@ -33,10 +33,7 @@ namespace Simulation
 
         AirHeater airHeater;
 
-
-        // TODO:
-        // Add scaling class? With scaling functions. 
-
+        Scaling scaling;
 
         public Form1()
         {
@@ -49,8 +46,10 @@ namespace Simulation
             simulatedProcessValue = airHeater.Tenv;
             if (useDaq)
             {
+                scaling = new Scaling(0, 5, 20, 50);
                 daq = new Daq();
-                realProcessValue = daq.ReadData(); // TODO: Scaling!!!
+                realProcessValue = daq.ReadData();
+                realProcessValue = scaling.LinearScaling(realProcessValue);
                 realProcessValue = filter.LowPassFilter(realProcessValue);
             }
             else
@@ -97,7 +96,7 @@ namespace Simulation
                 realProcessValue = daq.ReadData();
                 realProcessValue = filter.LowPassFilter(realProcessValue);
                 controlValue = pidController.PiController(realProcessValue);
-                daq.WriteData(controlValue); // TODO: Scaling!!!!!
+                daq.WriteData(controlValue);
             } 
             else
             {
