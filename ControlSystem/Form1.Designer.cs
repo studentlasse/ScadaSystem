@@ -30,11 +30,11 @@ namespace Simulation
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.txtControlValue = new System.Windows.Forms.TextBox();
-            this.txtOutput = new System.Windows.Forms.TextBox();
+            this.txtSimProcessValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -45,29 +45,31 @@ namespace Simulation
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtRealProcessValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chartMeasurementData)).BeginInit();
             this.SuspendLayout();
             // 
             // txtControlValue
             // 
             this.txtControlValue.Enabled = false;
-            this.txtControlValue.Location = new System.Drawing.Point(626, 104);
+            this.txtControlValue.Location = new System.Drawing.Point(596, 58);
             this.txtControlValue.Name = "txtControlValue";
             this.txtControlValue.Size = new System.Drawing.Size(100, 20);
             this.txtControlValue.TabIndex = 0;
             // 
-            // txtOutput
+            // txtSimProcessValue
             // 
-            this.txtOutput.Enabled = false;
-            this.txtOutput.Location = new System.Drawing.Point(732, 104);
-            this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(100, 20);
-            this.txtOutput.TabIndex = 1;
+            this.txtSimProcessValue.Enabled = false;
+            this.txtSimProcessValue.Location = new System.Drawing.Point(702, 58);
+            this.txtSimProcessValue.Name = "txtSimProcessValue";
+            this.txtSimProcessValue.Size = new System.Drawing.Size(100, 20);
+            this.txtSimProcessValue.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(626, 85);
+            this.label1.Location = new System.Drawing.Point(596, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 2;
@@ -76,11 +78,11 @@ namespace Simulation
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(732, 86);
+            this.label2.Location = new System.Drawing.Point(702, 40);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.Size = new System.Drawing.Size(127, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Process Value:";
+            this.label2.Text = "Simulated Process Value:";
             // 
             // timer1
             // 
@@ -89,16 +91,16 @@ namespace Simulation
             // 
             // chartMeasurementData
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartMeasurementData.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartMeasurementData.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            this.chartMeasurementData.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartMeasurementData.Legends.Add(legend2);
             this.chartMeasurementData.Location = new System.Drawing.Point(43, 143);
             this.chartMeasurementData.Name = "chartMeasurementData";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartMeasurementData.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartMeasurementData.Series.Add(series2);
             this.chartMeasurementData.Size = new System.Drawing.Size(788, 398);
             this.chartMeasurementData.TabIndex = 4;
             this.chartMeasurementData.Text = "chartMeasurementData";
@@ -154,11 +156,30 @@ namespace Simulation
             this.label5.TabIndex = 10;
             this.label5.Text = "Setpoint:";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(702, 84);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(103, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Real Process Value:";
+            // 
+            // txtRealProcessValue
+            // 
+            this.txtRealProcessValue.Enabled = false;
+            this.txtRealProcessValue.Location = new System.Drawing.Point(702, 104);
+            this.txtRealProcessValue.Name = "txtRealProcessValue";
+            this.txtRealProcessValue.Size = new System.Drawing.Size(100, 20);
+            this.txtRealProcessValue.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(878, 561);
+            this.Controls.Add(this.txtRealProcessValue);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -168,7 +189,7 @@ namespace Simulation
             this.Controls.Add(this.chartMeasurementData);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtOutput);
+            this.Controls.Add(this.txtSimProcessValue);
             this.Controls.Add(this.txtControlValue);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -182,7 +203,7 @@ namespace Simulation
         #endregion
 
         private System.Windows.Forms.TextBox txtControlValue;
-        private System.Windows.Forms.TextBox txtOutput;
+        private System.Windows.Forms.TextBox txtSimProcessValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
@@ -193,6 +214,8 @@ namespace Simulation
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtRealProcessValue;
     }
 }
 

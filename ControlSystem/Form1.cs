@@ -3,14 +3,14 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Configuration;
 using Opc.UaFx.Client;
-using NationalInstruments.DAQmx;
 using Simulation.Models;
 
 namespace Simulation
 {
     public partial class Form1 : Form
     {
-        double processValue = 0;
+        double simulatedProcessValue = 0;
+        double realProcessValue;
         double controlValue;
         double Ts = 0.1;
         double Kp = 0.8;
@@ -23,9 +23,9 @@ namespace Simulation
         string tagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
 
         bool useDaq = false;
-        Task analogInTask = new Task();
-        AIChannel myAiChannel;
+        Daq daq;
 
+        Filter filter;
 
         OpcClient client;
 
@@ -35,7 +35,6 @@ namespace Simulation
 
 
         // TODO:
-        // Add daq in a class
         // Add scaling class? With scaling functions. 
 
 
@@ -47,8 +46,20 @@ namespace Simulation
 
             airHeater = new AirHeater(Ts);
 
-            processValue = airHeater.Tenv;
+            simulatedProcessValue = airHeater.Tenv;
+            if (useDaq)
+            {
+                daq = new Daq();
+                realProcessValue = daq.ReadData(); // TODO: Scaling!!!
+                realProcessValue = filter.LowPassFilter(realProcessValue);
+            }
+            else
+            {
+                txtRealProcessValue.Text = "No data";
+            }
 
+            filter = new Filter();
+     
             client = new OpcClient(opcUrl);
             client.Connect();
 
@@ -67,8 +78,13 @@ namespace Simulation
         private void initializeChart()
         {
             chartMeasurementData.Series.Clear();
-            chartMeasurementData.Series.Add("ProcessValue");
-            chartMeasurementData.Series["ProcessValue"].ChartType = SeriesChartType.Line;
+            chartMeasurementData.Series.Add("SimulatedProcessValue");
+            chartMeasurementData.Series["SimulatedProcessValue"].ChartType = SeriesChartType.Line;
+            if (useDaq)
+            {
+                chartMeasurementData.Series.Add("RealProcessValue");
+                chartMeasurementData.Series["RealProcessValue"].ChartType = SeriesChartType.Line;
+            }
             ChartArea area1 = chartMeasurementData.ChartAreas[0];
             area1.AxisY.Minimum = 0;
             area1.AxisY.Maximum = 50;
@@ -76,31 +92,31 @@ namespace Simulation
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            controlValue = pidController.PiController(processValue);
-            processValue = airHeater.AirHeaterModel(processValue, controlValue);
+            if (useDaq)
+            {
+                realProcessValue = daq.ReadData();
+                realProcessValue = filter.LowPassFilter(realProcessValue);
+                controlValue = pidController.PiController(realProcessValue);
+                daq.WriteData(controlValue); // TODO: Scaling!!!!!
+            } 
+            else
+            {
+                controlValue = pidController.PiController(simulatedProcessValue);
+            }
+            simulatedProcessValue = airHeater.AirHeaterModel(simulatedProcessValue, controlValue);
 
-            txtOutput.Text = processValue.ToString("0.##");
+            txtSimProcessValue.Text = simulatedProcessValue.ToString("0.##");
             txtControlValue.Text = controlValue.ToString("0.##");
 
-            chartMeasurementData.Series["ProcessValue"].Points.AddY(processValue);
+            chartMeasurementData.Series["SimulatedProcessValue"].Points.AddY(simulatedProcessValue);
 
             if (useDaq)
             {
-                myAiChannel = analogInTask.AIChannels.CreateVoltageChannel(
-                    "dev1/ai0",
-                    "myAIChannel",
-                    AITerminalConfiguration.Differential,
-                    0,
-                    10,
-                    AIVoltageUnits.Volts
-                    );
-
-                AnalogSingleChannelReader reader = new AnalogSingleChannelReader(analogInTask.Stream);
-
-                double analogDataIn = reader.ReadSingleSample();
+                txtRealProcessValue.Text = realProcessValue.ToString("0.##");
+                chartMeasurementData.Series["RealProcessValue"].Points.AddY(realProcessValue);
+                client.WriteNode(tagRealProcessValue, Convert.ToDouble(realProcessValue));
             }
-
-            client.WriteNode(tagSimProcessValue, Convert.ToDouble(processValue));
+            client.WriteNode(tagSimProcessValue, Convert.ToDouble(simulatedProcessValue));
             client.WriteNode(tagControlValue, Convert.ToDouble(controlValue));
 
         }
