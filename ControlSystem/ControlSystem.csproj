@@ -138,6 +138,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AirHeater.cs" />
+    <Compile Include="Models\Daq.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\PidController.cs" />
     <Compile Include="Program.cs" />
