@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".SQL\Inser_test_data.sql" />
+    <None Include=".SQL\remove_tables.sql" />
     <None Include=".SQL\SCADA.sql" />
   </ItemGroup>
 

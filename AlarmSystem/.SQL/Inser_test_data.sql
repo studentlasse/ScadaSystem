@@ -35,11 +35,11 @@ INSERT INTO ACKNOWLEDGE(PersonId, TimeStamp, Status) VALUES (@PersonId, CURRENT_
 -- Fetching AlarmLevelId (3x) and TagId (already defined):
 Declare @AlarmLevelId int;
 
-Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='Lowest';
+Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='1';
 INSERT INTO ALARMCONFIGURATION(Name, Description, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Notification', 'Temp approaching high values', @AlarmLevelId, @TagId, '50','40');
-Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='Medium';
+Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='2';
 INSERT INTO ALARMCONFIGURATION(Name, Description, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Warning', 'Temp is too high', @AlarmLevelId, @TagId, '60','50');
-Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='Highest';
+Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE Level='3';
 INSERT INTO ALARMCONFIGURATION(Name, Description, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Alarm', 'Temp is dangerously high, shut down', @AlarmLevelId, @TagId, '100','60');
 
 -- Updating the ALARM table
@@ -47,21 +47,21 @@ Declare @AcknowledgeId int;
 Declare @AlarmConfigurationId int;
 
 Select @AcknowledgeId = AcknowledgeId FROM ACKNOWLEDGE WHERE Status='0';
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Notification';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Notification';
 INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, TimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, '42');
 INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, TimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, '47');
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Warning';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Warning';
 INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, TimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, '54');
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Alarm';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Alarm';
 INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, TimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, '63');
 
 -- Updating the ALARMHISTORY table
 Select @AcknowledgeId = AcknowledgeId FROM ACKNOWLEDGE WHERE Status='1';
 
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Notification';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Notification';
 INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, TimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '41');
 INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, TimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '43');
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Warning';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Warning';
 INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, TimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '56');
-Select @AlarmConfigurationId = @AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Alarm';
+Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE Name='Alarm';
 INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, TimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '61');
