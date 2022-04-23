@@ -8,6 +8,9 @@
         public double r { get; set; }
         private double z = 0;
 
+        double minControlValue = 0;
+        double maxControlValue = 5;
+
         public PidController ()
         {
             Ts = 0.01;
@@ -32,6 +35,16 @@
             e = r - y;
             u = Kp * e + (Kp / Ti) * z;
             z = z + Ts * e;
+
+            if (u < minControlValue)
+            {
+                u = minControlValue;
+            }
+            else if (u > maxControlValue)
+            {
+                u = maxControlValue;
+            }
+
             return u;
         }
 
