@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using AlarmSystem.Models;
+using AlarmSystem.Model;
 using Microsoft.Extensions.Configuration;
 
 

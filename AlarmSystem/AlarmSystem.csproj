@@ -12,6 +12,8 @@
     <None Include=".SQL\Inser_test_data.sql" />
     <None Include=".SQL\remove_tables.sql" />
     <None Include=".SQL\SCADA.sql" />
+    <None Include=".SQL\VIEW_GetAlarmConfigurations.sql" />
+    <None Include=".SQL\VIEW_GetAlarms.sql" />
   </ItemGroup>
 
 </Project>

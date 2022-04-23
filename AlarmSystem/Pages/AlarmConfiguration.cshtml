@@ -1,0 +1,36 @@
+﻿@page
+@model AlarmSystem.Pages.AlarmConfigurationModel
+@{
+    ViewData["Title"] = "Alarm Configurations";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Alarm Configuration Id</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Lower Limit [C]</th>
+            <th>Upper Limit [C]</th>
+            <th>Alarm Level</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarmConfig in Model.alarmConfigurations)
+        {
+            <tr>
+                <td>@alarmConfig.AlarmConfigId</td>
+                <td><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
+                <td>@alarmConfig.AlarmDescription</td>
+                <td>@alarmConfig.LowerLimit</td>
+                <td>@alarmConfig.UpperLimit</td>
+                <td>@alarmConfig.AlarmLevel</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>
+</div>

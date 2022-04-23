@@ -11,6 +11,9 @@ namespace AlarmSystem.Model
         public string AlarmDescription { get; set; }
         public int UpperLimit { get; set; }
         public int LowerLimit { get; set; }
+        public string AlarmLevel { get; set; }
+        public string TagName { get; set; }
+
 
         public int AlarmId { get; set; }
 
@@ -21,7 +24,7 @@ namespace AlarmSystem.Model
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "";
+            string sqlQuery = "SELECT * FROM GetAlarmConfigurations WHERE AlarmConfigurationId=@alarmconfigid";
 
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
@@ -32,14 +35,19 @@ namespace AlarmSystem.Model
 
             SqlDataReader dr = cmd.ExecuteReader();
 
-            if (dr.Read())
+            if (dr != null)
             {
-                alarmConfiguration.AlarmId = Convert.ToInt32(dr["AlarmId"]);
-                alarmConfiguration.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
-                alarmConfiguration.AlarmName = dr["Name"].ToString();
-                alarmConfiguration.AlarmDescription = dr["Description"].ToString();
-                alarmConfiguration.LowerLimit = Convert.ToInt32(dr["AlarmLowerLimit"]);
-                alarmConfiguration.UpperLimit = Convert.ToInt32(dr["AlarmUpperLimit"]);
+                while (dr.Read())
+                {
+                    alarmConfiguration.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
+                    alarmConfiguration.AlarmName = dr["AlarmName"].ToString();
+                    alarmConfiguration.AlarmDescription = dr["AlarmDescription"].ToString();
+                    alarmConfiguration.LowerLimit = Convert.ToInt32(dr["AlarmLowerLimit"]);
+                    alarmConfiguration.UpperLimit = Convert.ToInt32(dr["AlarmUpperLimit"]);
+                    alarmConfiguration.AlarmLevel = dr["AlarmLevel"].ToString();
+                    alarmConfiguration.TagName = dr["TagName"].ToString();
+                }
+
             }
             con.Close();
             return alarmConfiguration;
@@ -52,7 +60,7 @@ namespace AlarmSystem.Model
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "SELECT * FROM ALARMCONFIGURATION ORDER BY AlarmConfigurationId";
+            string sqlQuery = "SELECT * FROM GetAlarmConfigurations";
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
             SqlDataReader dr = cmd.ExecuteReader();
@@ -62,18 +70,96 @@ namespace AlarmSystem.Model
                 while (dr.Read())
                 {
                     AlarmConfiguration alarmConfiguration = new AlarmConfiguration();
-                    alarmConfiguration.AlarmId = Convert.ToInt32(dr["AlarmId"]);
                     alarmConfiguration.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
-                    alarmConfiguration.AlarmName = dr["Name"].ToString();
-                    alarmConfiguration.AlarmDescription = dr["Description"].ToString();
+                    alarmConfiguration.AlarmName = dr["AlarmName"].ToString();
+                    alarmConfiguration.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarmConfiguration.LowerLimit = Convert.ToInt32(dr["AlarmLowerLimit"]);
                     alarmConfiguration.UpperLimit = Convert.ToInt32(dr["AlarmUpperLimit"]);
+                    alarmConfiguration.AlarmLevel = dr["AlarmLevel"].ToString();
+                    alarmConfiguration.TagName = dr["TagName"].ToString();
 
                     alarmConfigList.Add(alarmConfiguration);
                 }
                 con.Close();
             }
             return alarmConfigList;
+        }
+
+        public void CreateAlarmConfiguration(string connectionString, AlarmConfiguration alarmConfiguration)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("CreateAlarmConfiguration", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@AlarmName", alarmConfiguration.AlarmName));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmDescription", alarmConfiguration.AlarmDescription));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmLevel", alarmConfiguration.AlarmLevel));
+                    cmd.Parameters.Add(new SqlParameter("@TagName", alarmConfiguration.TagName));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmLowerLimit", alarmConfiguration.LowerLimit));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmUpperLimit", alarmConfiguration.UpperLimit));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void EditAlarmConfiguration(string connectionString, AlarmConfiguration alarmConfiguration)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("UpdateAlarmConfiguration", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@AlarmConfigurationId", alarmConfiguration.AlarmConfigId));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmName", alarmConfiguration.AlarmName));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmDescription", alarmConfiguration.AlarmDescription));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmLevel", alarmConfiguration.AlarmLevel));
+                    cmd.Parameters.Add(new SqlParameter("@TagName", alarmConfiguration.TagName));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmLowerLimit", alarmConfiguration.LowerLimit));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmUpperLimit", alarmConfiguration.UpperLimit));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void DeleteAlarmConfiguration(string connectionString, AlarmConfiguration alarmConfiguration)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("DeleteAlarmConfiguration", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@AlarmConfigurationId", alarmConfiguration.AlarmConfigId));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

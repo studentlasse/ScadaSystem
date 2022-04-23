@@ -1,0 +1,42 @@
+﻿@page
+@model AlarmSystem.Pages.NewAlarmConfigurationModel
+@{
+    ViewData["Title"] = "New Alarm Configuration";
+}
+
+<div>
+    <h1>New Alarm Configuration</h1>
+    <form name="alarmConfigurationForm" id="alarmConfigurationForm" method="post">
+        Name:
+        <br />
+        <input name="alarmName" type="text" class="form-control input-lg" autofocus required />
+        <br />
+
+        Description:
+        <br />
+        <input name="alarmDescription" type="text" class="form-control input-lg" required />
+        <br />
+
+        Alarm Level:
+        <br />
+        <input name="alarmLevel" type="text" class="form-control input-lg" required />
+        <br />
+
+        Tag Name (source):
+        <br />
+        <input name="tagName" type="text" class="form-control input-lg" required />
+        <br />
+
+        Lower alarm limit:
+        <br />
+        <input name="lowerLimit" type="text" class="form-control input-lg" required />
+        <br />
+
+        Upper alarm limit:
+        <br />
+        <input name="upperLimit" type="text" class="form-control input-lg" required />
+        <br />
+
+        <input id="saveButton" type="submit" value="Save" class="btn btn-info" />
+    </form>
+</div>

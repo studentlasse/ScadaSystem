@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AlarmSystem.Models
+namespace AlarmSystem.Model
 {
     public class Alarm
     {
@@ -53,7 +53,6 @@ namespace AlarmSystem.Models
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            //string sqlQuery = "SELECT AlarmId, AcknowledgeId, AlarmConfigurationId, FORMAT(TimeStamp,'MM.dd HH:mm:ss') AS TimeStamp, Value FROM ALARM order by AlarmConfigurationId DESC";
             string sqlQuery = "select * from GetAlarms";
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
@@ -71,14 +70,11 @@ namespace AlarmSystem.Models
                 {
                     Alarm alarm = new Alarm();
                     alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
-                    //alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
-                    //alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
                     alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
                     alarm.Value = Convert.ToDouble(dr["Value"]);
                     alarm.AlarmName = dr["AlarmName"].ToString();
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
-
 
                     alarmList.Add(alarm);
                 }
