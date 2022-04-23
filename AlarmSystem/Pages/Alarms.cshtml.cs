@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace AlarmSystem.Pages
 {
-    public class PrivacyModel : PageModel
+    public class AlarmsModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<AlarmsModel> _logger;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public AlarmsModel(ILogger<AlarmsModel> logger)
         {
             _logger = logger;
         }

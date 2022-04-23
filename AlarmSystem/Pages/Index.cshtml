@@ -6,5 +6,30 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>This is the first test</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Alarm Id</th>
+            <th>Alarm Configuration Id</th>
+            <th>Acknowledgement Id</th>
+            <th>Time Stamp</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarm in Model.alarmList)
+        {
+            <tr>
+                <td>@alarm.AlarmId</td>
+                <td>@alarm.AlarmConfigId</td>
+                <td>@alarm.AcknowledgeId</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 </div>
