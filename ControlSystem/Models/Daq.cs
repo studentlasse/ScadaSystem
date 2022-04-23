@@ -5,6 +5,8 @@ namespace Simulation.Models
 {
     class Daq
     {
+
+        //Test
         Task analogInTask;
         Task analogOutTask;
         AIChannel analogInChannel;
