@@ -81,3 +81,17 @@ CREATE TABLE ALARM
 	 FOREIGN KEY (AcknowledgeId) REFERENCES ACKNOWLEDGE(AcknowledgeId)
 )
 go
+
+CREATE TABLE ALARMHISTORY
+( 
+	AlarmHistoryId       integer  IDENTITY ( 1,1 )  NOT NULL ,
+	AlarmConfigurationId integer  NULL ,
+	AcknowledgeId        integer  NULL ,
+	TimeStamp            datetime  NULL ,
+	AckTimeStamp         datetime  NULL ,
+	Value                float  NULL ,
+	PRIMARY KEY  CLUSTERED (AlarmHistoryId ASC),
+	 FOREIGN KEY (AcknowledgeId) REFERENCES ACKNOWLEDGE(AcknowledgeId),
+	 FOREIGN KEY (AlarmConfigurationId) REFERENCES ALARMCONFIGURATION(AlarmConfigurationId)
+)
+go
