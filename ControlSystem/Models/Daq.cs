@@ -9,13 +9,17 @@ namespace Simulation.Models
         Task analogOutTask;
         AIChannel analogInChannel;
         AOChannel analogOutChannel;
+        public bool IoDeviceOk { get; set; }
 
         public Daq()
         {
             analogInTask = new Task();
             analogOutTask = new Task();
 
-            analogInChannel = analogInTask.AIChannels.CreateVoltageChannel(
+
+            try
+            {
+                analogInChannel = analogInTask.AIChannels.CreateVoltageChannel(
                     "dev1/ai0",
                     "AnalogInChannel",
                     AITerminalConfiguration.Differential,
@@ -24,31 +28,54 @@ namespace Simulation.Models
                     AIVoltageUnits.Volts
                     );
 
-            analogOutChannel = analogOutTask.AOChannels.CreateVoltageChannel(
-                "dev1/ao0",
-                    "AnalogOutChannel",
-                    0,
-                    5,
-                    AOVoltageUnits.Volts
-                );
+                analogOutChannel = analogOutTask.AOChannels.CreateVoltageChannel(
+                    "dev1/ao0",
+                        "AnalogOutChannel",
+                        0,
+                        5,
+                        AOVoltageUnits.Volts
+                    );
+                IoDeviceOk = true;
+            }
+            catch
+            {
+                IoDeviceOk = false;
+            }
+            
         }
 
 
 
         public double ReadData()
         {
-            AnalogSingleChannelReader reader = new AnalogSingleChannelReader(analogInTask.Stream);
-
-            double analogDataIn = reader.ReadSingleSample();
-
+            double analogDataIn = -1;
+            try
+            {
+                AnalogSingleChannelReader reader = new AnalogSingleChannelReader(analogInTask.Stream);
+                analogDataIn = reader.ReadSingleSample();
+            }
+            catch
+            {
+                analogDataIn = -1;
+            }
             return analogDataIn;
         }
 
-        public void WriteData(double analogDataOut)
+        public Boolean WriteData(double analogDataOut)
         {
-            AnalogSingleChannelWriter writer = new AnalogSingleChannelWriter(analogOutTask.Stream);
+            bool writeOk = false;
+            try
+            {
+                AnalogSingleChannelWriter writer = new AnalogSingleChannelWriter(analogOutTask.Stream);
+                writer.WriteSingleSample(true, analogDataOut);
+                writeOk = true;
+            }
+            catch
+            {
 
-            writer.WriteSingleSample(true, analogDataOut);
+            }
+
+            return writeOk;
         }
     }
 }
