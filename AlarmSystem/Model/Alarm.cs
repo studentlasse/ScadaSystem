@@ -12,12 +12,16 @@ namespace AlarmSystem.Models
         public int AcknowledgeId { get; set; }
         public double Value { get; set; }
 
+        public string AlarmName { get; set; }
+        public string AlarmDescription { get; set; }
+        public bool AlarmAcknowledged { get; set; }
+
         public Alarm GetAlarm(string connectionString, int alarmId)
         {
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "SELECT AlarmId, AcknowledgeId, AlarmConfigurationId, FORMAT(TimeStamp,'MM.dd HH:mm:ss') AS TimeStamp, Value FROM ALARM WHERE AlarmId=@alarmid";
+            string sqlQuery = "SELECT AlarmId, AcknowledgeId, AlarmConfigurationId, FORMAT(AlarmTimeStamp,'MM.dd HH:mm:ss') AS AlarmTimeStamp, Value FROM ALARM WHERE AlarmId=@alarmid";
 
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
@@ -35,7 +39,7 @@ namespace AlarmSystem.Models
                 alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
                 alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
                 alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
-                alarm.TimeStamp = dr["TimeStamp"].ToString();
+                alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
                 alarm.Value = Convert.ToDouble(dr["Value"]);
             }
             con.Close();
@@ -49,13 +53,13 @@ namespace AlarmSystem.Models
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "SELECT AlarmId, AcknowledgeId, AlarmConfigurationId, FORMAT(TimeStamp,'MM.dd HH:mm:ss') AS TimeStamp, Value FROM ALARM order by AlarmConfigurationId DESC";
+            //string sqlQuery = "SELECT AlarmId, AcknowledgeId, AlarmConfigurationId, FORMAT(TimeStamp,'MM.dd HH:mm:ss') AS TimeStamp, Value FROM ALARM order by AlarmConfigurationId DESC";
+            string sqlQuery = "select * from GetAlarms";
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
             SqlDataReader dr = cmd.ExecuteReader();
 
-            // TODO: LEGG TIL SLIK AT NÅR CONFIGURATION ID HENTES, VIS DESCRIPTION ETC ISTEDENFOR
             // TODO2: GJØR ALARMENE I TABELLEN "TRYKKBARE" FOR MER INFO
             // TODO3: LEGG TIL ACKNOWLEDGE KNAPP FOR HVER ALARM HVIS MULIG --> DENNE MÅ DA FORANDRE ACKNOWLEDGE VERDIEN TIL ALARMEN!
             // TODO4: NYE KLASSER: ALARMCONFIG, ALARMLEVEL, PERSON, ACKNOWLEDGMENT(?), TAGDATA(?)
@@ -67,10 +71,14 @@ namespace AlarmSystem.Models
                 {
                     Alarm alarm = new Alarm();
                     alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
-                    alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
-                    alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
-                    alarm.TimeStamp = dr["TimeStamp"].ToString();
+                    //alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
+                    //alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
+                    alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
                     alarm.Value = Convert.ToDouble(dr["Value"]);
+                    alarm.AlarmName = dr["AlarmName"].ToString();
+                    alarm.AlarmDescription = dr["AlarmDescription"].ToString();
+                    alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
+
 
                     alarmList.Add(alarm);
                 }

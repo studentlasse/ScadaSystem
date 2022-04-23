@@ -5,4 +5,32 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Alarms will show up here</p>
+<div class="text-center">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Alarm Id</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Time Stamp</th>
+            <th>Value</th>
+            <th>Status (acknowledged)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarm in Model.alarmList)
+        {
+            <tr>
+                <td>@alarm.AlarmId</td>
+                <td>@alarm.AlarmName</td>
+                <td>@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+                <td>@alarm.AlarmAcknowledged</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>
+
