@@ -83,5 +83,53 @@ namespace AlarmSystem.Model
             }
             return alarmList;
         }
+        
+        public void EditAlarm(string connectionString, Alarm alarm)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("UpdateAlarm", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@AlarmId", alarm.AlarmId));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmConfigurationId", alarm.AlarmConfigId));
+                    cmd.Parameters.Add(new SqlParameter("@AcknowledgeId", alarm.AcknowledgeId));
+                    cmd.Parameters.Add(new SqlParameter("@AlarmTimeStamp", alarm.TimeStamp));
+                    cmd.Parameters.Add(new SqlParameter("@Value", alarm.Value));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void AcknowledgeAlarm(string connectionString, int alarmId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("AcknowledgeAlarm", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@AlarmId", alarmId));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

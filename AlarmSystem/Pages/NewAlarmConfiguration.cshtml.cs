@@ -27,8 +27,15 @@ namespace AlarmSystem.Pages
             alarmConfiguration.AlarmDescription = Request.Form["alarmDescription"];
             alarmConfiguration.AlarmLevel = Request.Form["alarmLevel"];
             alarmConfiguration.TagName = Request.Form["tagName"];
-            alarmConfiguration.LowerLimit = Convert.ToInt32(Request.Form["lowerLimit"]);
-            alarmConfiguration.UpperLimit = Convert.ToInt32(Request.Form["upperLimit"]);
+            try
+            {
+                alarmConfiguration.LowerLimit = Convert.ToInt32(Request.Form["lowerLimit"]);
+                alarmConfiguration.UpperLimit = Convert.ToInt32(Request.Form["upperLimit"]);
+            }
+            catch (Exception ex)
+            {
+                
+            }
             connectionString = _configuration.GetConnectionString("ConnectionString");
             alarmConfiguration.CreateAlarmConfiguration(connectionString, alarmConfiguration);
             Response.Redirect("./AlarmConfiguration");

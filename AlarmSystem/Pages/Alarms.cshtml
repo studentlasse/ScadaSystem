@@ -5,13 +5,6 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<script>
-    function AcknowledgeAlarm() {
-        var acknowledgeId = @Model.alarmData.AcknowledgeId;
-
-    }
-</script>
-
 <div class="text-center">
 <table class="table">
     <thead>
@@ -34,7 +27,7 @@
                 <td>@alarm.TimeStamp</td>
                 <td>@alarm.Value</td>
                 <td>@alarm.AlarmAcknowledged</td>
-                <td><input type="button" value="Acknowledge" onclick="javascript:AcknowledgeAlarm()" class="btn btn-info"/></td>
+                <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
             </tr>
         }
     </tbody>
