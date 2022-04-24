@@ -14,9 +14,9 @@ namespace DataloggingSystem
 {
     public partial class Form1 : Form
     {
-
         private Simulator simulator;
-        private Sensor sensor;
+        private OpcManager opcClient;
+        private SqlManager sqlManager;
         private Statistics stat;
 
         private float time;
@@ -25,30 +25,67 @@ namespace DataloggingSystem
         {
             InitializeComponent();
 
+            // Set up different modules
             SetupSimulator();
+            SetupOPC();
             SetupSensor();
             SetupStat();
 
+            // Initialize chart
             ClearChart();
+
+            // Server endpoing URL
+            txtServerEndpoint.Text = opcClient.OpcUrl;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            float newValue;
+            string tagStatus;
+            string tagQuality;
+            if (chkRunSimulator.Checked)
+            {
+                newValue = simulator.SimulateData();
+                tagStatus = "OK";
+                tagQuality = "High";
+            }
+            else
+            {
+                opcClient.GetData();
+                newValue = opcClient.ProcessValue;
+                tagStatus = opcClient.IoError;
+
+                if (opcClient.NewData)
+                    tagQuality = "High";
+                else
+                    tagQuality = "Low";
+            }
+
             // Update chart
-            float newValue = simulator.SimulateData();
             chartMeasurements.Series["MeasurementData"].Points.AddXY(this.time, newValue);
 
             // Update textbox
             txtCurrent.Text = newValue.ToString("#.##");
 
             // Store data in database
-            sensor.StoreSensorData(newValue);
+            sqlManager.StoreSensorData(newValue, tagStatus, tagQuality);
 
-            // Retrieve statistics data
-            StatisticsData stat_data = stat.GetStatisticsData();
-            txtAvg.Text = stat_data.AverageValue.ToString("#.##");
-            txtMinMeasurement.Text = stat_data.MinValue.ToString("#.##");
-            txtMaxMeasurement.Text = stat_data.MaxValue.ToString("#.##");
+            // Update statisticsdata
+            stat.Update(newValue);
+            txtAvg.Text = stat.Average.ToString("#.##");
+            txtMinMeasurement.Text = stat.Min.ToString("#.##");
+            txtMaxMeasurement.Text = stat.Max.ToString("#.##");
+
+            // Update textboxes
+            txtTagStatus.Text = tagStatus;
+            txtTagQuality.Text = tagQuality;
+
+            // Insert data into datagrid
+            int index = dataGridView.Rows.Add();
+            dataGridView.Rows[index].Cells["Column1"].Value = this.time;
+            dataGridView.Rows[index].Cells["Column2"].Value = newValue.ToString("#.##");
+            dataGridView.Rows[index].Cells["Column3"].Value = tagStatus;
+            dataGridView.Rows[index].Cells["Column4"].Value = tagQuality;
 
             this.time += timer1.Interval / 1000.0f;
         }
@@ -56,6 +93,7 @@ namespace DataloggingSystem
         private void Form1_Load(object sender, EventArgs e)
         {
             timer1.Interval = 1000;
+            numInterval.Value = 1000;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -70,6 +108,12 @@ namespace DataloggingSystem
             timer1.Stop();
 
             time = 0.0f;
+
+            // Reset statistics class
+            stat.Reset();
+
+            // Clear datagrid
+            dataGridView.Rows.Clear();
         }
 
         private void ClearChart()
@@ -92,11 +136,21 @@ namespace DataloggingSystem
             this.txtUpperLimit.Text = upperLimit.ToString("#.##");
             this.txtAlpha.Text = alpha.ToString("#.##");
             this.chkRunFilter.Checked = true;
+
+            // System starts in OPC mode
+            this.chkRunSimulator.Checked = false;
+            this.txtMode.Text = "OPC";
+        }
+
+        private void SetupOPC()
+        {
+            this.opcClient = new OpcManager();
+            this.opcClient.Start();
         }
 
         private void SetupSensor()
         {
-            sensor = new Sensor();
+            sqlManager = new SqlManager();
         }
 
         private void SetupStat()
@@ -132,35 +186,32 @@ namespace DataloggingSystem
             else
                 simulator.Filtering = false;
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            opcClient.Close();
+        }
+
+        private void numInterval_ValueChanged(object sender, EventArgs e)
+        {
+            timer1.Interval = (int) numInterval.Value;
+        }
+
+        private void chkRunSimulator_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRunSimulator.Checked)
+                this.txtMode.Text = "Simulator";
+            else
+                this.txtMode.Text = "OPC";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you want to delete the logged data in the SCADA database?", "Warning!", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                sqlManager.ClearDataDatabase();
+            }
+        }
     }
 }
-
-/*
-private void FillChart()
-{
-
-
-    ChartArea area = chartMeasurements.ChartAreas[0];
-    // area.AxisY.Minimum = 10;
-    // area.AxisY.Maximum = 40;
-    area.AxisX.Title = "MeasurementId";
-
-    switch (comboBoxUnit.Text)
-    {
-        case "Celsius":
-            area.AxisY.Title = "Temperature [°C]";
-            foreach (Measurement meas in measurementList)
-                chartMeasurements.Series["MeasurementData"].Points.AddXY(meas.MeasurementId, meas.MeasurementValue);
-            break;
-
-        case "Fahrenheit":
-            area.AxisY.Title = "Temperature [°F]";
-            foreach (Measurement meas in measurementList)
-                chartMeasurements.Series["MeasurementData"].Points.AddXY(meas.MeasurementId, meas.FahrenheitValue);
-            break;
-
-        default:
-            throw new Exception("Temperature unit incorrect");
-    }
-}
-*/
