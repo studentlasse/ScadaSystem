@@ -20,15 +20,43 @@
     <tbody>
         @foreach (var alarm in Model.alarmList)
         {
-            <tr>
-                <td>@alarm.AlarmId</td>
-                <td>@alarm.AlarmName</td>
-                <td>@alarm.AlarmDescription</td>
-                <td>@alarm.TimeStamp</td>
-                <td>@alarm.Value</td>
-                <td>@alarm.AlarmAcknowledged</td>
-                <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
-            </tr>
+                @if(@alarm.AlarmName == "Warning")
+                {
+                <tr class="table-warning">
+                    <td>@alarm.AlarmId</td>
+                    <td>@alarm.AlarmName</td>
+                    <td>@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td>@alarm.Value</td>
+                    <td>@alarm.AlarmAcknowledged</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>   
+                }
+                else if(@alarm.AlarmName == "Alarm")
+                {
+                <tr class="table-danger">
+                    <td>@alarm.AlarmId</td>
+                    <td>@alarm.AlarmName</td>
+                    <td>@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td>@alarm.Value</td>
+                    <td>@alarm.AlarmAcknowledged</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>   
+                }
+                else
+                {
+                <tr class="table-info">
+                    <td>@alarm.AlarmId</td>
+                    <td>@alarm.AlarmName</td>
+                    <td>@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td>@alarm.Value</td>
+                    <td>@alarm.AlarmAcknowledged</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>   
+                }
+                
         }
     </tbody>
 </table>

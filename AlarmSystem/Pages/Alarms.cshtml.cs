@@ -30,13 +30,13 @@ namespace AlarmSystem.Pages
             alarmList = alarm.GetAlarmList(connectionString);
         }
 
-        public void OnPost()
+        /*public void OnPost()
         {
             Alarm alarm = new Alarm();
             alarm.AlarmId = Convert.ToInt32(Request.Query["AlarmId"]);
             connectionString = _configuration.GetConnectionString("ConnectionString");
             alarm.EditAlarm(connectionString, alarm);
             Response.Redirect("./Alarms");
-        }
+        }*/
     }
 }

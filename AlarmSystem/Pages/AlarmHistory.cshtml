@@ -1,0 +1,36 @@
+﻿@page
+@model AlarmSystem.Pages.AlarmHistoryModel
+@{
+    ViewData["Title"] = "Alarm History";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-center">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Alarm Id</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Time Stamp</th>
+            <th>Value</th>
+            <th>Acknowledged</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarm in Model.alarmHistoryList)
+        {
+            <tr>
+                <td>@alarm.AlarmId</td>
+                <td>@alarm.AlarmName</td>
+                <td>@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>
