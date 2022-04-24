@@ -83,5 +83,10 @@ namespace AlarmSystem.Model
             }
             return alarmList;
         }
+        
+        public void EditAlarm(string connectionString, Alarm alarm)
+        {
+
+        }
     }
 }

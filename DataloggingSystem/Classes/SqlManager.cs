@@ -23,7 +23,7 @@ namespace DataloggingSystem.Classes
 
             try
             {
-                // Connect to database
+                //Connect to database
                 SqlConnection con = new SqlConnection(connectionString);
                 con.Open();
 
