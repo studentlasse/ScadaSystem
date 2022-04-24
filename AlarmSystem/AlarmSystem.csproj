@@ -5,13 +5,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include=".SQL\TRIGGER_LowTemp1.txt" />
+    <Content Include=".SQL\TRIGGER_LowTemp2.txt" />
+    <Content Include=".SQL\TRIGGER_LowTemp3.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include=".SQL\AcknowledgeAlarm.sql" />
+    <None Include=".SQL\CREATE_Alarm.sql" />
+    <None Include=".SQL\CREATE_AlarmConfiguration.sql" />
+    <None Include=".SQL\DELETE_AlarmConfiguration.sql" />
     <None Include=".SQL\Inser_test_data.sql" />
     <None Include=".SQL\remove_tables.sql" />
     <None Include=".SQL\SCADA.sql" />
+    <None Include=".SQL\TRIGGER_IOAlarm.sql" />
+    <None Include=".SQL\TRIGGER_SystemAlarm.sql" />
+    <None Include=".SQL\TRIGGER_TriggerAlarm.sql" />
+    <None Include=".SQL\TRIGGER_TriggerAlarm2.sql" />
+    <None Include=".SQL\TRIGGER_TriggerAlarm3.sql" />
+    <None Include=".SQL\UPDATE_Alarm.sql" />
+    <None Include=".SQL\UPDATE_AlarmConfiguration.sql" />
     <None Include=".SQL\VIEW_GetAlarmConfigurations.sql" />
     <None Include=".SQL\VIEW_GetAlarms.sql" />
   </ItemGroup>
