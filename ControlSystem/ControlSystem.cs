@@ -16,16 +16,17 @@ namespace Simulation
         double Ts = 0.1;
         double Kp = 0.8;
         double Ti = 20;
-        double r = 25;
+        double setpoint = 25;
 
         string opcUrl = ConfigurationManager.AppSettings["opcUrl"];
         string tagRealProcessValue = ConfigurationManager.AppSettings["tagRealProcessValue"];
         string tagSimProcessValue = ConfigurationManager.AppSettings["tagSimProcessValue"];
+        string tagSetpoint = ConfigurationManager.AppSettings["tagSetpoint"];
         string tagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
         string tagConnectedRandomNumbers = ConfigurationManager.AppSettings["tagConnectedRandomNumbers"];
         string tagIOError = ConfigurationManager.AppSettings["tagIOError"];
 
-        bool useDaq = false;
+        bool useDaq = true;
         string IOStatus = "Ok";
         Daq daq;
 
@@ -43,7 +44,7 @@ namespace Simulation
         {
             InitializeComponent();
 
-            pidController = new PidController(Ts, Kp, Ti, r);
+            pidController = new PidController(Ts, Kp, Ti, setpoint);
 
             airHeater = new AirHeater(Ts);
 
@@ -57,14 +58,12 @@ namespace Simulation
 
             txtKp.Text = Kp.ToString();
             txtTi.Text = Ti.ToString();
-            txtR.Text = r.ToString();
+            txtR.Text = setpoint.ToString();
+            txtOPCServer.Text = opcUrl;
 
             initializeChart();
 
             timer1.Interval = Convert.ToInt32(Ts * 1000);
-            timer1.Start();
-
-
         }
 
         private void InitializeClient()
@@ -99,16 +98,22 @@ namespace Simulation
         private void initializeChart()
         {
             chartMeasurementData.Series.Clear();
-            chartMeasurementData.Series.Add("SimulatedProcessValue");
-            chartMeasurementData.Series["SimulatedProcessValue"].ChartType = SeriesChartType.Line;
+            chartMeasurementData.Series.Add("Simulated Process Value [℃]");
+            chartMeasurementData.Series["Simulated Process Value [℃]"].ChartType = SeriesChartType.Line;
+            chartMeasurementData.Series.Add("Setpoint [℃]");
+            chartMeasurementData.Series["Setpoint [℃]"].ChartType = SeriesChartType.Line;
             if (useDaq)
             {
-                chartMeasurementData.Series.Add("RealProcessValue");
-                chartMeasurementData.Series["RealProcessValue"].ChartType = SeriesChartType.Line;
+                chartMeasurementData.Series.Add("Real Process Value [℃]");
+                chartMeasurementData.Series["Real Process Value [℃]"].ChartType = SeriesChartType.Line;
             }
             ChartArea area1 = chartMeasurementData.ChartAreas[0];
-            area1.AxisY.Minimum = 0;
+            area1.AxisY.Minimum = 20;
             area1.AxisY.Maximum = 50;
+            area1.AxisY.Title = "Temperature [℃]";
+            area1.AxisX.Title = "Time [s]";
+
+            chartMeasurementData.Legends[0].Docking = Docking.Bottom;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -165,6 +170,7 @@ namespace Simulation
         {
             txtOpcStatus.Text = client.State.ToString();
             txtSimProcessValue.Text = simulatedProcessValue.ToString("0.##");
+            txtR.Text = setpoint.ToString("0.##");
             txtControlValue.Text = controlValue.ToString("0.##");
             if (useDaq) txtRealProcessValue.Text = realProcessValue.ToString("0.##");
             txtOpcStatus.Text = client.State.ToString();
@@ -184,8 +190,9 @@ namespace Simulation
 
         private void PlotData()
         {
-            chartMeasurementData.Series["SimulatedProcessValue"].Points.AddY(simulatedProcessValue);
-            if (useDaq) chartMeasurementData.Series["RealProcessValue"].Points.AddY(realProcessValue);
+            chartMeasurementData.Series["Simulated Process Value [℃]"].Points.AddY(simulatedProcessValue);
+            chartMeasurementData.Series["Setpoint [℃]"].Points.AddY(setpoint);
+            if (useDaq) chartMeasurementData.Series["Real Process Value [℃]"].Points.AddY(realProcessValue);
         }
 
         private void WriteToOPC()
@@ -194,6 +201,7 @@ namespace Simulation
             {
                 if (useDaq) client.WriteNode(tagRealProcessValue, Convert.ToDouble(realProcessValue));
                 client.WriteNode(tagSimProcessValue, Convert.ToDouble(simulatedProcessValue));
+                client.WriteNode(tagSetpoint, Convert.ToDouble(setpoint));
                 client.WriteNode(tagControlValue, Convert.ToDouble(controlValue));
 
                 client.WriteNode(tagConnectedRandomNumbers, RandomString(10));
@@ -226,8 +234,8 @@ namespace Simulation
         }
         private void txtR_TextChanged(object sender, EventArgs e)
         {
-            r = Convert.ToDouble(txtR.Text);
-            pidController.r = r;
+            setpoint = Convert.ToDouble(txtR.Text);
+            pidController.r = setpoint;
         }
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
@@ -235,5 +243,14 @@ namespace Simulation
             client.Disconnect();
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+        }
     }
 }
