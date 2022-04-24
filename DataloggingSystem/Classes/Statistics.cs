@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,53 +8,52 @@ namespace DataloggingSystem.Classes
 {
     class Statistics
     {
-        public string SensorName { get; set; }
+        private int numberOfMeasurements;
+
+        private float min;
+        private float max;
+        private float average;
+        private float sum;
+
+        public float Min { get { return min; } }
+        public float Max { get { return max; } }
+        public float Average { get { return average; } }
 
         public Statistics()
         {
-            this.SensorName = "TC-01";
+            numberOfMeasurements = 0;
+            min = 0;
+            max = 0;
+            average = 0;
+            sum = 0;
         }
 
-        public StatisticsData GetStatisticsData()
+        public void Reset()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString;
+            numberOfMeasurements = 0;
+            min = 0;
+            max = 0;
+            average = 0;
+            sum = 0;
+        }
 
-            float average = 0;
-            float minMeasurement = 0;
-            float maxMeasurement = 0;
+        public void Update(float measurement)
+        {
+            numberOfMeasurements++;
+            sum += measurement;
 
-            try
-            { 
+            average = sum / numberOfMeasurements;
 
-                // Connect to database
-                SqlConnection con = new SqlConnection(connectionString);
-                con.Open();
-
-                string selectSQL = "SELECT Average, MaxMeasurement, MinMeasurement FROM GetStatistics WHERE SensorName = @SensorName";
-
-                SqlCommand cmd = new SqlCommand(selectSQL, con);
-                cmd.Parameters.Add(new SqlParameter("@SensorName", SensorName));
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr != null)
-                {
-                    while (dr.Read())
-                    {
-                        average = (float) Convert.ToDouble(dr["Average"]);
-                        minMeasurement = (float) Convert.ToDouble(dr["MinMeasurement"]);
-                        maxMeasurement = (float) Convert.ToDouble(dr["MaxMeasurement"]);
-                    }
-                }
-
-                // Disconnect from database
-                con.Close();
-            }
-            catch
+            if (numberOfMeasurements == 1)
             {
-                throw new Exception("Error occurred trying to connect to the database");
+                min = measurement;
+                max = measurement;
             }
 
-            return new StatisticsData(average, minMeasurement, maxMeasurement);
+            if (measurement < min)
+                min = measurement;
+            if (measurement > max)
+                max = measurement;
         }
     }
 }
