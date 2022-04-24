@@ -30,16 +30,13 @@ namespace DataloggingSystem
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.lblTagQuality = new System.Windows.Forms.Label();
-            this.txtTagQuality = new System.Windows.Forms.TextBox();
-            this.lblTagStatus = new System.Windows.Forms.Label();
-            this.txtTagStatus = new System.Windows.Forms.TextBox();
             this.lblMode = new System.Windows.Forms.Label();
             this.txtMode = new System.Windows.Forms.TextBox();
             this.lblCurrTemp = new System.Windows.Forms.Label();
@@ -48,6 +45,9 @@ namespace DataloggingSystem
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chartMeasurements = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCurrent = new System.Windows.Forms.TextBox();
@@ -61,6 +61,7 @@ namespace DataloggingSystem
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtServerEndpoint = new System.Windows.Forms.TextBox();
@@ -68,16 +69,42 @@ namespace DataloggingSystem
             this.lblInterval = new System.Windows.Forms.Label();
             this.chkRunSimulator = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.chkRunFilter = new System.Windows.Forms.CheckBox();
-            this.txtUpperLimit = new System.Windows.Forms.TextBox();
-            this.txtAlpha = new System.Windows.Forms.TextBox();
-            this.txtLowerLimit = new System.Windows.Forms.TextBox();
+            this.grpOtherTags = new System.Windows.Forms.GroupBox();
+            this.lblRandomNumberStatus = new System.Windows.Forms.Label();
+            this.txtRandomNumberStatus = new System.Windows.Forms.TextBox();
+            this.lblIoErrorStatus = new System.Windows.Forms.Label();
+            this.txtIOStatus = new System.Windows.Forms.TextBox();
+            this.lblSimulatedProcessVariable = new System.Windows.Forms.Label();
+            this.txtSimPVStatus = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtControlSignalStatus = new System.Windows.Forms.TextBox();
+            this.numSimRandomNumber = new System.Windows.Forms.NumericUpDown();
+            this.numSimIoError = new System.Windows.Forms.NumericUpDown();
+            this.lblSetpointStatus = new System.Windows.Forms.Label();
+            this.numSimulatedPV = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.txtSetpointStatus = new System.Windows.Forms.TextBox();
+            this.numSimControlSignal = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.lblSimValue = new System.Windows.Forms.Label();
+            this.lblRandomNumber = new System.Windows.Forms.Label();
+            this.lblIoError = new System.Windows.Forms.Label();
+            this.lblControlValue = new System.Windows.Forms.Label();
+            this.numSimSetpoint = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.lblSetpoint = new System.Windows.Forms.Label();
+            this.grpProcessVariable = new System.Windows.Forms.GroupBox();
+            this.numAlpha = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.numLowerLimit = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.numUpperLimit = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.lblAlpha = new System.Windows.Forms.Label();
-            this.lblLowerLimit = new System.Windows.Forms.Label();
+            this.lblPVStatus = new System.Windows.Forms.Label();
+            this.txtPVStatus = new System.Windows.Forms.TextBox();
             this.lblUpperLimit = new System.Windows.Forms.Label();
+            this.lblLowerLimit = new System.Windows.Forms.Label();
+            this.chkRunFilter = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label4 = new System.Windows.Forms.Label();
+            this.lbl = new System.Windows.Forms.Label();
+            this.txtCurrentSetpoint = new System.Windows.Forms.TextBox();
+            this.btnSaveHistory = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -86,6 +113,16 @@ namespace DataloggingSystem
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.grpOtherTags.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimRandomNumber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimIoError)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimulatedPV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimControlSignal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimSetpoint)).BeginInit();
+            this.grpProcessVariable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlpha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLowerLimit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpperLimit)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -102,10 +139,9 @@ namespace DataloggingSystem
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.lblTagQuality);
-            this.tabPage1.Controls.Add(this.txtTagQuality);
-            this.tabPage1.Controls.Add(this.lblTagStatus);
-            this.tabPage1.Controls.Add(this.txtTagStatus);
+            this.tabPage1.Controls.Add(this.btnSaveHistory);
+            this.tabPage1.Controls.Add(this.lbl);
+            this.tabPage1.Controls.Add(this.txtCurrentSetpoint);
             this.tabPage1.Controls.Add(this.lblMode);
             this.tabPage1.Controls.Add(this.txtMode);
             this.tabPage1.Controls.Add(this.lblCurrTemp);
@@ -123,46 +159,10 @@ namespace DataloggingSystem
             this.tabPage1.Text = "Logging";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // lblTagQuality
-            // 
-            this.lblTagQuality.AutoSize = true;
-            this.lblTagQuality.Location = new System.Drawing.Point(792, 342);
-            this.lblTagQuality.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTagQuality.Name = "lblTagQuality";
-            this.lblTagQuality.Size = new System.Drawing.Size(58, 13);
-            this.lblTagQuality.TabIndex = 15;
-            this.lblTagQuality.Text = "TagQuality";
-            // 
-            // txtTagQuality
-            // 
-            this.txtTagQuality.Enabled = false;
-            this.txtTagQuality.Location = new System.Drawing.Point(795, 358);
-            this.txtTagQuality.Name = "txtTagQuality";
-            this.txtTagQuality.Size = new System.Drawing.Size(100, 20);
-            this.txtTagQuality.TabIndex = 14;
-            // 
-            // lblTagStatus
-            // 
-            this.lblTagStatus.AutoSize = true;
-            this.lblTagStatus.Location = new System.Drawing.Point(656, 342);
-            this.lblTagStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTagStatus.Name = "lblTagStatus";
-            this.lblTagStatus.Size = new System.Drawing.Size(56, 13);
-            this.lblTagStatus.TabIndex = 13;
-            this.lblTagStatus.Text = "TagStatus";
-            // 
-            // txtTagStatus
-            // 
-            this.txtTagStatus.Enabled = false;
-            this.txtTagStatus.Location = new System.Drawing.Point(659, 358);
-            this.txtTagStatus.Name = "txtTagStatus";
-            this.txtTagStatus.Size = new System.Drawing.Size(100, 20);
-            this.txtTagStatus.TabIndex = 12;
-            // 
             // lblMode
             // 
             this.lblMode.AutoSize = true;
-            this.lblMode.Location = new System.Drawing.Point(525, 342);
+            this.lblMode.Location = new System.Drawing.Point(824, 310);
             this.lblMode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMode.Name = "lblMode";
             this.lblMode.Size = new System.Drawing.Size(34, 13);
@@ -172,7 +172,7 @@ namespace DataloggingSystem
             // txtMode
             // 
             this.txtMode.Enabled = false;
-            this.txtMode.Location = new System.Drawing.Point(528, 358);
+            this.txtMode.Location = new System.Drawing.Point(827, 325);
             this.txtMode.Name = "txtMode";
             this.txtMode.Size = new System.Drawing.Size(100, 20);
             this.txtMode.TabIndex = 10;
@@ -195,14 +195,17 @@ namespace DataloggingSystem
             this.Column1,
             this.Column2,
             this.Column3,
-            this.Column4});
+            this.Column4,
+            this.Column5,
+            this.Column6,
+            this.Column7});
             this.dataGridView.Location = new System.Drawing.Point(28, 325);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView.Size = new System.Drawing.Size(443, 206);
+            this.dataGridView.Size = new System.Drawing.Size(743, 206);
             this.dataGridView.TabIndex = 5;
             // 
             // Column1
@@ -213,38 +216,57 @@ namespace DataloggingSystem
             // 
             // Column2
             // 
-            this.Column2.HeaderText = "Temperature [°C]";
+            this.Column2.HeaderText = "PV Temp [°C]";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
             // 
             // Column3
             // 
-            this.Column3.HeaderText = "TagStatus";
+            this.Column3.HeaderText = "PV status";
             this.Column3.Name = "Column3";
             this.Column3.ReadOnly = true;
             // 
             // Column4
             // 
-            this.Column4.HeaderText = "TagQuality";
+            this.Column4.HeaderText = "SP Temp [°C]";
             this.Column4.Name = "Column4";
             this.Column4.ReadOnly = true;
             // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "SP Status";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "CS Temp [°C]";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "CS Status";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
             // chartMeasurements
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartMeasurements.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chartMeasurements.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chartMeasurements.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartMeasurements.Legends.Add(legend1);
             this.chartMeasurements.Location = new System.Drawing.Point(28, 48);
             this.chartMeasurements.Margin = new System.Windows.Forms.Padding(2);
             this.chartMeasurements.Name = "chartMeasurements";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartMeasurements.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartMeasurements.Series.Add(series1);
             this.chartMeasurements.Size = new System.Drawing.Size(731, 260);
             this.chartMeasurements.TabIndex = 0;
+            title1.Name = "Title1";
+            this.chartMeasurements.Titles.Add(title1);
             // 
             // label1
             // 
@@ -280,7 +302,7 @@ namespace DataloggingSystem
             this.groupBox1.Size = new System.Drawing.Size(143, 207);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Statistics";
+            this.groupBox1.Text = "PV Statistics";
             // 
             // lblAvg
             // 
@@ -378,6 +400,18 @@ namespace DataloggingSystem
             this.tabPage2.Text = "Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Location = new System.Drawing.Point(302, 99);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(477, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "The clear database buttons empties all the content of the TAGDATA table in the SC" +
+    "ADA database. ";
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(27, 99);
@@ -443,14 +477,9 @@ namespace DataloggingSystem
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.grpOtherTags);
+            this.tabPage3.Controls.Add(this.grpProcessVariable);
             this.tabPage3.Controls.Add(this.label3);
-            this.tabPage3.Controls.Add(this.chkRunFilter);
-            this.tabPage3.Controls.Add(this.txtUpperLimit);
-            this.tabPage3.Controls.Add(this.txtAlpha);
-            this.tabPage3.Controls.Add(this.txtLowerLimit);
-            this.tabPage3.Controls.Add(this.lblAlpha);
-            this.tabPage3.Controls.Add(this.lblLowerLimit);
-            this.tabPage3.Controls.Add(this.lblUpperLimit);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
@@ -459,21 +488,301 @@ namespace DataloggingSystem
             this.tabPage3.Text = "Simulator settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // grpOtherTags
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Blue;
-            this.label3.Location = new System.Drawing.Point(305, 32);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(567, 52);
-            this.label3.TabIndex = 7;
-            this.label3.Text = resources.GetString("label3.Text");
+            this.grpOtherTags.Controls.Add(this.lblRandomNumberStatus);
+            this.grpOtherTags.Controls.Add(this.txtRandomNumberStatus);
+            this.grpOtherTags.Controls.Add(this.lblIoErrorStatus);
+            this.grpOtherTags.Controls.Add(this.txtIOStatus);
+            this.grpOtherTags.Controls.Add(this.lblSimulatedProcessVariable);
+            this.grpOtherTags.Controls.Add(this.txtSimPVStatus);
+            this.grpOtherTags.Controls.Add(this.label5);
+            this.grpOtherTags.Controls.Add(this.txtControlSignalStatus);
+            this.grpOtherTags.Controls.Add(this.numSimRandomNumber);
+            this.grpOtherTags.Controls.Add(this.numSimIoError);
+            this.grpOtherTags.Controls.Add(this.lblSetpointStatus);
+            this.grpOtherTags.Controls.Add(this.numSimulatedPV);
+            this.grpOtherTags.Controls.Add(this.txtSetpointStatus);
+            this.grpOtherTags.Controls.Add(this.numSimControlSignal);
+            this.grpOtherTags.Controls.Add(this.lblSimValue);
+            this.grpOtherTags.Controls.Add(this.lblRandomNumber);
+            this.grpOtherTags.Controls.Add(this.lblIoError);
+            this.grpOtherTags.Controls.Add(this.lblControlValue);
+            this.grpOtherTags.Controls.Add(this.numSimSetpoint);
+            this.grpOtherTags.Controls.Add(this.lblSetpoint);
+            this.grpOtherTags.Location = new System.Drawing.Point(226, 19);
+            this.grpOtherTags.Name = "grpOtherTags";
+            this.grpOtherTags.Size = new System.Drawing.Size(331, 287);
+            this.grpOtherTags.TabIndex = 10;
+            this.grpOtherTags.TabStop = false;
+            this.grpOtherTags.Text = "Other Tags";
+            // 
+            // lblRandomNumberStatus
+            // 
+            this.lblRandomNumberStatus.AutoSize = true;
+            this.lblRandomNumberStatus.Location = new System.Drawing.Point(206, 232);
+            this.lblRandomNumberStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblRandomNumberStatus.Name = "lblRandomNumberStatus";
+            this.lblRandomNumberStatus.Size = new System.Drawing.Size(120, 13);
+            this.lblRandomNumberStatus.TabIndex = 18;
+            this.lblRandomNumberStatus.Text = "Random Number Status";
+            // 
+            // txtRandomNumberStatus
+            // 
+            this.txtRandomNumberStatus.Location = new System.Drawing.Point(208, 247);
+            this.txtRandomNumberStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtRandomNumberStatus.Name = "txtRandomNumberStatus";
+            this.txtRandomNumberStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtRandomNumberStatus.TabIndex = 19;
+            // 
+            // lblIoErrorStatus
+            // 
+            this.lblIoErrorStatus.AutoSize = true;
+            this.lblIoErrorStatus.Location = new System.Drawing.Point(206, 179);
+            this.lblIoErrorStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblIoErrorStatus.Name = "lblIoErrorStatus";
+            this.lblIoErrorStatus.Size = new System.Drawing.Size(76, 13);
+            this.lblIoErrorStatus.TabIndex = 16;
+            this.lblIoErrorStatus.Text = "IO Error Status";
+            // 
+            // txtIOStatus
+            // 
+            this.txtIOStatus.Location = new System.Drawing.Point(208, 194);
+            this.txtIOStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtIOStatus.Name = "txtIOStatus";
+            this.txtIOStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtIOStatus.TabIndex = 17;
+            // 
+            // lblSimulatedProcessVariable
+            // 
+            this.lblSimulatedProcessVariable.AutoSize = true;
+            this.lblSimulatedProcessVariable.Location = new System.Drawing.Point(205, 125);
+            this.lblSimulatedProcessVariable.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSimulatedProcessVariable.Name = "lblSimulatedProcessVariable";
+            this.lblSimulatedProcessVariable.Size = new System.Drawing.Size(103, 13);
+            this.lblSimulatedProcessVariable.TabIndex = 14;
+            this.lblSimulatedProcessVariable.Text = "Simulated PV Status";
+            // 
+            // txtSimPVStatus
+            // 
+            this.txtSimPVStatus.Location = new System.Drawing.Point(207, 140);
+            this.txtSimPVStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSimPVStatus.Name = "txtSimPVStatus";
+            this.txtSimPVStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtSimPVStatus.TabIndex = 15;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(206, 77);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Control Signal Status";
+            // 
+            // txtControlSignalStatus
+            // 
+            this.txtControlSignalStatus.Location = new System.Drawing.Point(208, 92);
+            this.txtControlSignalStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtControlSignalStatus.Name = "txtControlSignalStatus";
+            this.txtControlSignalStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtControlSignalStatus.TabIndex = 13;
+            // 
+            // numSimRandomNumber
+            // 
+            this.numSimRandomNumber.Location = new System.Drawing.Point(28, 248);
+            this.numSimRandomNumber.Name = "numSimRandomNumber";
+            this.numSimRandomNumber.Size = new System.Drawing.Size(120, 20);
+            this.numSimRandomNumber.TabIndex = 11;
+            // 
+            // numSimIoError
+            // 
+            this.numSimIoError.Location = new System.Drawing.Point(28, 195);
+            this.numSimIoError.Name = "numSimIoError";
+            this.numSimIoError.Size = new System.Drawing.Size(120, 20);
+            this.numSimIoError.TabIndex = 11;
+            // 
+            // lblSetpointStatus
+            // 
+            this.lblSetpointStatus.AutoSize = true;
+            this.lblSetpointStatus.Location = new System.Drawing.Point(205, 30);
+            this.lblSetpointStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSetpointStatus.Name = "lblSetpointStatus";
+            this.lblSetpointStatus.Size = new System.Drawing.Size(79, 13);
+            this.lblSetpointStatus.TabIndex = 1;
+            this.lblSetpointStatus.Text = "Setpoint Status";
+            // 
+            // numSimulatedPV
+            // 
+            this.numSimulatedPV.Location = new System.Drawing.Point(28, 140);
+            this.numSimulatedPV.Name = "numSimulatedPV";
+            this.numSimulatedPV.Size = new System.Drawing.Size(120, 20);
+            this.numSimulatedPV.TabIndex = 8;
+            // 
+            // txtSetpointStatus
+            // 
+            this.txtSetpointStatus.Location = new System.Drawing.Point(207, 45);
+            this.txtSetpointStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSetpointStatus.Name = "txtSetpointStatus";
+            this.txtSetpointStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtSetpointStatus.TabIndex = 3;
+            // 
+            // numSimControlSignal
+            // 
+            this.numSimControlSignal.Location = new System.Drawing.Point(27, 91);
+            this.numSimControlSignal.Name = "numSimControlSignal";
+            this.numSimControlSignal.Size = new System.Drawing.Size(120, 20);
+            this.numSimControlSignal.TabIndex = 8;
+            // 
+            // lblSimValue
+            // 
+            this.lblSimValue.AutoSize = true;
+            this.lblSimValue.Location = new System.Drawing.Point(25, 124);
+            this.lblSimValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSimValue.Name = "lblSimValue";
+            this.lblSimValue.Size = new System.Drawing.Size(155, 13);
+            this.lblSimValue.TabIndex = 2;
+            this.lblSimValue.Text = "Simulated Process Variable [°C]";
+            // 
+            // lblRandomNumber
+            // 
+            this.lblRandomNumber.AutoSize = true;
+            this.lblRandomNumber.Location = new System.Drawing.Point(25, 232);
+            this.lblRandomNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblRandomNumber.Name = "lblRandomNumber";
+            this.lblRandomNumber.Size = new System.Drawing.Size(87, 13);
+            this.lblRandomNumber.TabIndex = 2;
+            this.lblRandomNumber.Text = "Random Number";
+            // 
+            // lblIoError
+            // 
+            this.lblIoError.AutoSize = true;
+            this.lblIoError.Location = new System.Drawing.Point(25, 179);
+            this.lblIoError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblIoError.Name = "lblIoError";
+            this.lblIoError.Size = new System.Drawing.Size(43, 13);
+            this.lblIoError.TabIndex = 2;
+            this.lblIoError.Text = "IO Error";
+            // 
+            // lblControlValue
+            // 
+            this.lblControlValue.AutoSize = true;
+            this.lblControlValue.Location = new System.Drawing.Point(25, 75);
+            this.lblControlValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblControlValue.Name = "lblControlValue";
+            this.lblControlValue.Size = new System.Drawing.Size(92, 13);
+            this.lblControlValue.TabIndex = 2;
+            this.lblControlValue.Text = "Control Signal [°C]";
+            // 
+            // numSimSetpoint
+            // 
+            this.numSimSetpoint.Location = new System.Drawing.Point(26, 45);
+            this.numSimSetpoint.Name = "numSimSetpoint";
+            this.numSimSetpoint.Size = new System.Drawing.Size(120, 20);
+            this.numSimSetpoint.TabIndex = 8;
+            // 
+            // lblSetpoint
+            // 
+            this.lblSetpoint.AutoSize = true;
+            this.lblSetpoint.Location = new System.Drawing.Point(24, 29);
+            this.lblSetpoint.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSetpoint.Name = "lblSetpoint";
+            this.lblSetpoint.Size = new System.Drawing.Size(66, 13);
+            this.lblSetpoint.TabIndex = 2;
+            this.lblSetpoint.Text = "Setpoint [°C]";
+            // 
+            // grpProcessVariable
+            // 
+            this.grpProcessVariable.Controls.Add(this.numAlpha);
+            this.grpProcessVariable.Controls.Add(this.numLowerLimit);
+            this.grpProcessVariable.Controls.Add(this.numUpperLimit);
+            this.grpProcessVariable.Controls.Add(this.lblAlpha);
+            this.grpProcessVariable.Controls.Add(this.lblPVStatus);
+            this.grpProcessVariable.Controls.Add(this.txtPVStatus);
+            this.grpProcessVariable.Controls.Add(this.lblUpperLimit);
+            this.grpProcessVariable.Controls.Add(this.lblLowerLimit);
+            this.grpProcessVariable.Controls.Add(this.chkRunFilter);
+            this.grpProcessVariable.Location = new System.Drawing.Point(25, 19);
+            this.grpProcessVariable.Name = "grpProcessVariable";
+            this.grpProcessVariable.Size = new System.Drawing.Size(182, 287);
+            this.grpProcessVariable.TabIndex = 9;
+            this.grpProcessVariable.TabStop = false;
+            this.grpProcessVariable.Text = "Process Variable";
+            // 
+            // numAlpha
+            // 
+            this.numAlpha.Location = new System.Drawing.Point(31, 140);
+            this.numAlpha.Name = "numAlpha";
+            this.numAlpha.Size = new System.Drawing.Size(120, 20);
+            this.numAlpha.TabIndex = 25;
+            // 
+            // numLowerLimit
+            // 
+            this.numLowerLimit.Location = new System.Drawing.Point(31, 93);
+            this.numLowerLimit.Name = "numLowerLimit";
+            this.numLowerLimit.Size = new System.Drawing.Size(120, 20);
+            this.numLowerLimit.TabIndex = 24;
+            // 
+            // numUpperLimit
+            // 
+            this.numUpperLimit.Location = new System.Drawing.Point(31, 45);
+            this.numUpperLimit.Name = "numUpperLimit";
+            this.numUpperLimit.Size = new System.Drawing.Size(120, 20);
+            this.numUpperLimit.TabIndex = 23;
+            // 
+            // lblAlpha
+            // 
+            this.lblAlpha.AutoSize = true;
+            this.lblAlpha.Location = new System.Drawing.Point(28, 125);
+            this.lblAlpha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblAlpha.Name = "lblAlpha";
+            this.lblAlpha.Size = new System.Drawing.Size(34, 13);
+            this.lblAlpha.TabIndex = 22;
+            this.lblAlpha.Text = "Alpha";
+            // 
+            // lblPVStatus
+            // 
+            this.lblPVStatus.AutoSize = true;
+            this.lblPVStatus.Location = new System.Drawing.Point(28, 232);
+            this.lblPVStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPVStatus.Name = "lblPVStatus";
+            this.lblPVStatus.Size = new System.Drawing.Size(54, 13);
+            this.lblPVStatus.TabIndex = 20;
+            this.lblPVStatus.Text = "PV Status";
+            // 
+            // txtPVStatus
+            // 
+            this.txtPVStatus.Location = new System.Drawing.Point(31, 248);
+            this.txtPVStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPVStatus.Name = "txtPVStatus";
+            this.txtPVStatus.Size = new System.Drawing.Size(76, 20);
+            this.txtPVStatus.TabIndex = 21;
+            // 
+            // lblUpperLimit
+            // 
+            this.lblUpperLimit.AutoSize = true;
+            this.lblUpperLimit.Location = new System.Drawing.Point(28, 30);
+            this.lblUpperLimit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUpperLimit.Name = "lblUpperLimit";
+            this.lblUpperLimit.Size = new System.Drawing.Size(80, 13);
+            this.lblUpperLimit.TabIndex = 0;
+            this.lblUpperLimit.Text = "Upper Limit [°C]";
+            // 
+            // lblLowerLimit
+            // 
+            this.lblLowerLimit.AutoSize = true;
+            this.lblLowerLimit.Location = new System.Drawing.Point(28, 77);
+            this.lblLowerLimit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLowerLimit.Name = "lblLowerLimit";
+            this.lblLowerLimit.Size = new System.Drawing.Size(80, 13);
+            this.lblLowerLimit.TabIndex = 1;
+            this.lblLowerLimit.Text = "Lower Limit [°C]";
             // 
             // chkRunFilter
             // 
             this.chkRunFilter.AutoSize = true;
-            this.chkRunFilter.Location = new System.Drawing.Point(20, 155);
+            this.chkRunFilter.Location = new System.Drawing.Point(31, 194);
             this.chkRunFilter.Margin = new System.Windows.Forms.Padding(2);
             this.chkRunFilter.Name = "chkRunFilter";
             this.chkRunFilter.Size = new System.Drawing.Size(68, 17);
@@ -482,78 +791,49 @@ namespace DataloggingSystem
             this.chkRunFilter.UseVisualStyleBackColor = true;
             this.chkRunFilter.CheckedChanged += new System.EventHandler(this.chkRunFilter_CheckedChanged);
             // 
-            // txtUpperLimit
+            // label3
             // 
-            this.txtUpperLimit.Location = new System.Drawing.Point(20, 32);
-            this.txtUpperLimit.Margin = new System.Windows.Forms.Padding(2);
-            this.txtUpperLimit.Name = "txtUpperLimit";
-            this.txtUpperLimit.Size = new System.Drawing.Size(76, 20);
-            this.txtUpperLimit.TabIndex = 5;
-            this.txtUpperLimit.TextChanged += new System.EventHandler(this.txtUpperLimit_TextChanged);
-            // 
-            // txtAlpha
-            // 
-            this.txtAlpha.Location = new System.Drawing.Point(20, 117);
-            this.txtAlpha.Margin = new System.Windows.Forms.Padding(2);
-            this.txtAlpha.Name = "txtAlpha";
-            this.txtAlpha.Size = new System.Drawing.Size(76, 20);
-            this.txtAlpha.TabIndex = 4;
-            this.txtAlpha.TextChanged += new System.EventHandler(this.txtAlpha_TextChanged);
-            // 
-            // txtLowerLimit
-            // 
-            this.txtLowerLimit.Location = new System.Drawing.Point(20, 74);
-            this.txtLowerLimit.Margin = new System.Windows.Forms.Padding(2);
-            this.txtLowerLimit.Name = "txtLowerLimit";
-            this.txtLowerLimit.Size = new System.Drawing.Size(76, 20);
-            this.txtLowerLimit.TabIndex = 3;
-            this.txtLowerLimit.TextChanged += new System.EventHandler(this.txtLowerLimit_TextChanged);
-            // 
-            // lblAlpha
-            // 
-            this.lblAlpha.AutoSize = true;
-            this.lblAlpha.Location = new System.Drawing.Point(18, 102);
-            this.lblAlpha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblAlpha.Name = "lblAlpha";
-            this.lblAlpha.Size = new System.Drawing.Size(34, 13);
-            this.lblAlpha.TabIndex = 2;
-            this.lblAlpha.Text = "Alpha";
-            // 
-            // lblLowerLimit
-            // 
-            this.lblLowerLimit.AutoSize = true;
-            this.lblLowerLimit.Location = new System.Drawing.Point(18, 59);
-            this.lblLowerLimit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblLowerLimit.Name = "lblLowerLimit";
-            this.lblLowerLimit.Size = new System.Drawing.Size(60, 13);
-            this.lblLowerLimit.TabIndex = 1;
-            this.lblLowerLimit.Text = "Lower Limit";
-            // 
-            // lblUpperLimit
-            // 
-            this.lblUpperLimit.AutoSize = true;
-            this.lblUpperLimit.Location = new System.Drawing.Point(18, 16);
-            this.lblUpperLimit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblUpperLimit.Name = "lblUpperLimit";
-            this.lblUpperLimit.Size = new System.Drawing.Size(60, 13);
-            this.lblUpperLimit.TabIndex = 0;
-            this.lblUpperLimit.Text = "Upper Limit";
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Location = new System.Drawing.Point(22, 327);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(567, 91);
+            this.label3.TabIndex = 7;
+            this.label3.Text = resources.GetString("label3.Text");
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label4
+            // lbl
             // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(302, 99);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(477, 13);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "The clear database buttons empties all the content of the TAGDATA table in the SC" +
-    "ADA database. ";
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(295, 17);
+            this.lbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(104, 13);
+            this.lbl.TabIndex = 13;
+            this.lbl.Text = "Current setpoint [°C]:";
+            // 
+            // txtCurrentSetpoint
+            // 
+            this.txtCurrentSetpoint.Enabled = false;
+            this.txtCurrentSetpoint.Location = new System.Drawing.Point(414, 14);
+            this.txtCurrentSetpoint.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCurrentSetpoint.Name = "txtCurrentSetpoint";
+            this.txtCurrentSetpoint.Size = new System.Drawing.Size(131, 20);
+            this.txtCurrentSetpoint.TabIndex = 12;
+            // 
+            // btnSaveHistory
+            // 
+            this.btnSaveHistory.Location = new System.Drawing.Point(827, 360);
+            this.btnSaveHistory.Name = "btnSaveHistory";
+            this.btnSaveHistory.Size = new System.Drawing.Size(100, 37);
+            this.btnSaveHistory.TabIndex = 14;
+            this.btnSaveHistory.Text = "Save history to file";
+            this.btnSaveHistory.UseVisualStyleBackColor = true;
+            this.btnSaveHistory.Click += new System.EventHandler(this.btnSaveHistory_Click);
             // 
             // Form1
             // 
@@ -579,6 +859,18 @@ namespace DataloggingSystem
             ((System.ComponentModel.ISupportInitialize)(this.numInterval)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.grpOtherTags.ResumeLayout(false);
+            this.grpOtherTags.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimRandomNumber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimIoError)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimulatedPV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimControlSignal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSimSetpoint)).EndInit();
+            this.grpProcessVariable.ResumeLayout(false);
+            this.grpProcessVariable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numAlpha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLowerLimit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpperLimit)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -594,10 +886,7 @@ namespace DataloggingSystem
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCurrent;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.TextBox txtUpperLimit;
-        private System.Windows.Forms.TextBox txtAlpha;
-        private System.Windows.Forms.TextBox txtLowerLimit;
-        private System.Windows.Forms.Label lblAlpha;
+        private System.Windows.Forms.Label lblSetpoint;
         private System.Windows.Forms.Label lblLowerLimit;
         private System.Windows.Forms.Label lblUpperLimit;
         private System.Windows.Forms.DataGridView dataGridView;
@@ -612,23 +901,52 @@ namespace DataloggingSystem
         private System.Windows.Forms.Label lblInterval;
         private System.Windows.Forms.CheckBox chkRunSimulator;
         private System.Windows.Forms.NumericUpDown numInterval;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label lblCurrTemp;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtServerEndpoint;
         private System.Windows.Forms.Label lblMode;
         private System.Windows.Forms.TextBox txtMode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblTagQuality;
-        private System.Windows.Forms.TextBox txtTagQuality;
-        private System.Windows.Forms.Label lblTagStatus;
-        private System.Windows.Forms.TextBox txtTagStatus;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.GroupBox grpOtherTags;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numSimSetpoint;
+        private System.Windows.Forms.GroupBox grpProcessVariable;
+        private System.Windows.Forms.NumericUpDown numSimRandomNumber;
+        private System.Windows.Forms.NumericUpDown numSimIoError;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numSimControlSignal;
+        private System.Windows.Forms.Label lblRandomNumber;
+        private System.Windows.Forms.Label lblIoError;
+        private System.Windows.Forms.Label lblControlValue;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numSimulatedPV;
+        private System.Windows.Forms.Label lblSimValue;
+        private System.Windows.Forms.Label lblRandomNumberStatus;
+        private System.Windows.Forms.TextBox txtRandomNumberStatus;
+        private System.Windows.Forms.Label lblIoErrorStatus;
+        private System.Windows.Forms.TextBox txtIOStatus;
+        private System.Windows.Forms.Label lblSimulatedProcessVariable;
+        private System.Windows.Forms.TextBox txtSimPVStatus;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtControlSignalStatus;
+        private System.Windows.Forms.Label lblSetpointStatus;
+        private System.Windows.Forms.TextBox txtSetpointStatus;
+        private System.Windows.Forms.Label lblPVStatus;
+        private System.Windows.Forms.TextBox txtPVStatus;
+        private System.Windows.Forms.Label lblAlpha;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numAlpha;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numLowerLimit;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numUpperLimit;
+        private System.Windows.Forms.Label lbl;
+        private System.Windows.Forms.TextBox txtCurrentSetpoint;
+        private System.Windows.Forms.Button btnSaveHistory;
     }
 }
 
