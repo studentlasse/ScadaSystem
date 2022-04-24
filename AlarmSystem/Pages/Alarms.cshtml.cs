@@ -7,12 +7,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace AlarmSystem.Pages
 {
-    public class IndexModel : PageModel
+    public class AlarmsModel : PageModel
     {
         readonly IConfiguration _configuration;
         public string connectionString;
 
-        public IndexModel(IConfiguration configuration)
+        public Alarm alarmData = new Alarm();
+        public List<Alarm> alarmList = new List<Alarm>();
+
+
+        public AlarmsModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -20,6 +24,10 @@ namespace AlarmSystem.Pages
         {
             connectionString = _configuration.GetConnectionString("ConnectionString");
 
+            int alarmId = Convert.ToInt32(Request.Query["AlarmId"]);
+
+            Alarm alarm = new Alarm();
+            alarmList = alarm.GetAlarmList(connectionString);
         }
     }
 }

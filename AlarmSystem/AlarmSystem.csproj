@@ -4,4 +4,16 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".SQL\Inser_test_data.sql" />
+    <None Include=".SQL\remove_tables.sql" />
+    <None Include=".SQL\SCADA.sql" />
+    <None Include=".SQL\VIEW_GetAlarmConfigurations.sql" />
+    <None Include=".SQL\VIEW_GetAlarms.sql" />
+  </ItemGroup>
+
 </Project>

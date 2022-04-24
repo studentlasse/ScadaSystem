@@ -1,0 +1,44 @@
+﻿@page
+@model AlarmsModel
+@{
+    ViewData["Title"] = "Alarms";
+}
+<h1>@ViewData["Title"]</h1>
+
+<script>
+    function AcknowledgeAlarm() {
+        var acknowledgeId = @Model.alarmData.AcknowledgeId;
+
+    }
+</script>
+
+<div class="text-center">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Alarm Id</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Time Stamp</th>
+            <th>Value</th>
+            <th>Status (acknowledged)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarm in Model.alarmList)
+        {
+            <tr>
+                <td>@alarm.AlarmId</td>
+                <td>@alarm.AlarmName</td>
+                <td>@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+                <td>@alarm.AlarmAcknowledged</td>
+                <td><input type="button" value="Acknowledge" onclick="javascript:AcknowledgeAlarm()" class="btn btn-info"/></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>
+

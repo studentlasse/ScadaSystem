@@ -1,0 +1,45 @@
+﻿@page
+@model AlarmSystem.Pages.EditAlarmConfigurationModel
+@{
+    ViewData["Title"] = "Edit Alarm Configuration";
+}
+
+<div>
+    <h1>Edit Alarm Configuration</h1>
+    <form name="alarmConfigurationForm" id="alarmConfigurationForm" method="post">
+
+        <input name="alarmConfigurationId" type="text" value="@Model.alarmDb.AlarmConfigId" hidden/>
+
+        Name:
+        <br />
+        <input name="alarmName" type="text" value="@Model.alarmDb.AlarmName" class="form-control input-lg" autofocus required />
+        <br />
+
+        Description:
+        <br />
+        <input name="alarmDescription" type="text" value="@Model.alarmDb.AlarmDescription" class="form-control input-lg" required />
+        <br />
+
+        Alarm Level:
+        <br />
+        <input name="alarmLevel" type="text" value="@Model.alarmDb.AlarmLevel" class="form-control input-lg" required />
+        <br />
+
+        Tag Name (source):
+        <br />
+        <input name="tagName" type="text" value="@Model.alarmDb.TagName" class="form-control input-lg" required />
+        <br />
+
+        Lower alarm limit:
+        <br />
+        <input name="lowerLimit" type="text" value="@Model.alarmDb.LowerLimit" class="form-control input-lg" required />
+        <br />
+
+        Upper alarm limit:
+        <br />
+        <input name="upperLimit" type="text" value="@Model.alarmDb.UpperLimit" class="form-control input-lg" required />
+        <br />
+
+        <input id="saveButton" type="submit" value="Save" class="btn btn-info" />
+    </form>
+</div>
