@@ -54,7 +54,7 @@ namespace AlarmSystem.Model
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "SELECT * from GetAlarms WHERE AckStatus=0";
+            string sqlQuery = "SELECT * from GetAlarms WHERE AckStatus=0 order by AlarmTimeStamp DESC";
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
