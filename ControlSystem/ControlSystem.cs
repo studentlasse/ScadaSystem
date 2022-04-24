@@ -24,10 +24,8 @@ namespace Simulation
         string tagSetpoint = ConfigurationManager.AppSettings["tagSetpoint"];
         string tagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
         string tagConnectedRandomNumbers = ConfigurationManager.AppSettings["tagConnectedRandomNumbers"];
-        string tagIOError = ConfigurationManager.AppSettings["tagIOError"];
 
-        bool useDaq = true;
-        string IOStatus = "Ok";
+        bool useDaq = false;
         Daq daq;
 
         Filter filter;
@@ -86,12 +84,10 @@ namespace Simulation
             {
                 scaling = new Scaling(0, 5, 20, 50);
                 daq = new Daq();
-                if (!daq.IoDeviceOk) IOStatus = "DeviceError";
             }
             else
             {
                 txtRealProcessValue.Text = "No data";
-                IOStatus = "IO-OFF";
             }
         }
 
@@ -137,10 +133,6 @@ namespace Simulation
             if (useDaq)
             {
                 realProcessValue = daq.ReadData();
-                if (realProcessValue == -1)
-                {
-                    IOStatus = "ReadError";
-                }
                 realProcessValue = filter.LowPassFilter(realProcessValue);
             }
         }
@@ -180,11 +172,7 @@ namespace Simulation
         {
             if (useDaq)
             {
-                bool writeOk = daq.WriteData(controlValue);
-                if (!writeOk)
-                {
-                    IOStatus = "WriteError";
-                }
+                daq.WriteData(controlValue);
             }
         }
 
@@ -199,13 +187,12 @@ namespace Simulation
         {
             try
             {
-                if (useDaq) client.WriteNode(tagRealProcessValue, Convert.ToDouble(realProcessValue));
+                client.WriteNode(tagRealProcessValue, Convert.ToDouble(realProcessValue));
                 client.WriteNode(tagSimProcessValue, Convert.ToDouble(simulatedProcessValue));
                 client.WriteNode(tagSetpoint, Convert.ToDouble(setpoint));
                 client.WriteNode(tagControlValue, Convert.ToDouble(controlValue));
 
                 client.WriteNode(tagConnectedRandomNumbers, RandomString(10));
-                client.WriteNode(tagIOError, IOStatus);
  
             }
             catch
