@@ -86,7 +86,24 @@ namespace AlarmSystem.Model
         
         public void EditAlarm(string connectionString, Alarm alarm)
         {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("UpdateAlarmConfiguration", con);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                    cmd.Parameters.Add(new SqlParameter("@AlarmConfigurationId", alarm.AlarmConfigId));
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
