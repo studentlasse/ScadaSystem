@@ -14,10 +14,9 @@ go
 CREATE TABLE TAGDATA
 ( 
 	TagDataId            integer  IDENTITY ( 1,1 )  NOT NULL ,
-	TagValue             float  NULL ,
+	TagValue             varchar(50)  NULL ,
 	TagTimestamp         datetime  NULL ,
 	TagStatus            varchar(20)  NULL ,
-	TagQuality           varchar(20)  NULL ,
 	TagId                integer  NULL ,
 	PRIMARY KEY  CLUSTERED (TagDataId ASC),
 	 FOREIGN KEY (TagId) REFERENCES TAGCONFIGURATION(TagId)
