@@ -13,6 +13,7 @@ namespace AlarmSystem.Pages
 
         //public AlarmConfiguration alarmConfigurationData = new AlarmConfiguration();
         public List<AlarmConfiguration> alarmConfigurations = new List<AlarmConfiguration>();
+        public List<Alarm> alarms = new List<Alarm>();
 
         public AlarmConfigurationModel(IConfiguration configuration)
         {
@@ -21,6 +22,7 @@ namespace AlarmSystem.Pages
         public void OnGet()
         {
             alarmConfigurations = GetAlarmConfigurationList();
+            alarms = GetAlarmList();
         }
 
         private List<AlarmConfiguration> GetAlarmConfigurationList()
@@ -32,6 +34,16 @@ namespace AlarmSystem.Pages
             alarmConfigurationList = alarmConfiguration.GetAlarmConfigList(connectionString);
 
             return alarmConfigurationList;
+        }
+
+        private List<Alarm> GetAlarmList()
+        {
+            connectionString = _configuration.GetConnectionString("ConnectionString");
+
+            List<Alarm> alarmList = new List<Alarm>();
+            Alarm alarm = new Alarm();
+            alarmList = alarm.GetAlarmList(connectionString);
+            return alarmList;
         }
     }
 }

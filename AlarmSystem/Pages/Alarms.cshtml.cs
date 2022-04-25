@@ -12,8 +12,7 @@ namespace AlarmSystem.Pages
         readonly IConfiguration _configuration;
         public string connectionString;
 
-        public Alarm alarmData = new Alarm();
-        public List<Alarm> alarmList = new List<Alarm>();
+        public List<Alarm> alarms = new List<Alarm>();
 
 
         public AlarmsModel(IConfiguration configuration)
@@ -22,12 +21,17 @@ namespace AlarmSystem.Pages
         }
         public void OnGet()
         {
+            alarms = GetAlarmList();
+        }
+
+        private List<Alarm> GetAlarmList()
+        {
             connectionString = _configuration.GetConnectionString("ConnectionString");
 
-            int alarmId = Convert.ToInt32(Request.Query["AlarmId"]);
-
+            List<Alarm> alarmList = new List<Alarm>();
             Alarm alarm = new Alarm();
             alarmList = alarm.GetAlarmList(connectionString);
+            return alarmList;
         }
 
         /*public void OnPost()
