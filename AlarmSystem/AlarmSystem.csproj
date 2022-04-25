@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include=".SQL\TRIGGER_LowTemp1.txt" />
+    <Content Include=".SQL\TRIGGER_LowTemp2.txt" />
+    <Content Include=".SQL\TRIGGER_LowTemp3.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
   </ItemGroup>
 
@@ -20,6 +26,8 @@
     <None Include=".SQL\SCADA.sql" />
     <None Include=".SQL\TRIGGER_AddAckTimeStamp.sql" />
     <None Include=".SQL\TRIGGER_IOAlarm.sql" />
+    <None Include=".SQL\TRIGGER_IOAlarm.sql" />
+    <None Include=".SQL\TRIGGER_SystemAlarm.sql" />
     <None Include=".SQL\TRIGGER_TriggerAlarm.sql" />
     <None Include=".SQL\TRIGGER_TriggerAlarm2.sql" />
     <None Include=".SQL\TRIGGER_TriggerAlarm3.sql" />

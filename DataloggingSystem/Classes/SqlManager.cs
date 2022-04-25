@@ -10,14 +10,11 @@ namespace DataloggingSystem.Classes
 {
     class SqlManager
     {
-        public string TagName { get; set; }
-
         public SqlManager()
         {
-            TagName = "OPC Server";
         }
 
-        public void StoreSensorData(float measurement, string tagStatus, string tagQuality)
+        public void StoreSensorData(float value, string tagName, string tagStatus)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString;
 
@@ -30,10 +27,9 @@ namespace DataloggingSystem.Classes
                 SqlCommand cmd = new SqlCommand("SaveTagData", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                cmd.Parameters.Add(new SqlParameter("@TagName", TagName));
-                cmd.Parameters.Add(new SqlParameter("@TagValue", measurement));
+                cmd.Parameters.Add(new SqlParameter("@TagName", tagName));
+                cmd.Parameters.Add(new SqlParameter("@TagValue", value));
                 cmd.Parameters.Add(new SqlParameter("@TagStatus", tagStatus));
-                cmd.Parameters.Add(new SqlParameter("@TagQuality", tagQuality));
 
                 cmd.ExecuteNonQuery();
 

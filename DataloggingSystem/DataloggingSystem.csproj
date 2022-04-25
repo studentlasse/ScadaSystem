@@ -184,6 +184,7 @@
     <Compile Include="Classes\SqlManager.cs" />
     <Compile Include="Classes\Simulator.cs" />
     <Compile Include="Classes\Statistics.cs" />
+    <Compile Include="Classes\Tag.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

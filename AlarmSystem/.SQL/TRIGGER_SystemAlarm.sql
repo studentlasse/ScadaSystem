@@ -1,8 +1,8 @@
-IF EXISTS (SELECT name FROM sysobjects WHERE name='TriggerAlarmIO' AND type='TR')
-DROP TRIGGER TriggerAlarmIO
+﻿IF EXISTS (SELECT name FROM sysobjects WHERE name='TriggerAlarmSystem' AND type='TR')
+DROP TRIGGER TriggerAlarmSystem
 GO
 
-CREATE TRIGGER TriggerAlarmIO ON TAGDATA
+CREATE TRIGGER TriggerAlarmSystem ON TAGDATA
 FOR UPDATE, INSERT, DELETE
 AS
 
@@ -14,12 +14,12 @@ DECLARE
 select @TagId = TagId from INSERTED
 select @TagValue = TagValue from INSERTED
 
-IF(@TagId = 1 and @TagValue < 0)
+IF(@TagValue < 0 AND @TagId = 5)
 	INSERT INTO ALARM(AlarmTimeStamp, Value, AcknowledgeId, AlarmConfigurationId)
 	VALUES(
 	CURRENT_TIMESTAMP,
 	@TagValue,
 	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
-	4
+	9
 	)
 GO
