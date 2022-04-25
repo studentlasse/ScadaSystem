@@ -7,20 +7,20 @@ DELETE FROM TAGCONFIGURATION;
 DELETE FROM TAGDATA;
 
 -- Updating the ALARMLEVEL table
-INSERT INTO ALARMLEVEL(AlarmLevel, AlarmDescription) VALUES ('1', 'Lowest');
-INSERT INTO ALARMLEVEL(AlarmLevel, AlarmDescription) VALUES ('2', 'Medium');
-INSERT INTO ALARMLEVEL(AlarmLevel, AlarmDescription) VALUES ('3', 'Highest');
+INSERT INTO ALARMLEVEL(AlarmLevel, AlarmLevelDescription) VALUES ('1', 'Lowest');
+INSERT INTO ALARMLEVEL(AlarmLevel, AlarmLevelDescription) VALUES ('2', 'Medium');
+INSERT INTO ALARMLEVEL(AlarmLevel, AlarmLevelDescription) VALUES ('3', 'Highest');
 
 -- Updating the TAGCONFIGURATION table
 INSERT INTO TAGCONFIGURATION(TagName, ItemId, ItemUrl, TagDescription, TagUnit) VALUES ('OPC Server', '1', 'localhost', 'Data source, opc server', 'Celsius');
 
 -- Updating the TAGDATA table
 Declare @TagId int
-SELECT @TagId = TagId FROM TAGCONFIGURATION WHERE TagName = 'OPC Server';
-INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('42', CURRENT_TIMESTAMP, 'status', 'quality', @TagId);
-INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('47', CURRENT_TIMESTAMP, 'status2', 'quality2', @TagId);
-INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('54', CURRENT_TIMESTAMP, 'status3', 'quality3', @TagId);
-INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('63', CURRENT_TIMESTAMP, 'status4', 'quality4', @TagId);
+--SELECT @TagId = TagId FROM TAGCONFIGURATION WHERE TagName = 'OPC Server';
+--INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('42', CURRENT_TIMESTAMP, 'status', 'quality', @TagId);
+--INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('47', CURRENT_TIMESTAMP, 'status2', 'quality2', @TagId);
+--INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('54', CURRENT_TIMESTAMP, 'status3', 'quality3', @TagId);
+--INSERT INTO TAGDATA(TagValue, TagTimestamp, TagStatus, TagQuality, TagDataId) VALUES ('63', CURRENT_TIMESTAMP, 'status4', 'quality4', @TagId);
 
 -- Updating The PERSON table
 INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername) VALUES ('Henrik', 'Engineer', '251247');
@@ -55,13 +55,3 @@ INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, Value) VA
 Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE AlarmName='Alarm';
 INSERT INTO ALARM(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, '63');
 
--- Updating the ALARMHISTORY table
-Select @AcknowledgeId = AcknowledgeId FROM ACKNOWLEDGE WHERE AckStatus='1';
-
-Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE AlarmName='Notification';
-INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '41');
-INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '43');
-Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE AlarmName='Warning';
-INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '56');
-Select @AlarmConfigurationId = AlarmConfigurationId FROM ALARMCONFIGURATION WHERE AlarmName='Alarm';
-INSERT INTO ALARMHISTORY(AlarmConfigurationId, AcknowledgeId, AlarmTimeStamp, AckTimeStamp, Value) VALUES (@AlarmConfigurationId, @AcknowledgeId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '61');

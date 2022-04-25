@@ -6,9 +6,18 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="alert alert-info alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
+<div>
+    @foreach(var alarm in Model.alarms)
+    {
+        @if(@alarm.AlarmAcknowledged == false)
+        {
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
+        </div>
+        break;
+        }
+    }
 </div>
 
 <div class="text-center">
