@@ -7,5 +7,5 @@ CREATE PROCEDURE AcknowledgeAlarm
 AS
 
 update ALARM SET 
-AcknowledgeId = 2
+AcknowledgeId = 4
 where AlarmId = @AlarmId

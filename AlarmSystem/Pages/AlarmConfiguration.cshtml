@@ -7,12 +7,13 @@
 <div>
     @foreach(var alarm in Model.alarms)
     {
-        @if(@alarm.AlarmAcknowledged == 1)
+        @if(@alarm.AlarmAcknowledged == false)
         {
-        <div class="alert alert-info alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
         </div>
+        break;
         }
     }
 </div>

@@ -14,11 +14,35 @@ go
 CREATE TABLE TAGDATA
 ( 
 	TagDataId            integer  IDENTITY ( 1,1 )  NOT NULL ,
-	TagValue             varchar(50)  NULL ,
+	TagValue             float  NULL ,
 	TagTimestamp         datetime  NULL ,
 	TagStatus            varchar(20)  NULL ,
 	TagId                integer  NULL ,
 	PRIMARY KEY  CLUSTERED (TagDataId ASC),
+	 FOREIGN KEY (TagId) REFERENCES TAGCONFIGURATION(TagId)
+)
+go
+
+CREATE TABLE ALARMLEVEL
+( 
+	AlarmLevelId         integer  IDENTITY ( 1,1 )  NOT NULL ,
+	AlarmLevel           varchar(50)  NULL ,
+	AlarmLevelDescription varchar(100)  NULL ,
+	PRIMARY KEY  CLUSTERED (AlarmLevelId ASC)
+)
+go
+
+CREATE TABLE ALARMCONFIGURATION
+( 
+	AlarmConfigurationId integer  IDENTITY ( 1,1 )  NOT NULL ,
+	AlarmDescription     varchar(100)  NULL ,
+	AlarmName            varchar(50)  NULL ,
+	AlarmLevelId         integer  NULL ,
+	AlarmUpperLimit      float  NULL ,
+	TagId                integer  NULL ,
+	AlarmLowerLimit      float  NULL ,
+	PRIMARY KEY  CLUSTERED (AlarmConfigurationId ASC),
+	 FOREIGN KEY (AlarmLevelId) REFERENCES ALARMLEVEL(AlarmLevelId),
 	 FOREIGN KEY (TagId) REFERENCES TAGCONFIGURATION(TagId)
 )
 go
@@ -44,44 +68,6 @@ CREATE TABLE ACKNOWLEDGE
 )
 go
 
-CREATE TABLE ALARMLEVEL
-( 
-	AlarmLevelId         integer  IDENTITY ( 1,1 )  NOT NULL ,
-	AlarmLevel           varchar(50)  NULL ,
-	AlarmDescription     varchar(100)  NULL ,
-	PRIMARY KEY  CLUSTERED (AlarmLevelId ASC)
-)
-go
-
-CREATE TABLE ALARMCONFIGURATION
-( 
-	AlarmConfigurationId integer  IDENTITY ( 1,1 )  NOT NULL ,
-	AlarmDescription     varchar(100)  NULL ,
-	AlarmName            varchar(50)  NULL ,
-	AlarmLevelId         integer  NULL ,
-	AlarmUpperLimit      float  NULL ,
-	TagId                integer  NULL ,
-	AlarmLowerLimit      float  NULL ,
-	PRIMARY KEY  CLUSTERED (AlarmConfigurationId ASC),
-	 FOREIGN KEY (AlarmLevelId) REFERENCES ALARMLEVEL(AlarmLevelId),
-	 FOREIGN KEY (TagId) REFERENCES TAGCONFIGURATION(TagId)
-)
-go
-
-CREATE TABLE ALARMHISTORY
-( 
-	AlarmHistoryId       integer  IDENTITY ( 1,1 )  NOT NULL ,
-	AlarmConfigurationId integer  NULL ,
-	AcknowledgeId        integer  NULL ,
-	AlarmTimeStamp       datetime  NULL ,
-	AckTimeStamp         datetime  NULL ,
-	Value                float  NULL ,
-	PRIMARY KEY  CLUSTERED (AlarmHistoryId ASC),
-	 FOREIGN KEY (AcknowledgeId) REFERENCES ACKNOWLEDGE(AcknowledgeId),
-	 FOREIGN KEY (AlarmConfigurationId) REFERENCES ALARMCONFIGURATION(AlarmConfigurationId)
-)
-go
-
 CREATE TABLE ALARM
 ( 
 	AlarmId              integer  IDENTITY ( 1,1 )  NOT NULL ,
@@ -89,6 +75,7 @@ CREATE TABLE ALARM
 	AlarmConfigurationId integer  NULL ,
 	AlarmTimeStamp       datetime  NULL ,
 	Value                float  NULL ,
+	AckTimeStamp         datetime  NULL ,
 	PRIMARY KEY  CLUSTERED (AlarmId ASC),
 	 FOREIGN KEY (AlarmConfigurationId) REFERENCES ALARMCONFIGURATION(AlarmConfigurationId),
 	 FOREIGN KEY (AcknowledgeId) REFERENCES ACKNOWLEDGE(AcknowledgeId)

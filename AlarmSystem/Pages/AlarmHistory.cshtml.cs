@@ -13,6 +13,7 @@ namespace AlarmSystem.Pages
 
         public Alarm alarmHistoryData = new Alarm();
         public List<Alarm> alarmHistoryList = new List<Alarm>();
+        public List<Alarm> alarms = new List<Alarm>();
 
         public AlarmHistoryModel(IConfiguration configuration)
         {
@@ -20,9 +21,28 @@ namespace AlarmSystem.Pages
         }
         public void OnGet()
         {
+            alarmHistoryList = GetHistoryAlarmList();
+            alarms = GetAlarmList();
+        }
+
+        private List<Alarm> GetAlarmList()
+        {
             connectionString = _configuration.GetConnectionString("ConnectionString");
+
+            List<Alarm> alarmList = new List<Alarm>();
             Alarm alarm = new Alarm();
-            alarmHistoryList = alarm.GetAlarmHistoryList(connectionString);
+            alarmList = alarm.GetAlarmList(connectionString);
+            return alarmList;
+        }
+
+        private List<Alarm> GetHistoryAlarmList()
+        {
+            connectionString = _configuration.GetConnectionString("ConnectionString");
+
+            List<Alarm> alarmList = new List<Alarm>();
+            Alarm alarm = new Alarm();
+            alarmList = alarm.GetAlarmHistoryList(connectionString);
+            return alarmList;
         }
     }
 }
