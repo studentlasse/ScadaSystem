@@ -61,8 +61,6 @@ namespace AlarmSystem.Model
 
             SqlDataReader dr = cmd.ExecuteReader();
 
-            // TODO5: E-Post varsling evt. annen type varsling. 
-
             if (dr != null)
             {
                 while (dr.Read())
@@ -96,8 +94,6 @@ namespace AlarmSystem.Model
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
             SqlDataReader dr = cmd.ExecuteReader();
-
-            // TODO5: E-Post varsling evt. annen type varsling. 
 
             if (dr != null)
             {
