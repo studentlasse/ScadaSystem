@@ -9,10 +9,26 @@
     {
         @if(@alarm.AlarmAcknowledged == false)
         {
+            @if(@alarm.AlarmLevel == "Notification")
+            {
             <div class="alert alert-info alert-dismissible">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
-        </div>
+                <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } 
+            else if(@alarm.AlarmLevel == "Warning")
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new warnings on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new alarms on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
         break;
         }
     }
@@ -47,5 +63,5 @@
         }
     </tbody>
 </table>
-<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>
+<!--<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>-->
 </div>
