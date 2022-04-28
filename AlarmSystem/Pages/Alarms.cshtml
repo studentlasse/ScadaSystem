@@ -9,11 +9,11 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Alarm Id</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Time Stamp</th>
-            <th>Value</th>
+            <th class="text-nowrap">Alarm Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Time Stamp</th>
+            <th class="text-nowrap">Value</th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +23,8 @@
                 {
                 <tr class="table-warning">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a>        
@@ -35,8 +35,8 @@
                 {
                 <tr class="table-danger">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
@@ -46,8 +46,8 @@
                 {
                 <tr class="table-info">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>

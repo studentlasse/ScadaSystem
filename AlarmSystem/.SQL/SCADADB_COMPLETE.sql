@@ -124,9 +124,11 @@ ALARMCONFIGURATION.AlarmName,
 ALARMCONFIGURATION.AlarmDescription,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
-ALARM.AckTimeStamp
+ALARM.AckTimeStamp,
+ALARMLEVEL.AlarmLevel
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
+INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
 go
 ---------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'GetAlarms' AND type = 'V')
@@ -511,7 +513,7 @@ INSERT INTO ALARMLEVEL(AlarmLevel, AlarmLevelDescription) VALUES ('Alarm', 'High
 -- Updating the ALARMCONFIGURATION table
 -- High temperatures
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Warning';
-INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Temperature warning', 'Temperature is approaching high values!', @AlarmLevelId, 1, '50','30');
+INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Temperature warning', 'Temperature is approaching high values!', @AlarmLevelId, 1, '50','35');
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Alarm';
 INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Temperature alarm', 'Temperature is too high!', @AlarmLevelId, 1, '100','51');
 
