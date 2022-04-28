@@ -20,7 +20,7 @@ namespace Simulation.Models
             try
             {
                 analogInChannel = analogInTask.AIChannels.CreateVoltageChannel(
-                    "dev1/ai0",
+                    "dev3/ai0",
                     "AnalogInChannel",
                     AITerminalConfiguration.Differential,
                     0,
@@ -29,7 +29,7 @@ namespace Simulation.Models
                     );
 
                 analogOutChannel = analogOutTask.AOChannels.CreateVoltageChannel(
-                    "dev1/ao0",
+                    "dev3/ao0",
                         "AnalogOutChannel",
                         0,
                         5,
@@ -72,7 +72,6 @@ namespace Simulation.Models
             }
             catch
             {
-
             }
 
             return writeOk;
