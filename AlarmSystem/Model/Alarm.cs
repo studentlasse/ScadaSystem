@@ -12,6 +12,7 @@ namespace AlarmSystem.Model
         public int AlarmConfigId { get; set; }
         public int AcknowledgeId { get; set; }
         public double Value { get; set; }
+        public string AlarmLevel { get; set; }
 
         public string AlarmName { get; set; }
         public string AlarmDescription { get; set; }
@@ -73,6 +74,7 @@ namespace AlarmSystem.Model
                     alarm.AlarmName = dr["AlarmName"].ToString();
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
+                    alarm.AlarmLevel = dr["AlarmLevel"].ToString();
 
                     alarmList.Add(alarm);
                 }

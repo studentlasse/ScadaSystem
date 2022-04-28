@@ -14,13 +14,12 @@
             <th>Description</th>
             <th>Time Stamp</th>
             <th>Value</th>
-            <th>Status (acknowledged)</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var alarm in Model.alarms)
         {
-                @if(@alarm.AlarmName == "Warning")
+                @if(@alarm.AlarmLevel == "Warning")
                 {
                 <tr class="table-warning">
                     <td>@alarm.AlarmId</td>
@@ -28,11 +27,11 @@
                     <td>@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
-                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a>        
+                    </td>
                 </tr>
                 }
-                else if(@alarm.AlarmName == "Alarm")
+                else if(@alarm.AlarmLevel == "Alarm")
                 {
                 <tr class="table-danger">
                     <td>@alarm.AlarmId</td>
@@ -40,7 +39,6 @@
                     <td>@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
                 </tr>   
                 }
@@ -52,11 +50,9 @@
                     <td>@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
                 </tr>   
                 }
-                
         }
     </tbody>
 </table>
