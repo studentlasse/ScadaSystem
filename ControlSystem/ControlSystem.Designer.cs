@@ -30,10 +30,9 @@ namespace Simulation
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.txtControlValue = new System.Windows.Forms.TextBox();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.txtSimProcessValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,7 +40,6 @@ namespace Simulation
             this.chartMeasurementData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtKp = new System.Windows.Forms.TextBox();
             this.txtTi = new System.Windows.Forms.TextBox();
-            this.txtR = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,31 +53,32 @@ namespace Simulation
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbUseDaq = new System.Windows.Forms.CheckBox();
+            this.txtIoStatus = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cbAuto = new System.Windows.Forms.CheckBox();
+            this.numControlValue = new System.Windows.Forms.NumericUpDown();
+            this.numR = new System.Windows.Forms.NumericUpDown();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtOPCServer = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chartMeasurementData)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numControlValue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numR)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // txtControlValue
-            // 
-            this.txtControlValue.Enabled = false;
-            this.txtControlValue.Location = new System.Drawing.Point(9, 183);
-            this.txtControlValue.Name = "txtControlValue";
-            this.txtControlValue.Size = new System.Drawing.Size(144, 20);
-            this.txtControlValue.TabIndex = 0;
-            // 
             // txtSimProcessValue
             // 
             this.txtSimProcessValue.Enabled = false;
-            this.txtSimProcessValue.Location = new System.Drawing.Point(9, 135);
+            this.txtSimProcessValue.Location = new System.Drawing.Point(9, 211);
             this.txtSimProcessValue.Name = "txtSimProcessValue";
             this.txtSimProcessValue.Size = new System.Drawing.Size(144, 20);
             this.txtSimProcessValue.TabIndex = 1;
@@ -87,7 +86,7 @@ namespace Simulation
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 167);
+            this.label1.Location = new System.Drawing.Point(6, 243);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 2;
@@ -96,7 +95,7 @@ namespace Simulation
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 119);
+            this.label2.Location = new System.Drawing.Point(6, 195);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(147, 13);
             this.label2.TabIndex = 3;
@@ -109,16 +108,16 @@ namespace Simulation
             // 
             // chartMeasurementData
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartMeasurementData.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartMeasurementData.Legends.Add(legend2);
+            chartArea4.Name = "ChartArea1";
+            this.chartMeasurementData.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartMeasurementData.Legends.Add(legend4);
             this.chartMeasurementData.Location = new System.Drawing.Point(6, 6);
             this.chartMeasurementData.Name = "chartMeasurementData";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartMeasurementData.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chartMeasurementData.Series.Add(series4);
             this.chartMeasurementData.Size = new System.Drawing.Size(663, 417);
             this.chartMeasurementData.TabIndex = 4;
             this.chartMeasurementData.Text = "chartMeasurementData";
@@ -138,14 +137,6 @@ namespace Simulation
             this.txtTi.Size = new System.Drawing.Size(100, 20);
             this.txtTi.TabIndex = 6;
             this.txtTi.TextChanged += new System.EventHandler(this.txtTi_TextChanged);
-            // 
-            // txtR
-            // 
-            this.txtR.Location = new System.Drawing.Point(9, 39);
-            this.txtR.Name = "txtR";
-            this.txtR.Size = new System.Drawing.Size(144, 20);
-            this.txtR.TabIndex = 7;
-            this.txtR.TextChanged += new System.EventHandler(this.txtR_TextChanged);
             // 
             // label3
             // 
@@ -168,7 +159,7 @@ namespace Simulation
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 23);
+            this.label5.Location = new System.Drawing.Point(6, 102);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 13);
             this.label5.TabIndex = 10;
@@ -177,7 +168,7 @@ namespace Simulation
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 71);
+            this.label6.Location = new System.Drawing.Point(6, 147);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(126, 13);
             this.label6.TabIndex = 11;
@@ -186,7 +177,7 @@ namespace Simulation
             // txtRealProcessValue
             // 
             this.txtRealProcessValue.Enabled = false;
-            this.txtRealProcessValue.Location = new System.Drawing.Point(9, 87);
+            this.txtRealProcessValue.Location = new System.Drawing.Point(9, 163);
             this.txtRealProcessValue.Name = "txtRealProcessValue";
             this.txtRealProcessValue.Size = new System.Drawing.Size(144, 20);
             this.txtRealProcessValue.TabIndex = 12;
@@ -264,20 +255,79 @@ namespace Simulation
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbUseDaq);
+            this.groupBox2.Controls.Add(this.txtIoStatus);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.cbAuto);
+            this.groupBox2.Controls.Add(this.numControlValue);
+            this.groupBox2.Controls.Add(this.numR);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.txtR);
-            this.groupBox2.Controls.Add(this.txtControlValue);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtSimProcessValue);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtRealProcessValue);
-            this.groupBox2.Location = new System.Drawing.Point(675, 68);
+            this.groupBox2.Location = new System.Drawing.Point(675, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(162, 255);
+            this.groupBox2.Size = new System.Drawing.Size(162, 346);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Control Data";
+            // 
+            // cbUseDaq
+            // 
+            this.cbUseDaq.AutoSize = true;
+            this.cbUseDaq.Location = new System.Drawing.Point(9, 65);
+            this.cbUseDaq.Name = "cbUseDaq";
+            this.cbUseDaq.Size = new System.Drawing.Size(68, 17);
+            this.cbUseDaq.TabIndex = 23;
+            this.cbUseDaq.Text = "Use Daq";
+            this.cbUseDaq.UseVisualStyleBackColor = true;
+            // 
+            // txtIoStatus
+            // 
+            this.txtIoStatus.Location = new System.Drawing.Point(9, 312);
+            this.txtIoStatus.Name = "txtIoStatus";
+            this.txtIoStatus.Size = new System.Drawing.Size(144, 20);
+            this.txtIoStatus.TabIndex = 22;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(9, 295);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(51, 13);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "IO Status";
+            // 
+            // cbAuto
+            // 
+            this.cbAuto.AutoSize = true;
+            this.cbAuto.Location = new System.Drawing.Point(9, 32);
+            this.cbAuto.Name = "cbAuto";
+            this.cbAuto.Size = new System.Drawing.Size(73, 17);
+            this.cbAuto.TabIndex = 20;
+            this.cbAuto.Text = "Automatic";
+            this.cbAuto.UseVisualStyleBackColor = true;
+            // 
+            // numControlValue
+            // 
+            this.numControlValue.DecimalPlaces = 2;
+            this.numControlValue.Enabled = false;
+            this.numControlValue.Location = new System.Drawing.Point(9, 259);
+            this.numControlValue.Name = "numControlValue";
+            this.numControlValue.Size = new System.Drawing.Size(144, 20);
+            this.numControlValue.TabIndex = 14;
+            this.numControlValue.ValueChanged += new System.EventHandler(this.numControlValue_ValueChanged);
+            // 
+            // numR
+            // 
+            this.numR.DecimalPlaces = 2;
+            this.numR.Location = new System.Drawing.Point(9, 118);
+            this.numR.Name = "numR";
+            this.numR.Size = new System.Drawing.Size(144, 20);
+            this.numR.TabIndex = 13;
+            this.numR.ValueChanged += new System.EventHandler(this.numR_ValueChanged);
             // 
             // tabPage2
             // 
@@ -290,6 +340,19 @@ namespace Simulation
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtOpcStatus);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.txtOPCServer);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Location = new System.Drawing.Point(20, 38);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(284, 134);
+            this.groupBox3.TabIndex = 18;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "OPC Server";
             // 
             // txtOPCServer
             // 
@@ -307,18 +370,9 @@ namespace Simulation
             this.label8.TabIndex = 16;
             this.label8.Text = "OPC Server Adress";
             // 
-            // groupBox3
+            // timer2
             // 
-            this.groupBox3.Controls.Add(this.txtOpcStatus);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.txtOPCServer);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Location = new System.Drawing.Point(20, 38);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(284, 134);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "OPC Server";
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // ControlSystem
             // 
@@ -338,6 +392,8 @@ namespace Simulation
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numControlValue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numR)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -346,8 +402,6 @@ namespace Simulation
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtControlValue;
         private System.Windows.Forms.TextBox txtSimProcessValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -355,7 +409,6 @@ namespace Simulation
         private System.Windows.Forms.DataVisualization.Charting.Chart chartMeasurementData;
         private System.Windows.Forms.TextBox txtKp;
         private System.Windows.Forms.TextBox txtTi;
-        private System.Windows.Forms.TextBox txtR;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -373,6 +426,13 @@ namespace Simulation
         private System.Windows.Forms.TextBox txtOPCServer;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown numR;
+        private System.Windows.Forms.CheckBox cbAuto;
+        private System.Windows.Forms.NumericUpDown numControlValue;
+        private System.Windows.Forms.TextBox txtIoStatus;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox cbUseDaq;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
