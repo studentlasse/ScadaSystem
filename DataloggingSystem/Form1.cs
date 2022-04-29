@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -19,6 +20,8 @@ namespace DataloggingSystem
         private OpcManager opcClient;
         private SqlManager sqlManager;
         private Statistics stat;
+
+        private string previousControlSystemVerification = "Random";
 
         // Store historic data
         private List<Tag> history = new List<Tag>();
@@ -65,18 +68,27 @@ namespace DataloggingSystem
             float simValue = (float)numSimulatedPV.Value;
             float setpoint = (float) numSimSetpoint.Value;
             float controlValue = (float) numSimControlSignal.Value;
-            float ioError = (float) numSimIoError.Value;
-            float randomNumber = (float)numSimRandomNumber.Value;
+            float controlSystemVerification = (float)numControlSystemOnline.Value;
+            float automatic = (float)numAutomatic.Value;
 
-            string newProcessValueStatus = txtPVStatus.Text;
-            string simValueStatus = txtSimPVStatus.Text;
-            string setpointStatus = txtSetpointStatus.Text;
-            string controlValueStatus = txtControlSignalStatus.Text;
-            string ioErrorStatus = txtIOStatus.Text;
-            string randomNumberStatus = txtRandomNumberStatus.Text;
+            string newProcessValueStatus = cbxPVStatus.Text;
+            string simValueStatus = cbxSimulatedPVStatus.Text;
+            string setpointStatus = cbxSetPointStatus.Text;
+            string controlValueStatus = cbxControlSignalStatus.Text;
+            string controlSystemVerificationStatus = cbxControlSystemOnlineStatus.Text;
+            string automaticStatus = cbxAutomaticStatus.Text;
+
+            /*
+            string tagProcessValue = ConfigurationManager.AppSettings["tagRealProcessValue"];
+            string tagSimProcessValue = ConfigurationManager.AppSettings["tagSimProcessValue"];
+            string tagSetpoint = ConfigurationManager.AppSettings["tagSetpoint"];
+            string tagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
+            string tagConnectedRandomNumbers = ConfigurationManager.AppSettings["tagConnectedRandomNumbers"];
+            string tagAutomatic = ConfigurationManager.AppSettings["tagAutomatic"];
+            */
 
             // Update history
-            Tag tag = new Tag(time, newProcessValue, simValue, setpoint, controlValue, ioError, randomNumber);
+            Tag tag = new Tag(time, newProcessValue, simValue, setpoint, controlValue, controlSystemVerification, automatic);
             history.Add(tag);
 
             // Update chart
@@ -84,32 +96,35 @@ namespace DataloggingSystem
             chartMeasurements.Series["Setpoint [°C]"].Points.AddXY(this.time, setpoint);
 
             // Update textbox
-            txtCurrent.Text = newProcessValue.ToString("#.##");
-            txtCurrentSetpoint.Text = setpoint.ToString("#.##");
+            txtCurrent.Text = newProcessValue.ToString("0.0");
+            txtCurrentSetpoint.Text = setpoint.ToString("0.0");
+            txtCurrentContolSignal.Text = controlValue.ToString("0.0");
 
             // Store data in database
             sqlManager.StoreSensorData(newProcessValue, "tagRealProcessValue", newProcessValueStatus);
             sqlManager.StoreSensorData(simValue, "tagSimProcessValue", simValueStatus);
             sqlManager.StoreSensorData(setpoint, "tagSetpoint", setpointStatus);
             sqlManager.StoreSensorData(controlValue, "tagControlValue", controlValueStatus);
-            sqlManager.StoreSensorData(ioError, "tagIOError", ioErrorStatus);
-            sqlManager.StoreSensorData(randomNumber, "tagConnectedRandomNumbers", randomNumberStatus);
+            sqlManager.StoreSensorData(controlSystemVerification, "tagControlSystemVerification", controlSystemVerificationStatus);
+            sqlManager.StoreSensorData(automatic, "tagAutomatic", automaticStatus);
 
             // Update statisticsdata
             stat.Update(newProcessValue);
-            txtAvg.Text = stat.Average.ToString("#.##");
-            txtMinMeasurement.Text = stat.Min.ToString("#.##");
-            txtMaxMeasurement.Text = stat.Max.ToString("#.##");
+            txtAvg.Text = stat.Average.ToString("0.0");
+            txtMinMeasurement.Text = stat.Min.ToString("0.0");
+            txtMaxMeasurement.Text = stat.Max.ToString("0.0");
 
             // Insert data into datagrid
             int index = dataGridView.Rows.Add();
             dataGridView.Rows[index].Cells["Column1"].Value = this.time;
-            dataGridView.Rows[index].Cells["Column2"].Value = newProcessValue.ToString("#.##");
+            dataGridView.Rows[index].Cells["Column2"].Value = newProcessValue.ToString("0.00");
             dataGridView.Rows[index].Cells["Column3"].Value = newProcessValueStatus;
-            dataGridView.Rows[index].Cells["Column4"].Value = setpoint.ToString("#.##");
+            dataGridView.Rows[index].Cells["Column4"].Value = setpoint.ToString("0.00");
             dataGridView.Rows[index].Cells["Column5"].Value = setpointStatus;
-            dataGridView.Rows[index].Cells["Column6"].Value = controlValue.ToString("#.##");
+            dataGridView.Rows[index].Cells["Column6"].Value = controlValue.ToString("0.00");
             dataGridView.Rows[index].Cells["Column7"].Value = controlValueStatus;
+
+            txtControlSystemStatus.Text = "Connected";
         }
 
         private void OPC()
@@ -119,35 +134,54 @@ namespace DataloggingSystem
             // Process value
             float processValue = opcClient.ProcessValue;
             string processValueStatus = opcClient.ProcessValueStatus;
+            // string tagProcessValue = ConfigurationManager.AppSettings["tagRealProcessValue"];
             sqlManager.StoreSensorData(processValue, "tagRealProcessValue", processValueStatus);
 
             // Simulation process value
             float simProcessValue = opcClient.SimProcessValue;
             string simulationProcessStatus = opcClient.SimProcessValueStatus;
-            sqlManager.StoreSensorData(simProcessValue, "tagRealProcessValue", simulationProcessStatus);
+            // string tagSimProcessValue = ConfigurationManager.AppSettings["tagSimProcessValue"];
+            sqlManager.StoreSensorData(simProcessValue, "tagSimProcessValue", simulationProcessStatus);
 
             // Setpoint
             float setpoint = opcClient.Setpoint;
             string setpointStatus = opcClient.SetpointStatus;
+            // string tagSetpoint = ConfigurationManager.AppSettings["tagSetpoint"];
             sqlManager.StoreSensorData(setpoint, "tagSetpoint", setpointStatus);
 
             // Control value
             float controlValue = opcClient.ControlValue;
             string controlValueStatus = opcClient.ControlValueStatus;
+            // string tagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
             sqlManager.StoreSensorData(controlValue, "tagControlValue", controlValueStatus);
 
-            // I/O error
-            float ioError = opcClient.IoError;
-            string ioErrorStatus = opcClient.IoErrorStatus;
-            sqlManager.StoreSensorData(ioError, "tagIOError", ioErrorStatus);
+            // Check control system verification (Control that the control system is still transmitting data)
+            string controlSystemVerification = opcClient.ControlSystemVerification;
+            string controlSystemVerificationStatus = opcClient.ControlSystemVerificationStatus;
+            float verifictaionStatus = 1;
 
-            // Connected random numbers
-            float randomNumber = opcClient.ConnectedRandomNumber;
-            string randomNumberStatus = opcClient.ConnectedRandomNumberStatus;
-            sqlManager.StoreSensorData(randomNumber, "tagConnectedRandomNumbers", randomNumberStatus);
+            // Check if control system verification has unchanged. Indicates that control system is down.
+            if (CheckVerification(controlSystemVerification))
+            {
+                verifictaionStatus = -1;
+                sqlManager.StoreSensorData(verifictaionStatus, "tagControlSystemOnlineVerification", controlSystemVerificationStatus);
+                txtControlSystemStatus.Text = "Not connected";
+            }
+            else
+            {
+                verifictaionStatus = 1;
+                sqlManager.StoreSensorData(verifictaionStatus, "tagControlSystemOnlineVerification", controlSystemVerificationStatus);
+                txtControlSystemStatus.Text = "Connected";
+            }
+
+            // Automatic
+            float automatic = opcClient.Automatic;
+            string automaticStatus = opcClient.AutomaticStatus;
+            // string tagAutomatic = ConfigurationManager.AppSettings["tagAutomatic"];
+            sqlManager.StoreSensorData(automatic, "tagAutomatic", automaticStatus);
 
             // Update history
-            Tag tag = new Tag(time, processValue, simProcessValue, setpoint, controlValue, ioError, randomNumber);
+            Tag tag = new Tag(time, processValue, simProcessValue, setpoint, controlValue, verifictaionStatus, automatic);
             history.Add(tag);
 
             // Update chart
@@ -156,24 +190,40 @@ namespace DataloggingSystem
             //chartMeasurements.Series["Control signal [V]"].Points.AddXY(this.time, controlValue);
 
             // Update textbox
-            txtCurrent.Text = processValue.ToString("#.##");
-            txtCurrentSetpoint.Text = setpoint.ToString("#.##");
+            txtCurrent.Text = processValue.ToString("0.0");
+            txtCurrentSetpoint.Text = setpoint.ToString("0.0");
+            txtCurrentContolSignal.Text = controlValue.ToString("0.0");
 
             // Update statisticsdata
             stat.Update(processValue);
-            txtAvg.Text = stat.Average.ToString("#.##");
-            txtMinMeasurement.Text = stat.Min.ToString("#.##");
-            txtMaxMeasurement.Text = stat.Max.ToString("#.##");
+            txtAvg.Text = stat.Average.ToString("0.0");
+            txtMinMeasurement.Text = stat.Min.ToString("0.0");
+            txtMaxMeasurement.Text = stat.Max.ToString("0.0");
 
             // Insert data into datagrid
             int index = dataGridView.Rows.Add();
-            dataGridView.Rows[index].Cells["Column1"].Value = this.time;
-            dataGridView.Rows[index].Cells["Column2"].Value = processValue.ToString("#.##");
-            dataGridView.Rows[index].Cells["Column3"].Value = processValueStatus;
-            dataGridView.Rows[index].Cells["Column4"].Value = setpoint;
-            dataGridView.Rows[index].Cells["Column5"].Value = setpointStatus;
-            dataGridView.Rows[index].Cells["Column6"].Value = controlValue;
-            dataGridView.Rows[index].Cells["Column7"].Value = controlValueStatus;
+            dataGridView.Rows[index].Cells["Column1"].Value = this.time.ToString("0.00");
+            dataGridView.Rows[index].Cells["Column2"].Value = processValue.ToString("0.00");
+            dataGridView.Rows[index].Cells["Column3"].Value = processValueStatus.ToString();
+            dataGridView.Rows[index].Cells["Column4"].Value = setpoint.ToString("0.00");
+            dataGridView.Rows[index].Cells["Column5"].Value = setpointStatus.ToString();
+            dataGridView.Rows[index].Cells["Column6"].Value = controlValue.ToString("0.00");
+            dataGridView.Rows[index].Cells["Column7"].Value = controlValueStatus.ToString();
+        }
+
+        // Returns true if no change in control systemv erification, else false
+        private bool CheckVerification(string verification)
+        {
+            if (verification.Equals(this.previousControlSystemVerification))
+            {
+                this.previousControlSystemVerification = verification;
+                return true;
+            }
+            else
+            {
+                this.previousControlSystemVerification = verification;
+                return false;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -248,21 +298,23 @@ namespace DataloggingSystem
             numSimulatedPV.Value = 10.0;
             numSimSetpoint.Value = (simulator.UpperLimit - simulator.LowerLimit) / 2.0f + simulator.LowerLimit;
             numSimControlSignal.Value = 30.0f;
-            numSimRandomNumber.Value = 42;
-            numSimIoError.Value = 0;
+            numControlSystemOnline.Value = 1;
+            numAutomatic.Value = 1;
 
-            txtPVStatus.Text = "Good";
-            txtSimPVStatus.Text = "Good";
-            txtSetpointStatus.Text = "Good";
-            txtControlSignalStatus.Text = "Good";
-            txtIOStatus.Text = "Good";
-            txtRandomNumberStatus.Text = "Good";
+            cbxPVStatus.Text = "Good";
+            cbxSimulatedPVStatus.Text = "Good";
+            cbxSetPointStatus.Text = "Good";
+            cbxControlSignalStatus.Text = "Good";
+            cbxControlSystemOnlineStatus.Text = "Good";
+            cbxAutomaticStatus.Text = "Good";
         }
 
         private void SetupOPC()
         {
             this.opcClient = new OpcManager();
             this.opcClient.Start();
+
+            txtControlSystemStatus.Text = "";
         }
 
         private void SetupSensor()
@@ -320,8 +372,8 @@ namespace DataloggingSystem
                     string.Format("{0,-15}", "Sim PV") +
                     string.Format("{0,-15}", "Setpoint") +
                     string.Format("{0,-15}", "Control Signal") +
-                    string.Format("{0,-15}", "IO Error") +
-                    string.Format("{0,-15}", "Random Number")
+                    string.Format("{0,-15}", "Control System verification") +
+                    string.Format("{0,-15}", "Automatic")
                     );
 
                 foreach (Tag tag in history)
@@ -332,11 +384,16 @@ namespace DataloggingSystem
                         string.Format("{0,-15}", tag.simValue) +
                         string.Format("{0,-15}", tag.setpoint) +
                         string.Format("{0,-15}", tag.controlValue) +
-                        string.Format("{0,-15}", tag.ioError) +
-                        string.Format("{0,-15}", tag.randomNumber)
+                        string.Format("{0,-15}", tag.controlSystemVerification) +
+                        string.Format("{0,-15}", tag.automatic)
                         );
                 }
             }
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
