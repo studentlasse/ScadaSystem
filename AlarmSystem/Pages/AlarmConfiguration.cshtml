@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Alarm Configurations";
 }
+
+<meta http-equiv="refresh" content="10" />
+
 <h1>@ViewData["Title"]</h1>
 <div>
     @foreach(var alarm in Model.alarms)
@@ -36,16 +39,16 @@
 
 
 
-<div class="text-center">
+<div class="text-left">
 <table class="table">
     <thead>
         <tr>
-            <th>Alarm Configuration Id</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Lower Limit [C]</th>
-            <th>Upper Limit [C]</th>
-            <th>Alarm Level</th>
+            <th class="text-nowrap">Alarm Configuration Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Lower Limit [C]</th>
+            <th class="text-nowrap">Upper Limit [C]</th>
+            <th class="text-nowrap">Alarm Level</th>
             
         </tr>
     </thead>
@@ -53,11 +56,11 @@
         @foreach (var alarmConfig in Model.alarmConfigurations)
         {
             <tr>
-                <td>@alarmConfig.AlarmConfigId</td>
+                <td class="text-center">@alarmConfig.AlarmConfigId</td>
                 <td class="text-nowrap"><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
                 <td>@alarmConfig.AlarmDescription</td>
-                <td>@alarmConfig.LowerLimit</td>
-                <td>@alarmConfig.UpperLimit</td>
+                <td class="text-center">@alarmConfig.LowerLimit</td>
+                <td class="text-center">@alarmConfig.UpperLimit</td>
                 <td>@alarmConfig.AlarmLevel</td>
             </tr>
         }

@@ -140,6 +140,7 @@ SELECT
 ALARM.AlarmId,
 ALARMCONFIGURATION.AlarmName,
 ALARMCONFIGURATION.AlarmDescription,
+ALARMCONFIGURATION.AlarmConfigurationId,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
 ACKNOWLEDGE.AckStatus,
@@ -148,7 +149,9 @@ FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ACKNOWLEDGE ON ALARM.AcknowledgeId = ACKNOWLEDGE.AcknowledgeId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
+WHERE ACKNOWLEDGE.AckStatus = 0
 go
+
 ---------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'GetTagConfigurations' AND type = 'V')
 DROP VIEW GetTagConfigurations
@@ -177,7 +180,6 @@ AS
 update ALARM SET 
 AcknowledgeId = 2
 where AlarmId = @AlarmId
-
 GO
 ---------------------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'CreateAlarm' AND type = 'P')
@@ -237,7 +239,6 @@ VALUES (
 (select AlarmLevelId from ALARMLEVEL where AlarmLevel=@AlarmLevel),
 (select TagId from TAGCONFIGURATION where TagName=@TagName)
 )
-
 GO
 
 ---------------------------------------------------
@@ -250,7 +251,6 @@ CREATE PROCEDURE DeleteAlarmConfiguration
 AS
 
 delete from ALARMCONFIGURATION where AlarmConfigurationId=@AlarmConfigurationId
-
 GO
 
 ---------------------------------------------------
@@ -275,7 +275,6 @@ VALUES
 	(@TagValue, GETDATE(), @TagStatus, @TagId) 
 GO
 
-
 ---------------------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'SP_TriggerAlarms' AND type = 'P')
 DROP PROCEDURE SP_TriggerAlarms
@@ -289,13 +288,15 @@ AS
 DECLARE
 @AlarmLowerLimit float,
 @AlarmUpperLimit float,
-@AlarmName varchar(50)
+@AlarmName varchar(50),
+@AlarmExist int
 
 select @AlarmLowerLimit = AlarmLowerLimit from ALARMCONFIGURATION where AlarmConfigurationId=@AlarmConfigurationId
 select @AlarmUpperLimit = AlarmUpperLimit from ALARMCONFIGURATION where AlarmConfigurationId=@AlarmConfigurationId
 select @AlarmName = AlarmName from ALARMCONFIGURATION where AlarmConfigurationId=@AlarmConfigurationId
+select @AlarmExist = COUNT(AlarmConfigurationId) from GetAlarms where AlarmConfigurationId = @AlarmConfigurationId
 
-IF(@TagValue BETWEEN @AlarmLowerLimit AND @AlarmUpperLimit )
+IF((@TagValue BETWEEN @AlarmLowerLimit AND @AlarmUpperLimit) AND (@AlarmExist<1) )
 	INSERT INTO ALARM(AlarmTimeStamp, Value, AcknowledgeId, AlarmConfigurationId)
 	VALUES(
 	CURRENT_TIMESTAMP,
@@ -303,7 +304,6 @@ IF(@TagValue BETWEEN @AlarmLowerLimit AND @AlarmUpperLimit )
 	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
 	@AlarmConfigurationId
 	)
-
 GO
 
 ---------------------------------------------------
@@ -331,7 +331,6 @@ AcknowledgeId = (select AcknowledgeId FROM ACKNOWLEDGE where AckStatus=@AckStatu
 AlarmTimeStamp = CURRENT_TIMESTAMP,
 Value = @AlarmValue
 where AlarmId=@AlarmId
-
 GO
 
 ---------------------------------------------------
@@ -363,7 +362,6 @@ AlarmUpperLimit = @AlarmUpperLimit,
 AlarmLevelId = (select AlarmLevelId from ALARMLEVEL where AlarmLevel=@AlarmLevel),
 TagId = (select TagId from TAGCONFIGURATION where TagName=@TagName)
 WHERE AlarmConfigurationId = @AlarmConfigurationId
-
 GO
 
 -----------------TRIGGERS-----------------
@@ -407,18 +405,23 @@ AS
 DECLARE
 -- Input values
 @TagId int,
-@TagValue float
+@TagValue float,
+@AlarmExist int,
+@AlarmConfigurationId int
 
 select @TagId = TagId from INSERTED
 select @TagValue = TagValue from INSERTED
+select @AlarmConfigurationId = 5
+select @AlarmExist = COUNT(AlarmConfigurationId) from GetAlarms where AlarmConfigurationId = @AlarmConfigurationId
 
-IF(@TagId = 1 and @TagValue < 0)
+
+IF((@TagId = 1 and @TagValue < 0) AND (@AlarmExist<1))
 	INSERT INTO ALARM(AlarmTimeStamp, Value, AcknowledgeId, AlarmConfigurationId)
 	VALUES(
 	CURRENT_TIMESTAMP,
 	@TagValue,
 	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
-	5
+	@AlarmConfigurationId
 	)
 GO
 
@@ -434,18 +437,23 @@ AS
 DECLARE
 -- Input values
 @TagId int,
-@TagValue float
+@TagValue float,
+@AlarmExist int,
+@AlarmConfigurationId int
 
 select @TagId = TagId from INSERTED
 select @TagValue = TagValue from INSERTED
+select @AlarmConfigurationId = 8
+select @AlarmExist = COUNT(AlarmConfigurationId) from GetAlarms where AlarmConfigurationId = @AlarmConfigurationId
 
-IF(@TagValue < 0 AND @TagId = 5)
+
+IF((@TagValue < 0 AND @TagId = 5) AND (@AlarmExist < 1))
 	INSERT INTO ALARM(AlarmTimeStamp, Value, AcknowledgeId, AlarmConfigurationId)
 	VALUES(
 	CURRENT_TIMESTAMP,
 	@TagValue,
 	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
-	8
+	@AlarmConfigurationId
 	)
 GO
 
@@ -481,6 +489,37 @@ BEGIN
 END
 
 END
+GO
+
+---------------------------------------------------
+IF EXISTS (SELECT name FROM sysobjects WHERE name='TriggerSystemManualMode' AND type='TR')
+DROP TRIGGER TriggerSystemManualMode
+GO
+
+CREATE TRIGGER TriggerSystemManualMode ON TAGDATA
+FOR UPDATE, INSERT, DELETE
+AS
+
+DECLARE
+-- Input values
+@TagId int,
+@TagValue float,
+@AlarmConfigurationId int,
+@AlarmExist int
+
+select @TagId = TagId from INSERTED
+select @TagValue = TagValue from INSERTED
+select @AlarmConfigurationId = 9
+select @AlarmExist = COUNT(AlarmConfigurationId) from GetAlarms where AlarmConfigurationId = @AlarmConfigurationId
+
+IF((@TagValue < 0 AND @TagId = 6) AND (@AlarmExist < 1))
+	INSERT INTO ALARM(AlarmTimeStamp, Value, AcknowledgeId, AlarmConfigurationId)
+	VALUES(
+	CURRENT_TIMESTAMP,
+	@TagValue,
+	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
+	@AlarmConfigurationId
+	)
 GO
 
 ------------------CONFIGURATIONS------------------
@@ -525,7 +564,7 @@ INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId,
 
 -- Other alarms
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Alarm';
-INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('IOERROR', 'IO Error! Check hardware', @AlarmLevelId, 1, '0','0');
+INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('I/O ERROR!', 'IO Error! Check hardware', @AlarmLevelId, 1, '0','0');
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Notification';
 INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Setpoint Notification', 'Setpoint is too low. Please increase setpoint value.', @AlarmLevelId, 3, '15','0');
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Notification';
@@ -533,6 +572,9 @@ INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId,
 
 Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Alarm';
 INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('System Error!', 'Communication error between control system and datalogging.', @AlarmLevelId, 5, '0','0');
+
+Select @AlarmLevelId = AlarmLevelId FROM ALARMLEVEL WHERE AlarmLevel='Notification';
+INSERT INTO ALARMCONFIGURATION(AlarmName, AlarmDescription, AlarmLevelId, TagId, AlarmUpperLimit, AlarmLowerLimit) VALUES ('Manual mode', 'System is set to manual mode.', @AlarmLevelId, 6, '0','0');
 
 ---------------------------------------------------
 DELETE FROM PERSON
