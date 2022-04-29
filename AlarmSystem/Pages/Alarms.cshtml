@@ -5,7 +5,14 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<div class="text-center">
+<meta http-equiv="refresh" content="10" />
+
+<!--<div class="alert alert-success alert-dismissible fade">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> Alarm acknowledged.
+</div>-->
+
+<div class="text-left">
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -22,11 +29,11 @@
                 @if(@alarm.AlarmLevel == "Warning")
                 {
                 <tr class="table-warning">
-                    <td>@alarm.AlarmId</td>
+                    <td class="text-center">@alarm.AlarmId</td>
                     <td class="text-nowrap">@alarm.AlarmName</td>
                     <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
-                    <td>@alarm.Value</td>
+                    <td class="text-center">@alarm.Value</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a>        
                     </td>
                 </tr>
@@ -34,24 +41,30 @@
                 else if(@alarm.AlarmLevel == "Alarm")
                 {
                 <tr class="table-danger">
-                    <td>@alarm.AlarmId</td>
+                    <td class="text-center">@alarm.AlarmId</td>
                     <td class="text-nowrap">@alarm.AlarmName</td>
                     <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
-                    <td>@alarm.Value</td>
+                    <td class="text-center">@alarm.Value</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
-                </tr>   
+                </tr>
+                }
+                else if(@alarm.AlarmLevel == "Notification")
+                {
+                <tr class="table-info">
+                    <td class="text-center">@alarm.AlarmId</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td class="text-center">@alarm.Value</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>
                 }
                 else
                 {
-                <tr class="table-info">
-                    <td>@alarm.AlarmId</td>
-                    <td class="text-nowrap">@alarm.AlarmName</td>
-                    <td class="text-nowrap">@alarm.AlarmDescription</td>
-                    <td>@alarm.TimeStamp</td>
-                    <td>@alarm.Value</td>
-                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
-                </tr>   
+                    <tr class="table-success">
+                        <td>There are no Active Alarms! :)</td>
+                    </tr>
                 }
         }
     </tbody>
