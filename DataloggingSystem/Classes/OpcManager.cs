@@ -30,12 +30,12 @@ namespace DataloggingSystem.Classes
         private string controlValueStatus;
 
         // Random number
-        private float connectedRandomNumber;
-        private string connectedRandomNumberStatus;
+        private string controlSystemVerification;
+        private string controlSystemVerificationStatus;
 
-        // I/O error
-        private float ioError;
-        private string ioErrorStatus;
+        // Automatic
+        private float automatic;
+        private string automaticStatus;
 
         // Process value
         public string TagProcessValue { get; }
@@ -58,19 +58,17 @@ namespace DataloggingSystem.Classes
         public string ControlValueStatus { get { return controlValueStatus; } }
 
         // Connnected random number
-        public string TagConnectedRandomNumber { get; }
-        public float ConnectedRandomNumber { get { return connectedRandomNumber; } }
-        public string ConnectedRandomNumberStatus { get { return connectedRandomNumberStatus; } }
+        public string TagControlSystemVerification { get; }
+        public string ControlSystemVerification { get { return controlSystemVerification; } }
+        public string ControlSystemVerificationStatus { get { return controlSystemVerificationStatus; } }
 
-        // I/O error
-        public string TagIoError { get; }
-        public float IoError { get { return ioError; } }
-        public string IoErrorStatus { get { return ioErrorStatus; } }
+        // Automatic
+        public string TagAutomatic { get; }
+        public float Automatic { get { return automatic; } }
+        public string AutomaticStatus { get { return automaticStatus; } }
 
         // OPC client
         public string OpcUrl { get; }
-
-
 
         public OpcManager()
         {
@@ -82,8 +80,9 @@ namespace DataloggingSystem.Classes
             TagSimProcessValue = ConfigurationManager.AppSettings["tagSimProcessValue"];
             TagSetpoint = ConfigurationManager.AppSettings["tagSetpoint"];
             TagControlValue = ConfigurationManager.AppSettings["tagControlValue"];
-            TagConnectedRandomNumber = ConfigurationManager.AppSettings["tagConnectedRandomNumbers"];
-            TagIoError = ConfigurationManager.AppSettings["tagIOError"];
+            TagControlSystemVerification = ConfigurationManager.AppSettings["tagControlSystemOnlineVerification"];
+            TagAutomatic = ConfigurationManager.AppSettings["tagAutomatic"];
+
 
             // Create OpcClient object
             this.client = new OpcClient(OpcUrl);
@@ -99,38 +98,52 @@ namespace DataloggingSystem.Classes
             // Process value
             var value = client.ReadNode(TagProcessValue);
             processValue = (float) Convert.ToDouble(value.ToString());
-            processValueStatus = value.Status.ToString();
+            processValueStatus = Status(value);
 
             // Simulated process value
             value = client.ReadNode(TagSimProcessValue);
             simProcessValue = (float) Convert.ToDouble(value.ToString());
-            simProcessValueStatus = value.Status.ToString();
+            simProcessValueStatus = Status(value);
 
             // Setpoint
             value = client.ReadNode(TagSetpoint);
             setpoint = (float)Convert.ToDouble(value.ToString());
-            setpointStatus = value.Status.ToString();
+            setpointStatus = Status(value);
 
             // Control value
             value = client.ReadNode(TagControlValue);
             controlValue = (float)Convert.ToDouble(value.ToString());
-            controlValueStatus = value.Status.ToString();
+            controlValueStatus = Status(value);
 
-            // Connnected random number
-            value = client.ReadNode(TagConnectedRandomNumber);
-            connectedRandomNumber = (float)Convert.ToDouble(value.ToString());
-            connectedRandomNumberStatus = value.Status.ToString();
+            // Control system online verification
+            value = client.ReadNode(TagControlSystemVerification);
+            controlSystemVerification = value.ToString();
+            controlSystemVerificationStatus = Status(value);
 
-            // I/O error
-            value = client.ReadNode(TagIoError);
-            ioError = (float)Convert.ToDouble(value.ToString());
-            ioErrorStatus = value.Status.ToString();
+            // Automatic
+            value = client.ReadNode(TagAutomatic);
+            automatic = (float)Convert.ToDouble(value.ToString());
+            automaticStatus = Status(value);
         }
 
         public void Close()
         {
             if (client != null)
                 this.client.Disconnect();
+        }
+
+        private string Status(OpcValue value)
+        {
+            if (value.Status.IsGood)
+                return "Good";
+            else if (value.Status.IsBad)
+                return "Bad";
+            else if (value.Status.IsUncertain)
+                return "Undertain";
+            else if (value.Status.IsOverflow)
+                return "Overflow";
+            else
+                return "Status unknown";
         }
     }
 }

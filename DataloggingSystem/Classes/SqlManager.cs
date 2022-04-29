@@ -18,28 +18,29 @@ namespace DataloggingSystem.Classes
         {
             string connectionString = ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString;
 
-            try
-            {
-                //Connect to database
-                SqlConnection con = new SqlConnection(connectionString);
-                con.Open();
+            //try
 
-                SqlCommand cmd = new SqlCommand("SaveTagData", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //{
+            //Connect to database
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
 
-                cmd.Parameters.Add(new SqlParameter("@TagName", tagName));
-                cmd.Parameters.Add(new SqlParameter("@TagValue", value));
-                cmd.Parameters.Add(new SqlParameter("@TagStatus", tagStatus));
+            SqlCommand cmd = new SqlCommand("SaveTagData", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                cmd.ExecuteNonQuery();
+            cmd.Parameters.Add(new SqlParameter("@TagName", tagName));
+            cmd.Parameters.Add(new SqlParameter("@TagValue", value));
+            cmd.Parameters.Add(new SqlParameter("@TagStatus", tagStatus));
 
-                // Disconnect from database
-                con.Close();
-            }
-            catch
-            {
-                throw new Exception("Error occurred trying to connect to the database");
-            }
+            cmd.ExecuteNonQuery();
+
+            // Disconnect from database
+            con.Close();
+            //}
+            //catch
+            //{
+            //throw new Exception("Error occurred trying to connect to the database");
+            //}
         }
 
         public void ClearDataDatabase()

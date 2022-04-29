@@ -192,7 +192,7 @@ namespace Simulation
                 client.WriteNode(tagSetpoint, Convert.ToDouble(setpoint));
                 client.WriteNode(tagControlValue, Convert.ToDouble(controlValue));
 
-                client.WriteNode(tagConnectedRandomNumbers, RandomString(10));
+                // client.WriteNode(tagConnectedRandomNumbers, RandomString(10));
  
             }
             catch
