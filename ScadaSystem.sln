@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataloggingSystem", "DataloggingSystem\DataloggingSystem.csproj", "{72E8AAD4-4EBE-47C7-9678-6FE1D9F74613}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlarmSystem", "AlarmSystem\AlarmSystem.csproj", "{B2761461-AD38-4339-A806-344217572611}"
+	ProjectSection(ProjectDependencies) = postProject
+		{72E8AAD4-4EBE-47C7-9678-6FE1D9F74613} = {72E8AAD4-4EBE-47C7-9678-6FE1D9F74613}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

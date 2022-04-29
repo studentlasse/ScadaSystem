@@ -13,7 +13,7 @@ DECLARE
 
 SELECT @TagId = TagId FROM TAGCONFIGURATION WHERE TagName = @TagName
 
-INSERT INTO TAGDATA 
+INSERT INTO TAGDATA
 	(TagValue, TagTimestamp, TagStatus, TagId) 
 VALUES
 	(@TagValue, GETDATE(), @TagStatus, @TagId) 

@@ -9,38 +9,36 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Alarm Id</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Time Stamp</th>
-            <th>Value</th>
-            <th>Status (acknowledged)</th>
+            <th class="text-nowrap">Alarm Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Time Stamp</th>
+            <th class="text-nowrap">Value</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var alarm in Model.alarms)
         {
-                @if(@alarm.AlarmName == "Warning")
+                @if(@alarm.AlarmLevel == "Warning")
                 {
                 <tr class="table-warning">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
-                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
-                </tr>   
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a>        
+                    </td>
+                </tr>
                 }
-                else if(@alarm.AlarmName == "Alarm")
+                else if(@alarm.AlarmLevel == "Alarm")
                 {
                 <tr class="table-danger">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
                 </tr>   
                 }
@@ -48,15 +46,13 @@
                 {
                 <tr class="table-info">
                     <td>@alarm.AlarmId</td>
-                    <td>@alarm.AlarmName</td>
-                    <td>@alarm.AlarmDescription</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
                     <td>@alarm.TimeStamp</td>
                     <td>@alarm.Value</td>
-                    <td>@alarm.AlarmAcknowledged</td>
                     <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
                 </tr>   
                 }
-                
         }
     </tbody>
 </table>

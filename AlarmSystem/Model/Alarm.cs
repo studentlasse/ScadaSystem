@@ -12,6 +12,7 @@ namespace AlarmSystem.Model
         public int AlarmConfigId { get; set; }
         public int AcknowledgeId { get; set; }
         public double Value { get; set; }
+        public string AlarmLevel { get; set; }
 
         public string AlarmName { get; set; }
         public string AlarmDescription { get; set; }
@@ -41,7 +42,7 @@ namespace AlarmSystem.Model
                 alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
                 alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
                 alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
-                alarm.Value = Convert.ToDouble(dr["Value"]);
+                alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]), 2);
             }
             con.Close();
             return alarm;
@@ -60,8 +61,6 @@ namespace AlarmSystem.Model
 
             SqlDataReader dr = cmd.ExecuteReader();
 
-            // TODO5: E-Post varsling evt. annen type varsling. 
-
             if (dr != null)
             {
                 while (dr.Read())
@@ -69,10 +68,11 @@ namespace AlarmSystem.Model
                     Alarm alarm = new Alarm();
                     alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
                     alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
-                    alarm.Value = Convert.ToDouble(dr["Value"]);
+                    alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]), 2);
                     alarm.AlarmName = dr["AlarmName"].ToString();
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
+                    alarm.AlarmLevel = dr["AlarmLevel"].ToString();
 
                     alarmList.Add(alarm);
                 }
@@ -95,8 +95,6 @@ namespace AlarmSystem.Model
 
             SqlDataReader dr = cmd.ExecuteReader();
 
-            // TODO5: E-Post varsling evt. annen type varsling. 
-
             if (dr != null)
             {
                 while (dr.Read())
@@ -104,10 +102,11 @@ namespace AlarmSystem.Model
                     Alarm alarm = new Alarm();
                     alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
                     alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
-                    alarm.Value = Convert.ToDouble(dr["Value"]);
+                    alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]),2);
                     alarm.AlarmName = dr["AlarmName"].ToString();
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AckTimeStamp = dr["AckTimeStamp"].ToString();
+                    alarm.AlarmLevel = dr["AlarmLevel"].ToString();
 
                     alarmList.Add(alarm);
                 }

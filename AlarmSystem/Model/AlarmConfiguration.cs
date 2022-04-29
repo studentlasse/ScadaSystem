@@ -60,7 +60,7 @@ namespace AlarmSystem.Model
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "SELECT * FROM GetAlarmConfigurations";
+            string sqlQuery = "SELECT * FROM GetAlarmConfigurations order by AlarmName ASC";
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
             SqlDataReader dr = cmd.ExecuteReader();

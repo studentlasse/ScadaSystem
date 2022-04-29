@@ -7,12 +7,29 @@
 <div>
     @foreach(var alarm in Model.alarms)
     {
-        @if(@alarm.AlarmAcknowledged == 1)
+        @if(@alarm.AlarmAcknowledged == false)
         {
-        <div class="alert alert-info alert-dismissible">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
-        </div>
+            @if(@alarm.AlarmLevel == "Notification")
+            {
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } 
+            else if(@alarm.AlarmLevel == "Warning")
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new warnings on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new alarms on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+        break;
         }
     }
 </div>
@@ -37,7 +54,7 @@
         {
             <tr>
                 <td>@alarmConfig.AlarmConfigId</td>
-                <td><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
+                <td class="text-nowrap"><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
                 <td>@alarmConfig.AlarmDescription</td>
                 <td>@alarmConfig.LowerLimit</td>
                 <td>@alarmConfig.UpperLimit</td>
@@ -46,5 +63,5 @@
         }
     </tbody>
 </table>
-<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>
+<!--<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>-->
 </div>

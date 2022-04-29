@@ -20,6 +20,6 @@ IF(@TagValue < 0 AND @TagId = 5)
 	CURRENT_TIMESTAMP,
 	@TagValue,
 	(select AcknowledgeId from ACKNOWLEDGE where AckStatus=0),
-	9
+	8
 	)
 GO

@@ -6,13 +6,39 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="alert alert-info alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">alarms page.</a>
+<div>
+   @foreach(var alarm in Model.alarms)
+    {
+        @if(@alarm.AlarmAcknowledged == false)
+        {
+            @if(@alarm.AlarmLevel == "Notification")
+            {
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } 
+            else if(@alarm.AlarmLevel == "Warning")
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new warnings on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new alarms on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+            
+        break;
+        }
+    }
 </div>
 
 <div class="text-center">
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>Alarm Id</th>
@@ -26,14 +52,39 @@
     <tbody>
         @foreach (var alarm in Model.alarmHistoryList)
         {
-            <tr>
+            @if(@alarm.AlarmLevel == "Warning")
+            {
+            <tr class="table-warning">
                 <td>@alarm.AlarmId</td>
-                <td>@alarm.AlarmName</td>
-                <td>@alarm.AlarmDescription</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td>@alarm.Value</td>
                 <td>@alarm.AckTimeStamp</td>
             </tr>
+            }
+            else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <tr class="table-danger">
+                <td>@alarm.AlarmId</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>   
+            }
+            else
+            {
+            <tr class="table-info">
+                <td>@alarm.AlarmId</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td>@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>   
+            }
         }
     </tbody>
 </table>
