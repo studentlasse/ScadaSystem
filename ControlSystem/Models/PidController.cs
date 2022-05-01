@@ -7,6 +7,7 @@
         public double Ti { get; set; }
         public double r { get; set; }
         private double z = 0;
+        private double lastU;
 
         double minControlValue = 0;
         double maxControlValue = 5;
@@ -31,20 +32,31 @@
         {
             double e;
             double u;
+            double P;
+            double I;
 
             e = r - y;
-            u = Kp * e + (Kp / Ti) * z;
-            z = z + Ts * e;
+            P = Kp * e;
+            I = (Kp / Ti) * z;
+            u = P + I;
+            
 
             if (u < minControlValue)
             {
                 u = minControlValue;
+                z = z + Ts * e;
             }
             else if (u > maxControlValue)
             {
                 u = maxControlValue;
+                z = z + Ts * e * 0;
+            }
+            else
+            {
+                z = z + Ts * e;
             }
 
+            lastU = u;
             return u;
         }
 

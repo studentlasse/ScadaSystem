@@ -20,7 +20,7 @@ namespace Simulation.Models
             try
             {
                 analogInChannel = analogInTask.AIChannels.CreateVoltageChannel(
-                    "dev3/ai0",
+                    "dev4/ai0",
                     "AnalogInChannel",
                     AITerminalConfiguration.Differential,
                     0,
@@ -29,11 +29,11 @@ namespace Simulation.Models
                     );
 
                 analogOutChannel = analogOutTask.AOChannels.CreateVoltageChannel(
-                    "dev3/ao0",
-                        "AnalogOutChannel",
-                        0,
-                        5,
-                        AOVoltageUnits.Volts
+                    "dev4/ao0",
+                    "AnalogOutChannel",
+                    0,
+                    5,
+                    AOVoltageUnits.Volts
                     );
                 IoDeviceOk = true;
             }

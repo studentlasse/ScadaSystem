@@ -15,8 +15,26 @@ namespace Simulation
         double realProcessValue = 0;
         double controlValue;
         double Ts = 0.1;
-        double Kp = 0.8;
-        double Ti = 20;
+
+        // Relaxed ZieglerNicols
+        //double Kp = 0.75;
+        //double Ti = 22.5;
+
+        // Normal ZieglerNichols
+        double Kp = 1.35;
+        double Ti = 15;
+
+        // HIL Oppgave: 
+        //double Kp = 0.8;
+        //double Ti = 20;
+
+        // Skogestad: 
+        //double Kp = 0.09;
+        //double Ti = 1;
+
+        // Used for Tuning: 
+        //double Kp = 4;
+        //double Ti = 10000000;
         double setpoint = 20;
 
         string opcUrl = ConfigurationManager.AppSettings["opcUrl"];
@@ -39,6 +57,8 @@ namespace Simulation
 
         Scaling scaling;
 
+        bool testing = true;
+
         public ControlSystem()
         {
             InitializeComponent();
@@ -53,26 +73,33 @@ namespace Simulation
 
             filter = new Filter();
 
-            InitializeClient();
-
             txtKp.Text = Kp.ToString();
             txtTi.Text = Ti.ToString();
             txtOPCServer.Text = opcUrl;
             numR.Value = (decimal)setpoint;
+            cbOpcOn.Enabled = false;
 
             initializeChart();
+            initializeControlChart();
 
             timer1.Interval = Convert.ToInt32(Ts * 1000);
             timer2.Interval = timer1.Interval / 2;
+
+            ModelValuesToUi();
+
+            if (testing)
+            {
+                cbAuto.Checked = true;
+                cbUseDaq.Checked = true;
+                setpoint = 24;
+
+                btnConnect_Click(new object(), new EventArgs());
+                btnStart_Click(new object(), new EventArgs());
+                cbOpcOn.Checked = true;
+                
+            }
         }
 
-        private void InitializeClient()
-        {
-            client = new OpcClient(opcUrl);
-            client.Connect();
-        }
-
-        
 
         private void initializeChart()
         {
@@ -92,9 +119,32 @@ namespace Simulation
             chartMeasurementData.Legends[0].Docking = Docking.Bottom;
         }
 
+        private void initializeControlChart()
+        {
+            chartControlValue.Series.Clear();
+            chartControlValue.Series.Add("Control Value [V]");
+            chartControlValue.Series["Control Value [V]"].ChartType = SeriesChartType.Line;
+            ChartArea area2 = chartControlValue.ChartAreas[0];
+            area2.AxisY.Minimum = 0;
+            area2.AxisY.Maximum = 5;
+            area2.AxisY.Title = "Control Value [V]";
+            area2.AxisX.Title = "Time [s]";
+
+            chartControlValue.Legends[0].Docking = Docking.Bottom;
+        }
+
+        private void ModelValuesToUi()
+        {
+            numKh.Value = (decimal) airHeater.Kh;
+            numTs.Value = (decimal) airHeater.Ts;
+            numThetaT.Value = (decimal) airHeater.ThetaT;
+            numThetaD.Value = (decimal) airHeater.ThetaD;
+            numTEnv.Value = (decimal) airHeater.Tenv;
+            numTs.Enabled = false;
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-
             ControlAuto();
 
             ReadFromDac();
@@ -108,7 +158,7 @@ namespace Simulation
 
             UpdateUI();
             PlotData();
-            WriteToOPC();
+            if (cbOpcOn.Checked) WriteToOPC();
         }
 
         private void ControlAuto()
@@ -166,12 +216,11 @@ namespace Simulation
 
         private void UpdateUI()
         {
-            txtOpcStatus.Text = client.State.ToString();
             txtSimProcessValue.Text = simulatedProcessValue.ToString("0.##");
             numR.Value = (decimal) setpoint;
             numControlValue.Value = (decimal)controlValue;
             if (cbUseDaq.Checked) txtRealProcessValue.Text = realProcessValue.ToString("0.##");
-            txtOpcStatus.Text = client.State.ToString();
+            if (cbOpcOn.Checked) txtOpcStatus.Text = client.State.ToString();
 
             if (!cbUseDaq.Checked) txtIoStatus.Text = "IO OFF";
             if (cbUseDaq.Checked && realProcessValue < 0) txtIoStatus.Text = "IO Error";
@@ -191,6 +240,8 @@ namespace Simulation
             chartMeasurementData.Series["Simulated Process Value [℃]"].Points.AddY(simulatedProcessValue);
             chartMeasurementData.Series["Setpoint [℃]"].Points.AddY(setpoint);
             if (cbUseDaq.Checked) chartMeasurementData.Series["Real Process Value [℃]"].Points.AddY(realProcessValue);
+
+            chartControlValue.Series["Control Value [V]"].Points.AddY(controlValue);
         }
 
         private void WriteToOPC()
@@ -224,7 +275,7 @@ namespace Simulation
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            client.WriteNode(tagControlSystemOnlineVerification, GenerateVerificationString(10));
+            if (cbOpcOn.Checked) client.WriteNode(tagControlSystemOnlineVerification, GenerateVerificationString(10));
         }
 
             private string GenerateVerificationString(int length)
@@ -277,6 +328,10 @@ namespace Simulation
         {
             timer1.Stop();
             timer2.Stop();
+            if (cbUseDaq.Checked)
+            {
+                daq.WriteData(0);
+            }
             cbUseDaq.Enabled = true;
         }
 
@@ -294,5 +349,59 @@ namespace Simulation
             if (numControlValue.Value < 0) numControlValue.Value = 0;
             controlValue = (double) numControlValue.Value;
         }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            
+            btnConnect.Enabled = false;
+            btnDisconnect.Enabled = true;
+            cbOpcOn.Enabled = true;
+            InitializeClient();
+            txtOpcStatus.Text = client.State.ToString();
+
+        }
+
+        private void InitializeClient()
+        {
+            client = new OpcClient(opcUrl);
+            client.Connect();
+
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            btnConnect.Enabled = true;
+            btnDisconnect.Enabled = false;
+            cbOpcOn.Checked = false;
+            cbOpcOn.Enabled = false;
+            client.Disconnect();
+            txtOpcStatus.Text = client.State.ToString();
+        }
+
+        private void numTs_ValueChanged(object sender, EventArgs e)
+        {
+            airHeater.Ts = (double)numTs.Value;
+        }
+
+        private void numThetaT_ValueChanged(object sender, EventArgs e)
+        {
+            airHeater.ThetaT = (double)numThetaT.Value;
+        }
+
+        private void numThetaD_ValueChanged(object sender, EventArgs e)
+        {
+            airHeater.ThetaD = (double)numThetaD.Value;
+        }
+
+        private void numKh_ValueChanged(object sender, EventArgs e)
+        {
+            airHeater.Kh = (double)numKh.Value;
+        }
+
+        private void numTEnv_ValueChanged(object sender, EventArgs e)
+        {
+            airHeater.Tenv = (double)numTEnv.Value;
+        }
+
     }
 }
