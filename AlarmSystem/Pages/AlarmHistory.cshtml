@@ -8,6 +8,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<!--Show alert if new alarms has been triggered-->
 <div>
    @foreach(var alarm in Model.alarms)
     {
@@ -40,15 +41,28 @@
     }
 </div>
 
+
+<!--Table showing all alarms-->
+<div>
+    There are 3 different types of alarms:
+    <br />
+    <span class="badge badge-pill badge-danger"> Alarm </span>
+    <span class="badge badge-pill badge-warning"> Warning </span>
+    <span class="badge badge-pill badge-info"> Notification </span>
+</div>
+<br />
+
 <div class="text-left">
 <table class="table table-bordered">
     <thead>
         <tr>
             <th class="text-nowrap">Alarm Id</th>
-            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Alarm Level</th>
+            <th class="text-nowrap">Alarm Name</th>
             <th class="text-nowrap">Description</th>
             <th class="text-nowrap">Time Stamp</th>
             <th class="text-nowrap">Value</th>
+            <th class="text-nowrap">Unit</th>
             <th class="text-nowrap">Acknowledged</th>
         </tr>
     </thead>
@@ -59,10 +73,12 @@
             {
             <tr class="table-warning">
                 <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-center">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
                 <td class="text-nowrap">@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
+                <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
             </tr>
             }
@@ -70,10 +86,12 @@
             {
             <tr class="table-danger">
                 <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-center">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
                 <td class="text-nowrap">@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
+                <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
             </tr>   
             }
@@ -81,10 +99,12 @@
             {
             <tr class="table-info">
                 <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-center">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
                 <td class="text-nowrap">@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
+                <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
             </tr>   
             }

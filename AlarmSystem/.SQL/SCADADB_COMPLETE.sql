@@ -64,6 +64,7 @@ CREATE TABLE PERSON
 	PersonName           varchar(50)  NULL ,
 	PersonTitle          varchar(50)  NULL ,
 	PersonUsername       varchar(50)  NULL ,
+	PersonPassword		 varchar(50)  NULL ,
 	PRIMARY KEY  CLUSTERED (PersonId ASC)
 )
 go
@@ -125,10 +126,12 @@ ALARMCONFIGURATION.AlarmDescription,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
 ALARM.AckTimeStamp,
-ALARMLEVEL.AlarmLevel
+ALARMLEVEL.AlarmLevel,
+TAGCONFIGURATION.TagUnit
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
+INNER JOIN TAGCONFIGURATION ON ALARMCONFIGURATION.TagId = TAGCONFIGURATION.TagId
 go
 ---------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'GetAlarms' AND type = 'V')
@@ -144,11 +147,13 @@ ALARMCONFIGURATION.AlarmConfigurationId,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
 ACKNOWLEDGE.AckStatus,
-ALARMLEVEL.AlarmLevel
+ALARMLEVEL.AlarmLevel,
+TAGCONFIGURATION.TagUnit
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ACKNOWLEDGE ON ALARM.AcknowledgeId = ACKNOWLEDGE.AcknowledgeId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
+INNER JOIN TAGCONFIGURATION ON ALARMCONFIGURATION.TagId = TAGCONFIGURATION.TagId
 WHERE ACKNOWLEDGE.AckStatus = 0
 go
 
@@ -581,7 +586,7 @@ DELETE FROM PERSON
 DELETE FROM ACKNOWLEDGE
 
 -- Updating The PERSON table
-INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername) VALUES ('Henrik', 'Engineer', '251247');
+INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword) VALUES ('Supervisor', 'Chief Supervisor', 'admin', '1234');
 
 -- Update ACKNOWLEDGE table
 Declare @PersonId int;

@@ -1,0 +1,8 @@
+exec SaveTagData 'tagRealProcessValue', -1, 'good'
+exec SaveTagData 'tagRealProcessValue', 35, 'good'
+exec SaveTagData 'tagRealProcessValue', 50, 'good'
+exec SaveTagData 'tagRealProcessValue', 5, 'good'
+exec SaveTagData 'tagRealProcessValue', 0, 'good'
+exec SaveTagData 'tagControlSystemOnlineVerification', -1, 'good'
+exec SaveTagData 'tagSetpoint', 10, 'good'
+exec SaveTagData 'tagSetpoint', 55, 'good'

@@ -6,6 +6,7 @@
 
 <meta http-equiv="refresh" content="10" />
 
+<!--Show alert if new alarms has been triggered-->
 <h1>@ViewData["Title"]</h1>
 <div>
     @foreach(var alarm in Model.alarms)
@@ -37,8 +38,7 @@
     }
 </div>
 
-
-
+<!--Show different alarm configurations in a list-->
 <div class="text-left">
 <table class="table">
     <thead>
@@ -66,5 +66,5 @@
         }
     </tbody>
 </table>
-<!--<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>-->
+<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>
 </div>

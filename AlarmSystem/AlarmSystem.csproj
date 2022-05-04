@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JW.Pager" Version="1.0.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
   </ItemGroup>
 
@@ -33,6 +34,11 @@
     <None Include=".SQL\VIEW_GetAlarmHistory.sql" />
     <None Include=".SQL\VIEW_GetAlarms.sql" />
     <None Include=".SQL\VIEW_GetTagConfiguration.sql" />
+    <None Include="wwwroot\Avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 
 </Project>

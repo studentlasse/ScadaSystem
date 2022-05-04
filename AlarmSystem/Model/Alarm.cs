@@ -13,6 +13,7 @@ namespace AlarmSystem.Model
         public int AcknowledgeId { get; set; }
         public double Value { get; set; }
         public string AlarmLevel { get; set; }
+        public string ValueUnit { get; set; }
 
         public string AlarmName { get; set; }
         public string AlarmDescription { get; set; }
@@ -73,6 +74,7 @@ namespace AlarmSystem.Model
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
                     alarm.AlarmLevel = dr["AlarmLevel"].ToString();
+                    alarm.ValueUnit= dr["TagUnit"].ToString();
 
                     alarmList.Add(alarm);
                 }
@@ -106,6 +108,8 @@ namespace AlarmSystem.Model
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AckTimeStamp = dr["AckTimeStamp"].ToString();
                     alarm.AlarmLevel = dr["AlarmLevel"].ToString();
+                    alarm.ValueUnit = dr["TagUnit"].ToString();
+
 
                     alarmList.Add(alarm);
                 }
