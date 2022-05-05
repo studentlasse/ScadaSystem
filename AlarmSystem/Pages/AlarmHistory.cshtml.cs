@@ -1,26 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using AlarmSystem.Model;
 using Microsoft.Extensions.Configuration;
 
-
 namespace AlarmSystem.Pages
 {
-    public class AlarmsModel : PageModel
+    public class AlarmHistoryModel : PageModel
     {
         readonly IConfiguration _configuration;
         public string connectionString;
 
+        public Alarm alarmHistoryData = new Alarm();
+        public List<Alarm> alarmHistoryList = new List<Alarm>();
         public List<Alarm> alarms = new List<Alarm>();
 
-
-        public AlarmsModel(IConfiguration configuration)
+        public AlarmHistoryModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         public void OnGet()
         {
+            alarmHistoryList = GetHistoryAlarmList();
             alarms = GetAlarmList();
         }
 
@@ -34,13 +35,14 @@ namespace AlarmSystem.Pages
             return alarmList;
         }
 
-        /*public void OnPost()
+        private List<Alarm> GetHistoryAlarmList()
         {
-            Alarm alarm = new Alarm();
-            alarm.AlarmId = Convert.ToInt32(Request.Query["AlarmId"]);
             connectionString = _configuration.GetConnectionString("ConnectionString");
-            alarm.EditAlarm(connectionString, alarm);
-            Response.Redirect("./Alarms");
-        }*/
+
+            List<Alarm> alarmList = new List<Alarm>();
+            Alarm alarm = new Alarm();
+            alarmList = alarm.GetAlarmHistoryList(connectionString);
+            return alarmList;
+        }
     }
 }

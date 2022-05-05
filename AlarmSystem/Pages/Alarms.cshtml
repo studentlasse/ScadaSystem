@@ -5,30 +5,67 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<div class="text-center">
-<table class="table">
+<meta http-equiv="refresh" content="10" />
+
+<!--<div class="alert alert-success alert-dismissible fade">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> Alarm acknowledged.
+</div>-->
+
+<div class="text-left">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Alarm Id</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Time Stamp</th>
-            <th>Value</th>
-            <th>Status (acknowledged)</th>
+            <th class="text-nowrap">Alarm Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Time Stamp</th>
+            <th class="text-nowrap">Value</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var alarm in Model.alarmList)
+        @foreach (var alarm in Model.alarms)
         {
-            <tr>
-                <td>@alarm.AlarmId</td>
-                <td>@alarm.AlarmName</td>
-                <td>@alarm.AlarmDescription</td>
-                <td>@alarm.TimeStamp</td>
-                <td>@alarm.Value</td>
-                <td>@alarm.AlarmAcknowledged</td>
-                <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
-            </tr>
+                @if(@alarm.AlarmLevel == "Warning")
+                {
+                <tr class="table-warning">
+                    <td class="text-center">@alarm.AlarmId</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td class="text-center">@alarm.Value</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a>        
+                    </td>
+                </tr>
+                }
+                else if(@alarm.AlarmLevel == "Alarm")
+                {
+                <tr class="table-danger">
+                    <td class="text-center">@alarm.AlarmId</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td class="text-center">@alarm.Value</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>
+                }
+                else if(@alarm.AlarmLevel == "Notification")
+                {
+                <tr class="table-info">
+                    <td class="text-center">@alarm.AlarmId</td>
+                    <td class="text-nowrap">@alarm.AlarmName</td>
+                    <td class="text-nowrap">@alarm.AlarmDescription</td>
+                    <td>@alarm.TimeStamp</td>
+                    <td class="text-center">@alarm.Value</td>
+                    <td><a href="./AcknowledgeAlarm?alarmid=@alarm.AlarmId" class="btn btn-info" role="button">Acknowledge</a></td>
+                </tr>
+                }
+                else
+                {
+                    <tr class="table-success">
+                        <td>There are no Active Alarms! :)</td>
+                    </tr>
+                }
         }
     </tbody>
 </table>

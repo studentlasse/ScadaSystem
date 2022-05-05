@@ -1,0 +1,95 @@
+﻿@page
+@model AlarmSystem.Pages.AlarmHistoryModel
+@{
+    ViewData["Title"] = "Alarm History";
+}
+
+<meta http-equiv="refresh" content="10" />
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+   @foreach(var alarm in Model.alarms)
+    {
+        @if(@alarm.AlarmAcknowledged == false)
+        {
+            @if(@alarm.AlarmLevel == "Notification")
+            {
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+            else if(@alarm.AlarmLevel == "Warning")
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new warnings on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+            else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new alarms on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+            
+        break;
+        }
+    }
+</div>
+
+<div class="text-left">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="text-nowrap">Alarm Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Time Stamp</th>
+            <th class="text-nowrap">Value</th>
+            <th class="text-nowrap">Acknowledged</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var alarm in Model.alarmHistoryList)
+        {
+            @if(@alarm.AlarmLevel == "Warning")
+            {
+            <tr class="table-warning">
+                <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td class="text-center">@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>
+            }
+            else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <tr class="table-danger">
+                <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td class="text-center">@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>   
+            }
+            else
+            {
+            <tr class="table-info">
+                <td class="text-center">@alarm.AlarmId</td>
+                <td class="text-nowrap">@alarm.AlarmName</td>
+                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.TimeStamp</td>
+                <td class="text-center">@alarm.Value</td>
+                <td>@alarm.AckTimeStamp</td>
+            </tr>   
+            }
+        }
+    </tbody>
+</table>
+
+</div>

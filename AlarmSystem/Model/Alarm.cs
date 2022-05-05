@@ -8,9 +8,11 @@ namespace AlarmSystem.Model
     {
         public int AlarmId { get; set; }  
         public string TimeStamp { get; set; }
+        public string AckTimeStamp { get; set; }
         public int AlarmConfigId { get; set; }
         public int AcknowledgeId { get; set; }
         public double Value { get; set; }
+        public string AlarmLevel { get; set; }
 
         public string AlarmName { get; set; }
         public string AlarmDescription { get; set; }
@@ -40,7 +42,7 @@ namespace AlarmSystem.Model
                 alarm.AlarmConfigId = Convert.ToInt32(dr["AlarmConfigurationId"]);
                 alarm.AcknowledgeId = Convert.ToInt32(dr["AcknowledgeId"]);
                 alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
-                alarm.Value = Convert.ToDouble(dr["Value"]);
+                alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]), 2);
             }
             con.Close();
             return alarm;
@@ -53,16 +55,11 @@ namespace AlarmSystem.Model
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
 
-            string sqlQuery = "select * from GetAlarms";
+            string sqlQuery = "SELECT * from GetAlarms order by AlarmTimeStamp DESC";
 
             SqlCommand cmd = new SqlCommand(sqlQuery, con);
 
             SqlDataReader dr = cmd.ExecuteReader();
-
-            // TODO2: GJØR ALARMENE I TABELLEN "TRYKKBARE" FOR MER INFO
-            // TODO3: LEGG TIL ACKNOWLEDGE KNAPP FOR HVER ALARM HVIS MULIG --> DENNE MÅ DA FORANDRE ACKNOWLEDGE VERDIEN TIL ALARMEN!
-            // TODO4: NYE KLASSER: ALARMCONFIG, ALARMLEVEL, PERSON, ACKNOWLEDGMENT(?), TAGDATA(?)
-            // TODO5: E-Post varsling evt. annen type varsling. 
 
             if (dr != null)
             {
@@ -71,10 +68,44 @@ namespace AlarmSystem.Model
                     Alarm alarm = new Alarm();
                     alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
                     alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
-                    alarm.Value = Convert.ToDouble(dr["Value"]);
+                    alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]), 2);
                     alarm.AlarmName = dr["AlarmName"].ToString();
                     alarm.AlarmDescription = dr["AlarmDescription"].ToString();
                     alarm.AlarmAcknowledged = Convert.ToBoolean(dr["AckStatus"]);
+                    alarm.AlarmLevel = dr["AlarmLevel"].ToString();
+
+                    alarmList.Add(alarm);
+                }
+                con.Close();
+            }
+            return alarmList;
+        }
+
+        public List<Alarm> GetAlarmHistoryList(string connectionString)
+        {
+            List<Alarm> alarmList = new List<Alarm>();
+
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
+
+            string sqlQuery = "SELECT * FROM GetAlarmHistory WHERE AckTimeStamp != 0 order by AckTimeStamp DESC";
+
+            SqlCommand cmd = new SqlCommand(sqlQuery, con);
+
+            SqlDataReader dr = cmd.ExecuteReader();
+
+            if (dr != null)
+            {
+                while (dr.Read())
+                {
+                    Alarm alarm = new Alarm();
+                    alarm.AlarmId = Convert.ToInt32(dr["AlarmId"]);
+                    alarm.TimeStamp = dr["AlarmTimeStamp"].ToString();
+                    alarm.Value = Math.Round(Convert.ToDouble(dr["Value"]),2);
+                    alarm.AlarmName = dr["AlarmName"].ToString();
+                    alarm.AlarmDescription = dr["AlarmDescription"].ToString();
+                    alarm.AckTimeStamp = dr["AckTimeStamp"].ToString();
+                    alarm.AlarmLevel = dr["AlarmLevel"].ToString();
 
                     alarmList.Add(alarm);
                 }
@@ -83,7 +114,7 @@ namespace AlarmSystem.Model
             }
             return alarmList;
         }
-        
+
         public void EditAlarm(string connectionString, Alarm alarm)
         {
             try

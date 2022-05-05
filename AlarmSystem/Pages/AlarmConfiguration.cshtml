@@ -3,18 +3,52 @@
 @{
     ViewData["Title"] = "Alarm Configurations";
 }
-<h1>@ViewData["Title"]</h1>
 
-<div class="text-center">
+<meta http-equiv="refresh" content="10" />
+
+<h1>@ViewData["Title"]</h1>
+<div>
+    @foreach(var alarm in Model.alarms)
+    {
+        @if(@alarm.AlarmAcknowledged == false)
+        {
+            @if(@alarm.AlarmLevel == "Notification")
+            {
+            <div class="alert alert-info alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new notifications on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } 
+            else if(@alarm.AlarmLevel == "Warning")
+            {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new warnings on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            } else if(@alarm.AlarmLevel == "Alarm")
+            {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Info!</strong> There are new alarms on the <a href="./Alarms" class="alert-link">Alarms page!</a>
+            </div>
+            }
+        break;
+        }
+    }
+</div>
+
+
+
+<div class="text-left">
 <table class="table">
     <thead>
         <tr>
-            <th>Alarm Configuration Id</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Lower Limit [C]</th>
-            <th>Upper Limit [C]</th>
-            <th>Alarm Level</th>
+            <th class="text-nowrap">Alarm Configuration Id</th>
+            <th class="text-nowrap">Type</th>
+            <th class="text-nowrap">Description</th>
+            <th class="text-nowrap">Lower Limit [C]</th>
+            <th class="text-nowrap">Upper Limit [C]</th>
+            <th class="text-nowrap">Alarm Level</th>
             
         </tr>
     </thead>
@@ -22,15 +56,15 @@
         @foreach (var alarmConfig in Model.alarmConfigurations)
         {
             <tr>
-                <td>@alarmConfig.AlarmConfigId</td>
-                <td><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
+                <td class="text-center">@alarmConfig.AlarmConfigId</td>
+                <td class="text-nowrap"><a href="./EditAlarmConfiguration?alarmConfigurationId=@alarmConfig.AlarmConfigId">@alarmConfig.AlarmName</a></td>
                 <td>@alarmConfig.AlarmDescription</td>
-                <td>@alarmConfig.LowerLimit</td>
-                <td>@alarmConfig.UpperLimit</td>
+                <td class="text-center">@alarmConfig.LowerLimit</td>
+                <td class="text-center">@alarmConfig.UpperLimit</td>
                 <td>@alarmConfig.AlarmLevel</td>
             </tr>
         }
     </tbody>
 </table>
-<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>
+<!--<a href="./NewAlarmConfiguration" class="btn btn-info" role="button">New Alarm Configuration</a>-->
 </div>

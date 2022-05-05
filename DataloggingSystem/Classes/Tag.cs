@@ -8,15 +8,15 @@ namespace DataloggingSystem.Classes
 {
     public class Tag
     {
-        public Tag(float time, float processValue, float simValue, float setpoint, float controlValue, float ioError, float randomNumber)
+        public Tag(float time, float processValue, float simValue, float setpoint, float controlValue, float controlSystemVerification, float automatic)
         {
             this.time = time;
             this.processValue = processValue;
             this.simValue = simValue;
             this.setpoint = setpoint;
             this.controlValue = controlValue;
-            this.ioError = ioError;
-            this.randomNumber = randomNumber;
+            this.controlSystemVerification = controlSystemVerification;
+            this.automatic = automatic;
         }
 
         public float time;
@@ -24,7 +24,7 @@ namespace DataloggingSystem.Classes
         public float simValue;
         public float setpoint;
         public float controlValue;
-        public float ioError;
-        public float randomNumber;
+        public float controlSystemVerification;
+        public float automatic;
     }
 }

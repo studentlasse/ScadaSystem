@@ -265,7 +265,6 @@ namespace Simulation
                 {
                     client.WriteNode(tagAutomatic, -1);
                 }
- 
             }
             catch
             {
