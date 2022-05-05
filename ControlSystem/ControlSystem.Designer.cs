@@ -30,9 +30,12 @@ namespace Simulation
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.txtSimProcessValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,6 +55,7 @@ namespace Simulation
             this.btnStop = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chartControlValue = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbUseDaq = new System.Windows.Forms.CheckBox();
             this.txtIoStatus = new System.Windows.Forms.TextBox();
@@ -60,7 +64,21 @@ namespace Simulation
             this.numControlValue = new System.Windows.Forms.NumericUpDown();
             this.numR = new System.Windows.Forms.NumericUpDown();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.numTs = new System.Windows.Forms.NumericUpDown();
+            this.numTEnv = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.numKh = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numThetaD = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numThetaT = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDisconnect = new System.Windows.Forms.Button();
+            this.cbOpcOn = new System.Windows.Forms.CheckBox();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.txtOPCServer = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
@@ -68,10 +86,17 @@ namespace Simulation
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartControlValue)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numControlValue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numR)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numTs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTEnv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numKh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numThetaD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numThetaT)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,9 +113,9 @@ namespace Simulation
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 243);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.Size = new System.Drawing.Size(89, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Control Value:";
+            this.label1.Text = "Control Value [V]:";
             // 
             // label2
             // 
@@ -108,16 +133,16 @@ namespace Simulation
             // 
             // chartMeasurementData
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chartMeasurementData.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chartMeasurementData.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.chartMeasurementData.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartMeasurementData.Legends.Add(legend1);
             this.chartMeasurementData.Location = new System.Drawing.Point(6, 6);
             this.chartMeasurementData.Name = "chartMeasurementData";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chartMeasurementData.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartMeasurementData.Series.Add(series1);
             this.chartMeasurementData.Size = new System.Drawing.Size(663, 417);
             this.chartMeasurementData.TabIndex = 4;
             this.chartMeasurementData.Text = "chartMeasurementData";
@@ -152,9 +177,9 @@ namespace Simulation
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 63);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(19, 13);
+            this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Ti:";
+            this.label4.Text = "Ti [sec]:";
             // 
             // label5
             // 
@@ -188,7 +213,7 @@ namespace Simulation
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtTi);
-            this.groupBox1.Location = new System.Drawing.Point(20, 178);
+            this.groupBox1.Location = new System.Drawing.Point(20, 272);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(233, 120);
             this.groupBox1.TabIndex = 13;
@@ -197,7 +222,7 @@ namespace Simulation
             // 
             // txtOpcStatus
             // 
-            this.txtOpcStatus.Location = new System.Drawing.Point(9, 47);
+            this.txtOpcStatus.Location = new System.Drawing.Point(6, 86);
             this.txtOpcStatus.Name = "txtOpcStatus";
             this.txtOpcStatus.Size = new System.Drawing.Size(100, 20);
             this.txtOpcStatus.TabIndex = 14;
@@ -205,7 +230,7 @@ namespace Simulation
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 31);
+            this.label7.Location = new System.Drawing.Point(3, 70);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(91, 13);
             this.label7.TabIndex = 15;
@@ -213,7 +238,7 @@ namespace Simulation
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(653, 485);
+            this.btnStart.Location = new System.Drawing.Point(653, 766);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 16;
@@ -223,7 +248,7 @@ namespace Simulation
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(784, 485);
+            this.btnStop.Location = new System.Drawing.Point(784, 766);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 17;
@@ -238,20 +263,37 @@ namespace Simulation
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(851, 455);
+            this.tabControl1.Size = new System.Drawing.Size(851, 727);
             this.tabControl1.TabIndex = 18;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chartControlValue);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.chartMeasurementData);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(843, 429);
+            this.tabPage1.Size = new System.Drawing.Size(843, 701);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Plot";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chartControlValue
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chartControlValue.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartControlValue.Legends.Add(legend2);
+            this.chartControlValue.Location = new System.Drawing.Point(6, 429);
+            this.chartControlValue.Name = "chartControlValue";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartControlValue.Series.Add(series2);
+            this.chartControlValue.Size = new System.Drawing.Size(663, 247);
+            this.chartControlValue.TabIndex = 20;
+            this.chartControlValue.Text = "chart1";
             // 
             // groupBox2
             // 
@@ -331,32 +373,180 @@ namespace Simulation
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(843, 429);
+            this.tabPage2.Size = new System.Drawing.Size(843, 701);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.numTs);
+            this.groupBox4.Controls.Add(this.numTEnv);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.numKh);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.numThetaD);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.numThetaT);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Location = new System.Drawing.Point(310, 18);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(141, 237);
+            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Air Heater Model";
+            // 
+            // numTs
+            // 
+            this.numTs.DecimalPlaces = 2;
+            this.numTs.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numTs.Location = new System.Drawing.Point(6, 36);
+            this.numTs.Name = "numTs";
+            this.numTs.Size = new System.Drawing.Size(120, 20);
+            this.numTs.TabIndex = 21;
+            this.numTs.ValueChanged += new System.EventHandler(this.numTs_ValueChanged);
+            // 
+            // numTEnv
+            // 
+            this.numTEnv.DecimalPlaces = 2;
+            this.numTEnv.Location = new System.Drawing.Point(6, 189);
+            this.numTEnv.Name = "numTEnv";
+            this.numTEnv.Size = new System.Drawing.Size(120, 20);
+            this.numTEnv.TabIndex = 7;
+            this.numTEnv.ValueChanged += new System.EventHandler(this.numTEnv_ValueChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 20);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(45, 13);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "Ts [sec]";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 173);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(52, 13);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Tenv [℃]";
+            // 
+            // numKh
+            // 
+            this.numKh.DecimalPlaces = 2;
+            this.numKh.Location = new System.Drawing.Point(6, 150);
+            this.numKh.Name = "numKh";
+            this.numKh.Size = new System.Drawing.Size(120, 20);
+            this.numKh.TabIndex = 5;
+            this.numKh.ValueChanged += new System.EventHandler(this.numKh_ValueChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 134);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(58, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Kh [℃ / V]";
+            // 
+            // numThetaD
+            // 
+            this.numThetaD.DecimalPlaces = 2;
+            this.numThetaD.Location = new System.Drawing.Point(6, 111);
+            this.numThetaD.Name = "numThetaD";
+            this.numThetaD.Size = new System.Drawing.Size(120, 20);
+            this.numThetaD.TabIndex = 3;
+            this.numThetaD.ValueChanged += new System.EventHandler(this.numThetaD_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 95);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(72, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Theta D [sec]";
+            // 
+            // numThetaT
+            // 
+            this.numThetaT.DecimalPlaces = 2;
+            this.numThetaT.Location = new System.Drawing.Point(6, 72);
+            this.numThetaT.Name = "numThetaT";
+            this.numThetaT.Size = new System.Drawing.Size(120, 20);
+            this.numThetaT.TabIndex = 1;
+            this.numThetaT.ValueChanged += new System.EventHandler(this.numThetaT_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 56);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(71, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Theta T [sec]";
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnDisconnect);
+            this.groupBox3.Controls.Add(this.cbOpcOn);
+            this.groupBox3.Controls.Add(this.btnConnect);
             this.groupBox3.Controls.Add(this.txtOpcStatus);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.txtOPCServer);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Location = new System.Drawing.Point(20, 38);
+            this.groupBox3.Location = new System.Drawing.Point(20, 18);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(284, 134);
+            this.groupBox3.Size = new System.Drawing.Size(284, 237);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "OPC Server";
             // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.Location = new System.Drawing.Point(199, 184);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.btnDisconnect.TabIndex = 20;
+            this.btnDisconnect.Text = "Disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            // 
+            // cbOpcOn
+            // 
+            this.cbOpcOn.AutoSize = true;
+            this.cbOpcOn.Location = new System.Drawing.Point(9, 28);
+            this.cbOpcOn.Name = "cbOpcOn";
+            this.cbOpcOn.Size = new System.Drawing.Size(70, 17);
+            this.cbOpcOn.TabIndex = 18;
+            this.cbOpcOn.Text = "Use OPC";
+            this.cbOpcOn.UseVisualStyleBackColor = true;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(9, 184);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.TabIndex = 19;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // txtOPCServer
             // 
-            this.txtOPCServer.Location = new System.Drawing.Point(9, 98);
+            this.txtOPCServer.Location = new System.Drawing.Point(6, 137);
             this.txtOPCServer.Name = "txtOPCServer";
             this.txtOPCServer.Size = new System.Drawing.Size(265, 20);
             this.txtOPCServer.TabIndex = 17;
@@ -364,7 +554,7 @@ namespace Simulation
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 82);
+            this.label8.Location = new System.Drawing.Point(3, 121);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 16;
@@ -378,7 +568,7 @@ namespace Simulation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 525);
+            this.ClientSize = new System.Drawing.Size(878, 812);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
@@ -390,11 +580,19 @@ namespace Simulation
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartControlValue)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numControlValue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numR)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numTs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTEnv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numKh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numThetaD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numThetaT)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -433,6 +631,21 @@ namespace Simulation
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox cbUseDaq;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.CheckBox cbOpcOn;
+        private System.Windows.Forms.Button btnDisconnect;
+        private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown numThetaT;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numThetaD;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown numTEnv;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown numKh;
+        private System.Windows.Forms.NumericUpDown numTs;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartControlValue;
     }
 }
 

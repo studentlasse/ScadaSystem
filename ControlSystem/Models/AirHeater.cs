@@ -6,7 +6,17 @@
         public double ThetaD { get; set; }
         public double Kh { get; set; }
         public double Tenv { get; set; }
-        public double Ts { get; set; }
+        private double _Ts;
+
+        public double Ts
+        {
+            get { return _Ts; }
+            set 
+            { 
+                _Ts = value; 
+                InitTimeDelay();
+            }
+        }
 
         private double[] timeDelay;
 
@@ -16,7 +26,7 @@
             ThetaD = 2;
             Kh = 3.5;
             Tenv = 21.5;
-            Ts = 0.1;
+            _Ts = 0.1;
 
             InitTimeDelay();
         }
@@ -29,7 +39,7 @@
             ThetaD = 2;
             Kh = 3.5;
             Tenv = 21.5;
-            this.Ts = Ts;
+            this._Ts = Ts;
 
             InitTimeDelay();
         }
@@ -40,7 +50,7 @@
             this.ThetaD = ThetaD;
             this.Kh = Kh;
             this.Tenv = Tenv;
-            this.Ts = Ts;
+            this._Ts = Ts;
 
             InitTimeDelay();
         }
@@ -49,7 +59,7 @@
         {
             double xk1;
             double delayedU = timeDelay[0];
-            xk1 = xk * (1 - (Ts / ThetaT)) + (Ts / ThetaT) * Kh * delayedU + (Ts / ThetaT) * Tenv;
+            xk1 = xk * (1 - (_Ts / ThetaT)) + (_Ts / ThetaT) * Kh * delayedU + (_Ts / ThetaT) * Tenv;
 
             for (int i = 0; i < timeDelay.Length; i++)
             {
@@ -66,7 +76,7 @@
         }
         private void InitTimeDelay()
         {
-            int n = (int)(ThetaD / Ts);
+            int n = (int)(ThetaD / _Ts);
             timeDelay = new double[n];
             for (int i = 0; i < timeDelay.Length; i++)
             {

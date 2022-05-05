@@ -2,7 +2,7 @@
 {
     class Scaling
     {
-        double x1, x2, y1, y2;
+        public double x1, x2, y1, y2;
 
         public Scaling(double x1, double x2, double y1, double y2)
         {
