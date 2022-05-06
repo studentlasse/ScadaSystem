@@ -37,8 +37,4 @@
     <None Include="wwwroot\Avatar.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-
 </Project>

@@ -64,6 +64,7 @@
             <th class="text-nowrap">Value</th>
             <th class="text-nowrap">Unit</th>
             <th class="text-nowrap">Acknowledged</th>
+            <th class="text-nowrap">Acknowledged by user</th>
         </tr>
     </thead>
     <tbody>
@@ -80,6 +81,7 @@
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
+                <td>@alarm.AcknowledgedBy</td>
             </tr>
             }
             else if(@alarm.AlarmLevel == "Alarm")
@@ -93,6 +95,7 @@
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
+                <td>@alarm.AcknowledgedBy</td>
             </tr>   
             }
             else
@@ -106,6 +109,7 @@
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
                 <td>@alarm.AckTimeStamp</td>
+                <td>@alarm.AcknowledgedBy</td>
             </tr>   
             }
         }

@@ -127,11 +127,14 @@ ALARM.AlarmTimeStamp,
 ALARM.Value,
 ALARM.AckTimeStamp,
 ALARMLEVEL.AlarmLevel,
-TAGCONFIGURATION.TagUnit
+TAGCONFIGURATION.TagUnit,
+PERSON.PersonName
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
 INNER JOIN TAGCONFIGURATION ON ALARMCONFIGURATION.TagId = TAGCONFIGURATION.TagId
+INNER JOIN ACKNOWLEDGE ON ALARM.AcknowledgeId = ACKNOWLEDGE.AcknowledgeId
+INNER JOIN PERSON ON ACKNOWLEDGE.PersonId = PERSON.PersonId
 go
 ---------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'GetAlarms' AND type = 'V')
@@ -586,10 +589,10 @@ DELETE FROM PERSON
 DELETE FROM ACKNOWLEDGE
 
 -- Updating The PERSON table
-INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword) VALUES ('Supervisor', 'Chief Supervisor', 'admin', '1234');
+INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword) VALUES ('Operator', 'Operator', 'operator', '1');
 
 -- Update ACKNOWLEDGE table
 Declare @PersonId int;
-Select @PersonId = PersonId FROM PERSON WHERE PersonName = 'Henrik';
+Select @PersonId = PersonId FROM PERSON WHERE PersonName = 'Operator';
 INSERT INTO ACKNOWLEDGE(PersonId, AckTimeStamp, AckStatus) VALUES (@PersonId, CURRENT_TIMESTAMP, '0');
 INSERT INTO ACKNOWLEDGE(PersonId, AckTimeStamp, AckStatus) VALUES (@PersonId, CURRENT_TIMESTAMP, '1');
