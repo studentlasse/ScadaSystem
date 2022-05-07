@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using AlarmSystem.Model;
 using Microsoft.Extensions.Configuration;
 
@@ -13,13 +17,18 @@ namespace AlarmSystem.Pages
         public string connectionString;
 
         public List<Alarm> alarms = new List<Alarm>();
-
+        public Person person = new Person();
 
         public AlarmsModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
         public void OnGet()
+        {
+            alarms = GetAlarmList();   
+        }
+
+        public void OnPost()
         {
             alarms = GetAlarmList();
         }
@@ -34,13 +43,5 @@ namespace AlarmSystem.Pages
             return alarmList;
         }
 
-        /*public void OnPost()
-        {
-            Alarm alarm = new Alarm();
-            alarm.AlarmId = Convert.ToInt32(Request.Query["AlarmId"]);
-            connectionString = _configuration.GetConnectionString("ConnectionString");
-            alarm.EditAlarm(connectionString, alarm);
-            Response.Redirect("./Alarms");
-        }*/
     }
 }

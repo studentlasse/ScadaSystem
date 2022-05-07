@@ -64,6 +64,7 @@ CREATE TABLE PERSON
 	PersonName           varchar(50)  NULL ,
 	PersonTitle          varchar(50)  NULL ,
 	PersonUsername       varchar(50)  NULL ,
+	PersonPassword		 varchar(50)  NULL ,
 	PRIMARY KEY  CLUSTERED (PersonId ASC)
 )
 go
@@ -125,10 +126,15 @@ ALARMCONFIGURATION.AlarmDescription,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
 ALARM.AckTimeStamp,
-ALARMLEVEL.AlarmLevel
+ALARMLEVEL.AlarmLevel,
+TAGCONFIGURATION.TagUnit,
+PERSON.PersonName
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
+INNER JOIN TAGCONFIGURATION ON ALARMCONFIGURATION.TagId = TAGCONFIGURATION.TagId
+INNER JOIN ACKNOWLEDGE ON ALARM.AcknowledgeId = ACKNOWLEDGE.AcknowledgeId
+INNER JOIN PERSON ON ACKNOWLEDGE.PersonId = PERSON.PersonId
 go
 ---------------------------------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'GetAlarms' AND type = 'V')
@@ -144,11 +150,13 @@ ALARMCONFIGURATION.AlarmConfigurationId,
 ALARM.AlarmTimeStamp,
 ALARM.Value,
 ACKNOWLEDGE.AckStatus,
-ALARMLEVEL.AlarmLevel
+ALARMLEVEL.AlarmLevel,
+TAGCONFIGURATION.TagUnit
 FROM ALARM
 INNER JOIN ALARMCONFIGURATION ON ALARM.AlarmConfigurationId = ALARMCONFIGURATION.AlarmConfigurationId
 INNER JOIN ACKNOWLEDGE ON ALARM.AcknowledgeId = ACKNOWLEDGE.AcknowledgeId
 INNER JOIN ALARMLEVEL ON ALARMCONFIGURATION.AlarmLevelId = ALARMLEVEL.AlarmLevelId
+INNER JOIN TAGCONFIGURATION ON ALARMCONFIGURATION.TagId = TAGCONFIGURATION.TagId
 WHERE ACKNOWLEDGE.AckStatus = 0
 go
 
@@ -168,6 +176,7 @@ TAGCONFIGURATION.TagName
 FROM TAGDATA
 INNER JOIN TAGCONFIGURATION ON TAGDATA.TagId = TAGCONFIGURATION.TagId
 go
+
 -----------------STORED PROCEDURES-----------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'AcknowledgeAlarm' AND type = 'P')
 DROP PROCEDURE AcknowledgeAlarm
@@ -362,6 +371,27 @@ AlarmUpperLimit = @AlarmUpperLimit,
 AlarmLevelId = (select AlarmLevelId from ALARMLEVEL where AlarmLevel=@AlarmLevel),
 TagId = (select TagId from TAGCONFIGURATION where TagName=@TagName)
 WHERE AlarmConfigurationId = @AlarmConfigurationId
+GO
+---------------------------------------------------
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'CreatePerson' AND type = 'P')
+DROP PROCEDURE CreatePerson
+GO
+
+CREATE PROCEDURE CreatePerson
+@Name varchar(50),
+@Title varchar(50),
+@Username varchar(50),
+@Password varchar(50)
+AS
+
+if not exists (select * from PERSON where PersonName = @Name)
+INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword)
+VALUES (
+@Name,
+@Title,
+@Username,
+@Password
+)
 GO
 
 -----------------TRIGGERS-----------------
@@ -581,10 +611,10 @@ DELETE FROM PERSON
 DELETE FROM ACKNOWLEDGE
 
 -- Updating The PERSON table
-INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername) VALUES ('Henrik', 'Engineer', '251247');
+INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword) VALUES ('Operator', 'Operator', 'operator', '1');
 
 -- Update ACKNOWLEDGE table
 Declare @PersonId int;
-Select @PersonId = PersonId FROM PERSON WHERE PersonName = 'Henrik';
+Select @PersonId = PersonId FROM PERSON WHERE PersonName = 'Operator';
 INSERT INTO ACKNOWLEDGE(PersonId, AckTimeStamp, AckStatus) VALUES (@PersonId, CURRENT_TIMESTAMP, '0');
 INSERT INTO ACKNOWLEDGE(PersonId, AckTimeStamp, AckStatus) VALUES (@PersonId, CURRENT_TIMESTAMP, '1');
