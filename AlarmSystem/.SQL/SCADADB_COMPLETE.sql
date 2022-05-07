@@ -176,6 +176,7 @@ TAGCONFIGURATION.TagName
 FROM TAGDATA
 INNER JOIN TAGCONFIGURATION ON TAGDATA.TagId = TAGCONFIGURATION.TagId
 go
+
 -----------------STORED PROCEDURES-----------------
 IF EXISTS (SELECT name FROM sysobjects WHERE name = 'AcknowledgeAlarm' AND type = 'P')
 DROP PROCEDURE AcknowledgeAlarm
@@ -370,6 +371,27 @@ AlarmUpperLimit = @AlarmUpperLimit,
 AlarmLevelId = (select AlarmLevelId from ALARMLEVEL where AlarmLevel=@AlarmLevel),
 TagId = (select TagId from TAGCONFIGURATION where TagName=@TagName)
 WHERE AlarmConfigurationId = @AlarmConfigurationId
+GO
+---------------------------------------------------
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'CreatePerson' AND type = 'P')
+DROP PROCEDURE CreatePerson
+GO
+
+CREATE PROCEDURE CreatePerson
+@Name varchar(50),
+@Title varchar(50),
+@Username varchar(50),
+@Password varchar(50)
+AS
+
+if not exists (select * from PERSON where PersonName = @Name)
+INSERT INTO PERSON(PersonName, PersonTitle, PersonUsername, PersonPassword)
+VALUES (
+@Name,
+@Title,
+@Username,
+@Password
+)
 GO
 
 -----------------TRIGGERS-----------------

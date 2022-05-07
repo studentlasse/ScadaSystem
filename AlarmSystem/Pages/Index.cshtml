@@ -3,6 +3,73 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<!--Modal for creating new users-->
+<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="addNewUser" aria-hidden="true">
+    <div class ="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-nowrap" id="addNewUser">Add new user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="personForm" id="personForm" method="post">
+                Name:
+                <br />
+                <input name="personName" type="text" class="form-control input-lg" autofocus required />
+                <br />
+
+                Title (Operator / Supervisor):
+                <br />
+                <input name="personTitle" type="text" class="form-control input-lg" required />
+                <br />
+
+                Username:
+                <br />
+                <input name="personUsername" type="text" class="form-control input-lg" required />
+                <br />
+
+                Password:
+                <br />
+                <input name="personPassword" type="password" class="form-control input-lg" required />
+                <br />
+
+                <input id="saveButton" type="submit" value="Save" class="btn btn-info" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @{
+        var person = Model.person;
+    }
+    @if (person.Successful == 2)
+    {
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> New user created!
+    </div>
+    person.Successful = 0;
+    }
+    else if (person.Successful == 1)
+    {
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong> Something went wrong!
+    </div>
+    person.Successful = 0;
+
+    }
+    <button type="button" class="btn btn-outline-primary float-right" data-toggle="modal" data-target="#newUser">Add new user</button>
+</div>
+
+<br />
 
 <!DOCTYPE html>
 <html>
@@ -28,7 +95,7 @@ button {
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: 20%;
 }
 
 button:hover {
@@ -67,37 +134,37 @@ span.psw {
      float: none;
   }
   .cancelbtn {
-     width: 100%;
+     width: 20%;
   }
+
 }
 </style>
 </head>
 <body>
 
 <h2>Welcome! Please log in</h2>
+    <p class="text-right">Logged in as @Model.person.Name</p>
 
-<form action="~/Alarms" method="get">
+
+<form action="~/Alarms" method="OnPostLogin">
   <div class="imgcontainer">
     <img src="~/Avatar.png" alt="Avatar" class="avatar">
   </div>
 
   <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <label for="username"><b>Username</b></label>
+    <input name="personUsername" type="text" placeholder="Enter Username" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <label for="password"><b>Password</b></label>
+    <input name="personPassword" type="password" placeholder="Enter Password" required>
         
     <button type="submit">Login</button>
     <label>
       <input type="checkbox" checked="checked" name="remember"> Remember me
     </label>
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
+
 </form>
 
 </body>

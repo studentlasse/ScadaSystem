@@ -17,12 +17,18 @@ namespace AlarmSystem.Pages
         public string connectionString;
 
         public List<Alarm> alarms = new List<Alarm>();
+        public Person person = new Person();
 
         public AlarmsModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public void OnGet(int p = 1)
+        public void OnGet()
+        {
+            alarms = GetAlarmList();   
+        }
+
+        public void OnPost()
         {
             alarms = GetAlarmList();
         }

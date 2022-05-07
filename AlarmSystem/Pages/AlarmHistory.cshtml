@@ -59,7 +59,7 @@
             <th class="text-nowrap">Alarm Id</th>
             <th class="text-nowrap">Alarm Level</th>
             <th class="text-nowrap">Alarm Name</th>
-            <th class="text-nowrap">Description</th>
+            <th>Description</th>
             <th class="text-nowrap">Time Stamp</th>
             <th class="text-nowrap">Value</th>
             <th class="text-nowrap">Unit</th>
@@ -72,11 +72,11 @@
         {
             @if(@alarm.AlarmLevel == "Warning")
             {
-            <tr class="table-warning">
+            <tr class="table">
                 <td class="text-center">@alarm.AlarmId</td>
-                <td class="text-center">@alarm.AlarmLevel</td>
+                <td class="text-center badge-warning">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
-                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
@@ -86,11 +86,11 @@
             }
             else if(@alarm.AlarmLevel == "Alarm")
             {
-            <tr class="table-danger">
+            <tr class="table">
                 <td class="text-center">@alarm.AlarmId</td>
-                <td class="text-center">@alarm.AlarmLevel</td>
+                <td class="text-center badge-danger">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
-                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
@@ -100,11 +100,11 @@
             }
             else
             {
-            <tr class="table-info">
+            <tr class="table">
                 <td class="text-center">@alarm.AlarmId</td>
-                <td class="text-center">@alarm.AlarmLevel</td>
+                <td class="text-center badge-info">@alarm.AlarmLevel</td>
                 <td class="text-nowrap">@alarm.AlarmName</td>
-                <td class="text-nowrap">@alarm.AlarmDescription</td>
+                <td>@alarm.AlarmDescription</td>
                 <td>@alarm.TimeStamp</td>
                 <td class="text-center">@alarm.Value</td>
                 <td class="text-center">@alarm.ValueUnit</td>
