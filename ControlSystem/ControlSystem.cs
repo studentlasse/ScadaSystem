@@ -20,7 +20,7 @@ namespace Simulation
         //double Kp = 0.75;
         //double Ti = 22.5;
 
-        // Normal ZieglerNichols
+        // Original ZieglerNichols
         double Kp = 1.35;
         double Ti = 15;
 
