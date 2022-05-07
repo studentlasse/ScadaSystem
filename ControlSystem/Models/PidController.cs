@@ -7,7 +7,6 @@
         public double Ti { get; set; }
         public double r { get; set; }
         private double z = 0;
-        private double lastU;
 
         double minControlValue = 0;
         double maxControlValue = 5;
@@ -56,7 +55,6 @@
                 z = z + Ts * e;
             }
 
-            lastU = u;
             return u;
         }
 
